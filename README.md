@@ -37,4 +37,4 @@ Y después de eso, ya se podria acceder al inicio del sistema, se deben asignar 
 
 ## Licencia
 
-Este proyecto está licenciado bajo la [Licencia Creative Commons Attribution 4.0](./LICENSE). Por favor, consulta el archivo LICENSE para más detalles.
+Este proyecto está licenciado bajo la [Licencia Creative Commons Attribution 4.0](./LICENSE.md). Por favor, consulta el archivo LICENSE para más detalles.
