@@ -9,13 +9,19 @@
     require 'validacionSesion.php';
 
 	$id = $_GET['id'];
-	$sql = "DELETE FROM usuarios WHERE id = ?";
+	//SQLS PARA ELIMINAR TODO RELACIONADO AL USUARIO
+	$sqlSelecccionarUser = "DELETE FROM usuarios WHERE id = ?";
+	$sqlPermisoUser = "DELETE FROM asignacion WHERE id_usuario = ?";
 
-	$sentencia = $mysqli->prepare($sql);
+	$sentencia = $mysqli->prepare($sqlSelecccionarUser);
 	$sentencia->bind_param("i", $id);
 	$exec = $sentencia->execute();
 
-	if ($exec) {
+	$sentenciaPermisosUser = $mysqli->prepare($sqlPermisoUser);
+	$sentenciaPermisosUser->bind_param("i", $id);
+	$resultado = $sentenciaPermisosUser->execute();
+
+	if ($exec && $resultado) {
 		header ("Location: controlUsuarios.php");
 		die();
 	}else{
