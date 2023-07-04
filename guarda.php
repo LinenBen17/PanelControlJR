@@ -26,12 +26,18 @@
 
 		// SI HAY 0 REGISTROS CON ESE ID ENTONCES NO EXISTE
 		if ($resultadoExistencia == 0) {
-			//Permisos checkbox
-	    	$controlusuarios = $_POST['controlusuarios'] ?? null;
-			$crearusuarios = $_POST['crearusuarios'] ?? null;
-			$subirguia = $_POST['subirguia'] ?? null;
-			$controlreclamos = $_POST['controlreclamos'] ?? null;
-			$imprguiashijas = $_POST['imprguiashijas'] ?? null;
+			// SQL PARA OBTENER TODOS LOS PERMISOS
+			$sqlRoles = "SELECT seccion FROM permisos";
+			$sentenciaRoles = $mysqli->prepare($sqlRoles);
+			$sentenciaRoles->execute();
+
+			$roles = $sentenciaRoles->get_result();
+
+			//ARRAY DINAMICO QUE AGREGA TODOS LOS PERMISOS EN LA DB
+			$secciones = array();
+			foreach ($roles as $rol) {
+				$secciones[strtolower(str_replace(" ", "", $rol['seccion']))] = $_POST[strtolower(str_replace(" ", "", $rol['seccion']))] ?? null;
+			}
 
 			//Usuarios datos
     		$id = $_POST['id'];
@@ -40,7 +46,7 @@
 	    	$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
 	    	// Filtrar las variables de permisos para obtener solo los valores no nulos
-			$permisos = array_filter([$controlusuarios, $crearusuarios, $subirguia, $controlreclamos, $imprguiashijas]);
+			$permisos = array_filter($secciones);
 
 			// SENTENCIAS SQL
 	    	$sqlUsuarios = "INSERT INTO usuarios (id, usuario, password, nombre) VALUES (NULL, ?, ?, ?)";
@@ -67,13 +73,18 @@
 
 
 		}else{ //ESTE ELSE ES PARA LA SECCION DE EDITAR USUARIOS
+			// SQL PARA OBTENER TODOS LOS PERMISOS
+			$sqlRoles = "SELECT seccion FROM permisos";
+			$sentenciaRoles = $mysqli->prepare($sqlRoles);
+			$sentenciaRoles->execute();
 
-			//Permisos checkbox
-	    	$controlusuarios = $_POST['controlusuarios'] ?? null;
-			$crearusuarios = $_POST['crearusuarios'] ?? null;
-			$subirguia = $_POST['subirguia'] ?? null;
-			$controlreclamos = $_POST['controlreclamos'] ?? null;
-			$imprguiashijas = $_POST['imprguiashijas'] ?? null;
+			$roles = $sentenciaRoles->get_result();
+
+			//ARRAY DINAMICO QUE AGREGA TODOS LOS PERMISOS EN LA DB
+			$secciones = array();
+			foreach ($roles as $rol) {
+				$secciones[strtolower(str_replace(" ", "", $rol['seccion']))] = $_POST[strtolower(str_replace(" ", "", $rol['seccion']))] ?? null;
+			}
 
 			//Usuarios datos
     		$id = $_POST['id'];
@@ -90,7 +101,7 @@
 			$sentenciaEdit->close();
 
 	    	// Filtrar las variables de permisos para obtener solo los valores no nulos
-			$permisosNuevos = array_filter([$controlusuarios, $crearusuarios, $subirguia, $controlreclamos, $imprguiashijas]);
+			$permisosNuevos = array_filter($secciones);
 
 			//SQL PARA SABER LOS PERMISOS ACTUALES DEL USUARIO
 			$sqlId = "SELECT * FROM asignacion WHERE id_usuario = ?";
