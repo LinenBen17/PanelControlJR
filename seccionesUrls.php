@@ -6,6 +6,8 @@
         "Subir Guia" => "subirGuia.php",
         "Control Reclamos" => "controlReclamos.php",
         "Impr Guias Hijas" => "impresionHijas.php",
+        "Pilotos" => "pilotos.php",
+        "Rutas" => "rutas.php",
     );
 
     // Definir las asociaciones entre secciones e iconos
@@ -15,5 +17,7 @@
         "Subir Guia" => "cloud-upload-outline",
         "Control Reclamos" => "alert-outline",
         "Impr Guias Hijas" => "print-outline",
+        "Pilotos" => "body",
+        "Rutas" => "map-outline",
     );
 ?>
