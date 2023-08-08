@@ -5,6 +5,149 @@
 	box-sizing: border-box;
 	font-family: 'Poppins', sans-serif;
 }
+/* HEADER & NAV */
+header{
+	background: linear-gradient(138deg, rgba(7,26,44,0.9) 0%, rgba(18,59,26,0.8) 100%), url("https://i.ibb.co/9sKQzwF/IMG-20210718-WA0001.jpg") center center / cover no-repeat;
+}
+/* PopupInformativo */
+#informativePopup{
+	background: var(--colorlight);
+}
+#informativePopup h2{
+	text-align: center;
+	font-family: 'Open Sans';
+	font-weight: 900;
+	font-size: 45px;
+	-webkit-text-stroke: 2px var(--colorthree);
+	color: var(--colorsecondary);
+}
+#informativePopup p, #informativePopup a{
+	color: #FFF;
+	color: var(--colorthree);
+	font-size: 18px;
+	margin: auto;
+	text-align: center;
+	padding: 50px 50px 0 50px;
+}
+/* SCROLL UP*/
+.scrollUp{
+	background: var(--colorthree);
+	color: var(--colorlight);
+	position: fixed;
+	left: 2%;
+	top: 93%;
+	padding: 10px;
+	border: solid 2px var(--grey);
+	cursor: pointer;
+	display: none;
+}
+.scrollUp:hover{
+	filter: saturate(0.7);
+}
+/*NAV*/
+header nav{
+    width: 100%;
+    padding-top: 0px;
+    box-shadow: none;
+    z-index: 9;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    position: fixed !important;
+}
+header nav.sticky{
+	background: var(--colorthree);
+}
+header nav .navContainer{
+    width: 100%;
+    max-width: 1500px;
+    position: relative;
+    padding: 0px 20px;
+    margin: 0px auto;
+    z-index: 19;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+header nav .logo{
+	transition: padding 0.3s linear 0s;
+	padding: 20px 0;
+}
+header nav.sticky .logo{
+	padding: 10px 0;
+}
+header nav .logo img{
+	transition: max-width 0.3s linear 0s;
+	max-width: 250px;
+	display: block;
+}
+header nav.sticky .logo img{
+	max-width: 200px;
+}
+header nav .linkSection{
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	width: 100%;
+	margin: 0 20px;
+}
+header nav .linkSection .links {
+	align-items: center;
+	display: flex;
+	padding: 10px 0;
+}
+header nav .linkSection .links .link a{
+	text-decoration: none;
+	text-overflow: ellipsis;
+	max-width: 250px;
+	display: block;
+	width: 100%;
+	padding: 10px;
+	color: #FFF;
+	white-space: nowrap;
+	transition: opacity 0.1s linear 0s;
+}
+header nav .linkSection .links .link a:hover{
+	opacity: 0.5;
+}
+header nav .toggle{
+	display: none;
+}
+/** DROPDOWN**/
+header nav .linkSection .links .link a i{
+	padding-left: 5px;
+	padding-right: 5px;
+}
+header nav .linkSection .links .link a i:nth-child(2){
+	display: none;
+}
+header nav .dropdown{
+	position: absolute;
+	overflow: hidden;
+}
+header nav .dropdown div{
+	position: relative;
+	top: -180px;
+	transition: top 0.5s ease-in-out;
+}
+header nav .linkSection .links .link .dropdown ul{
+	padding: 10px;
+}
+header nav.sticky .linkSection .links .link .dropdown ul{
+	background: var(--colorthree);
+}
+/* DROPDOWN ACTIVED */
+header nav .dropdown.active div{
+	top: 0;
+}
+header nav .linkSection .links .link .dropdown.active ul{
+	list-style: none;
+	padding: 10px;
+}
+header nav .linkSection .links .link .dropdown.active ul li a{
+	word-break: break-word;
+	max-width: initial;
+}
 section {
 	display: flex;
     justify-content: center;

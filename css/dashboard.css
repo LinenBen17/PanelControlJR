@@ -187,17 +187,80 @@ body{
 	padding: 0 10px;
 	cursor: pointer;
 }
+/*** CARDS ***/
+.cards{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    margin-top: 1rem;
+}
+.card-single{
+    display: flex;
+    justify-content: space-between;
+    background: var(--grey);
+    padding: 2rem;
+    border-radius: 2px;
+    transition: all .3s;
+}
+.card-single:hover{
+    background: var(--colorprimary);
+}
+.card-single:hover div,
+.card-single:hover div:first-child span,
+.card-single:hover div:last-child span{
+    color: #FFF;
+}
+.card-single div:last-child span{
+    font-size: 3rem;
+    color: var(--main-color);
+}
+.card-single div:first-child span{
+    color: var(--text-grey);
+}
+.recent-grid{
+    margin-top: 3.5rem;
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 65% auto;
+}
+.card{
+    background: #FFF;
+    border-radius: 5px;
+}
+.card-header{
+    padding: 1rem;
+}
+.card-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f0f0f0;
+}
+.card-header button{
+    background: var(--main-color);
+    border-radius: 10px;
+    color: #fff;
+    font-size: .8rem;
+    padding: .5rem 1rem;
+    border: 1px solid var(--main-color);
+    transition: all .3s;
+}
+.card-header button:hover{
+    background: transparent;
+    color: #000;
+}
+/* FORM GUIA HIJA */
 .formGuia{
   width: 250px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.formGuia .form{
+.formGuia{
     position: relative;
     width: 100%;
 }
-.formGuia .form form{
+.formGuia form{
 	display: grid; 
 	grid-template-columns: 1fr 1fr; 
   grid-template-rows: 1fr 1fr 1fr; 
@@ -212,6 +275,51 @@ body{
 .origen { grid-area: origen; }
 .destino { grid-area: destino; }
 .guiaMadre { grid-area: guiaMadre; }
+
+/*GUIA MADRE FORMULARIO*/
+.formGuiaMadre form {
+	display: grid;
+	grid-template-columns: 0.3fr 1fr 1fr 1fr 0.1fr;
+	grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+	gap: 0px 10px;
+	grid-auto-flow: row;
+	grid-template-areas:
+		"rCodigo rNombre rNombre rNombre rNombre"
+	  ". rDireccion rDireccion rTelefono rOrigen"
+	  ". . . . ."
+	  "dCodigo dNombre dNombre dContacto dContacto"
+	  ". dDireccion dDireccion dTelefono dDestino";
+}
+.formNewMadre form{
+	display: grid;
+	grid-template-columns: 0.3fr 1fr 1fr 1fr 0.1fr;
+	grid-template-rows: 1fr 1fr;
+	gap: 0px 10px;
+	grid-auto-flow: row;
+	grid-template-areas:
+	  "dCodigo dNombre dNombre dContacto dContacto"
+	  ". dDireccion dDireccion dTelefono dDestino";
+}
+.rCodigo { grid-area: rCodigo; }
+.rNombre { grid-area: rNombre; }
+.rDireccion { grid-area: rDireccion; }
+.rTelefono { grid-area: rTelefono; }
+.rOrigen { grid-area: rOrigen; }
+.rContacto { grid-area: rContacto; }
+
+.dCodigo { grid-area: dCodigo; }
+.dNombre { grid-area: dNombre; }
+.dDireccion { grid-area: dDireccion; }
+.dTelefono { grid-area: dTelefono; }
+.dDestino { grid-area: dDestino; }
+.dContacto { grid-area: dContacto; }
+
+.save{ grid-area: save; }
+
+.formGuiaMadre form input,
+.formNewMadre form input{
+	width: 100%;
+}
 .box .form h2{
     color: #FFF;
     font-weight: 600;
@@ -346,6 +454,7 @@ select::-ms-expand {
 }
 .actionButton .icon ion-icon{
 	font-size: 20px;
+	color: #FFF;
 }
 .btn{
 	position: relative;

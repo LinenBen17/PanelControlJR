@@ -32,7 +32,7 @@
         return $count > 0; // Devolver true si el usuario tiene el permiso requerido, false en caso contrario
     }
 
-    $idGet = $_GET['id'];
+    $idGet = $_GET['id']; 
 
     //SQL OBTENER DATOS USUARIO
     $sqlUsuarios = "SELECT usuario, nombre FROM usuarios WHERE id = ?";

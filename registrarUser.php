@@ -15,10 +15,10 @@
 		die();
 	}
 
-	$sql = "INSERT INTO usuarios (id, usuario, nombre, password, tipo_usuario) VALUES (NULL, ?, ?, ?, ?)";
+	$sql = "INSERT INTO usuarios (id, usuario, nombre, password) VALUES (NULL, ?, ?, ?)";
 
 	$sentencia = $mysqli->prepare($sql);
-	$sentencia->bind_param("sssi", $usuario, $nombre, $password, $tipo_usuario);
+	$sentencia->bind_param("sss", $usuario, $nombre, $password);
 	$exec = $sentencia->execute();
 
 	if ($exec) {

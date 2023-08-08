@@ -70,7 +70,7 @@
 			header("location:controlUsuarios.php");
 
 			$sentenciaPermisos->close();
-
+ 
 
 		}else{ //ESTE ELSE ES PARA LA SECCION DE EDITAR USUARIOS
 			// SQL PARA OBTENER TODOS LOS PERMISOS

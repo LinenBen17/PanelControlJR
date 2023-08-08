@@ -6,6 +6,8 @@
         "Subir Guia" => "subirGuia.php",
         "Control Reclamos" => "controlReclamos.php",
         "Impr Guias Hijas" => "impresionHijas.php",
+        "Impr Guias Madres" => "impresionMadres.php",
+        "Tracking" => "tracking.php",
         "Pilotos" => "pilotos.php",
         "Rutas" => "rutas.php",
     );
@@ -17,6 +19,8 @@
         "Subir Guia" => "cloud-upload-outline",
         "Control Reclamos" => "alert-outline",
         "Impr Guias Hijas" => "print-outline",
+        "Impr Guias Madres" => "print",
+        "Tracking" => "layers-outline",
         "Pilotos" => "body",
         "Rutas" => "map-outline",
     );

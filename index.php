@@ -75,6 +75,42 @@
 	<title>Login | Transportes JR</title>
 </head>
 <body>
+	<header id="inicio">
+		<nav>
+			<div class="navContainer"> 
+				<div class="logo">
+					<img src="https://i.ibb.co/yfBVM6C/Logo-7-7.png" alt="">
+				</div>
+				<div class="linkSection">
+					<div class="links">
+						<div class="link"><a href="https://transportesjrgt.com/index.html#inicio">Inicio</a></div>
+						<div class="link"><a href="https://transportesjrgt.com/index.html#about">Acerca de</a></div>
+						<div class="link">
+							<a href="#" class="dropdownToggle">Consultas <i class="fas fa-chevron-down"></i> <i class="fas fa-times"></i></a>
+							<div class="dropdown">
+								<div>
+									<ul>
+										<li><a href="consulta_guias.php">Consulta de Guías</a></li>
+										<li><a href="https://transportesjrgt.com/contacto.html">Contáctanos</a></li>
+										<li><a href="https://transportesjrgt.com/solicitud.html">Solicitud de Guías</a></li>
+										<li><a href="https://transportesjrgt.com/solicitudTrabajo.html">Únetenos</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="link"><a href="https://transportesjrgt.com/crearReclamos.html">Reclamos</a></div>
+						<div class="link"><a href="#ubicanos">Ubicanos</a></div>
+					</div>
+				</div>
+				<div class="toggle">
+					<div class="icon">
+						<i class="fas fa-bars"></i>
+						<i class="fas fa-times"></i>
+					</div>
+				</div>
+			</div>
+		</nav>
+	</header>
 	<section>
 		<div class="box">
 			<div class="form">
