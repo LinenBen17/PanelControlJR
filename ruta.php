@@ -9,7 +9,7 @@
 	require 'validacionSesion.php';
 	require 'validacionSeccion.php';
 
-    $sql = "SELECT * FROM pilotos";
+    $sql = "SELECT * FROM ruta";
     $sentencia = $mysqli->prepare($sql);
     $sentencia->execute();
 
@@ -49,7 +49,7 @@
             <div class="details">
                 <div class="recentOrders">
                     <div class="cardHeader">
-                        <h2>Control Pilotos</h2>
+                        <h2>Control Ruta</h2>
                     </div>
                     <div class="actionButton">
                         <button class="btn">
@@ -62,12 +62,11 @@
                         <thead>
                             <tr>
                                 <td>#</td>
-                                <td>Nombres</td>
-                                <td>Apellidos</td>
-                                <td>Licencia</td>
+                                <td>Placa</td>
+                                <td>Piloto</td>
+                                <td>Ruta</td>
                                 <td>Fecha Creación</td>
                                 <td>Fecha Modif.</td>
-                                <td>Estado</td>
                                 <td></td>
                                 <td></td>
                             </tr>
@@ -76,12 +75,11 @@
                                 <?php while ($resultado = $resultadoSet->fetch_array()) { ?>
                                     <tr>
                                         <td><?php echo htmlspecialchars($resultado['id']);?></td>
-                                        <td><?php echo htmlspecialchars($resultado['nombres']);?></td>
-                                        <td><?php echo htmlspecialchars($resultado['apellidos']);?></td>
-                                        <td><?php echo htmlspecialchars($resultado['licencia']);?></td>
+                                        <td><?php echo htmlspecialchars($resultado['placa']);?></td>
+                                        <td><?php echo htmlspecialchars($resultado['piloto']);?></td>
+                                        <td><?php echo htmlspecialchars($resultado['ruta']);?></td>
                                         <td><?php echo htmlspecialchars($resultado['fecha_creacion']);?></td>
                                         <td><?php echo htmlspecialchars($resultado['fecha_modificacion']);?></td>
-                                        <td><?php echo $resultado['estado'] == 1 ? 'Activo' : 'Inactivo';?></td>
                                         <td><button id="<?php echo htmlspecialchars($resultado['id']); ?>" class="btnEditar btnCrud" value="Show">Editar</button></td>
                                         <td><button id="<?php echo htmlspecialchars($resultado['id']); ?>" class="btnEliminar btnCrud" value="Eliminar">Eliminar</button></td>
                                     </tr>
@@ -90,59 +88,42 @@
                     </table>
                 </div>
             </div>
-            <div id="newPiloto" class="modal form">
+            <div id="newRuta" class="modal form">
                 <form method="POST">
-                    <h2>Nuevo Piloto</h2>
+                    <h2>Nueva Ruta</h2>
                     <div class="inputBx">
-                        <label for="">Nombres:</label><br>
-                        <input type="text" name="nombres">
+                        <label for="">Placa:</label><br>
+                        <input type="text" name="placa">
                     </div>
                     <div class="inputBx">
-                        <label for="">Apellidos:</label><br>
-                        <input type="text" name="apellidos">
+                        <label for="">Piloto:</label><br>
+                        <input type="text" class="searchPiloto" name="piloto">
+                        <ul class="autocomplete-results"></ul>
                     </div>
                     <div class="inputBx">
-                        <label for="">Licencia:</label><br>
-                        <input type="text" name="licencia">
-                    </div>
-                    <div class="inputBx">
-                        <label for="">Estado:</label><br>
-                        <div class="select">
-                            <select name="estado">
-                                <option value="0">Inactivo</option>
-                                <option value="1">Activo</option>
-                            </select>
-                        </div>
+                        <label for="">Ruta:</label><br>
+                        <input type="text" name="ruta">
                     </div>
                     <div class="inputBx">
                         <input type="submit" name="action" class="btn btnCrud" value="Crear">
                     </div>
                 </form>
             </div>
-            <div id="editPiloto" class="modal form">
+            <div id="editRuta" class="modal form">
                 <form method="POST">
-                    <h2>Editar Piloto</h2>
+                    <h2>Editar Ruta</h2>
                     <input type="hidden" name="id">
                     <div class="inputBx">
-                        <label for="">Nombres:</label><br>
-                        <input type="text" name="nombres">
+                        <label for="">Placa:</label><br>
+                        <input type="text" name="placa">
                     </div>
                     <div class="inputBx">
-                        <label for="">Apellidos:</label><br>
-                        <input type="text" name="apellidos">
+                        <label for="">Piloto:</label><br>
+                        <input type="text" name="piloto">
                     </div>
                     <div class="inputBx">
-                        <label for="">Licencia:</label><br>
-                        <input type="text" name="licencia">
-                    </div>
-                    <div class="inputBx">
-                        <label for="">Estado:</label><br>
-                        <div class="select">
-                            <select name="estado">
-                                <option value="0">Inactivo</option>
-                                <option value="1">Activo</option>
-                            </select>
-                        </div>
+                        <label for="">Ruta:</label><br>
+                        <input type="text" name="ruta">
                     </div>
                     <div class="inputBx">
                         <input type="submit" name="action" class="btn btnCrud" value="Editar">
@@ -177,56 +158,84 @@
     </script>
     <script>
         $('.actionButton').click(function() {
-            $('#newPiloto').modal();
+            $('#newRuta').modal();
+        });
+
+        $('.searchPiloto').on('input', function() {
+            let datosSearch = {
+                "search": $(this).val(),
+                "accion": "Search"
+            }
+            $.ajax({
+              url: 'editRuta.php',
+              type: 'POST',
+              dataType: 'json',
+              data: datosSearch,
+              success: function(data) {
+                $('.autocomplete-results').empty();
+                data.forEach((piloto)=>{
+                    $('.autocomplete-results').append(`
+                        <li>${piloto}</li>
+                    `);
+                })
+
+                $('.autocomplete-results li').click(function() {
+                    $('.searchPiloto').val($(this).text());
+                    $('.autocomplete-results').empty();
+                });
+              },
+              error: function(xhr, textStatus, errorThrown) {
+                console.log(xhr)
+                console.log(textStatus)
+                console.log(errorThrown)
+              }
+            });
         });
 
         $(".btnCrud").click(function(e) {
             e.preventDefault();
             console.log($(this).val());
 
-            let datosPiloto;
+            let datosRuta;
 
             if($(this).val() == "Crear"){
-                datosPiloto = {
-                    "nombres": $('#newPiloto input[name="nombres"]').val(),
-                    "apellidos": $('#newPiloto input[name="apellidos"]').val(),
-                    "licencia": $('#newPiloto input[name="licencia"]').val(),
-                    "estado": $('#newPiloto select[name="estado"]').val(),
+                datosRuta = {
+                    "placa": $('#newRuta input[name="placa"]').val(),
+                    "piloto": $('#newRuta input[name="piloto"]').val(),
+                    "ruta": $('#newRuta input[name="ruta"]').val(),
                     "accion": "Crear",
                 }
             }else if ($(this).val() == "Editar") {
-                datosPiloto = {
-                    "id": $('#editPiloto input[name="id"]').val(),
-                    "nombres": $('#editPiloto input[name="nombres"]').val(),
-                    "apellidos": $('#editPiloto input[name="apellidos"]').val(),
-                    "licencia": $('#editPiloto input[name="licencia"]').val(),
-                    "estado": $('#editPiloto select[name="estado"]').val(),
+                datosRuta = {
+                    "id": $('#editRuta input[name="id"]').val(),
+                    "placa": $('#editRuta input[name="placa"]').val(),
+                    "piloto": $('#editRuta input[name="piloto"]').val(),
+                    "ruta": $('#editRuta input[name="ruta"]').val(),
                     "accion": "Editar",
                 }
             }else if ($(this).val() == "Show") {
-                datosPiloto = {
+                datosRuta = {
                     "accion": "Show",
                     "id": this.id,
                 }
             }else if ($(this).val() == "Eliminar") {
-                datosPiloto = {
+                datosRuta = {
                     "accion": "Eliminar",
                     "id": this.id,
                 }
             }
            $.ajax({
-              url: 'editPiloto.php',
+              url: 'editRuta.php',
               type: 'POST',
               dataType: 'json',
-              data: datosPiloto,
+              data: datosRuta,
               success: function(data) {
                 if (data.accion == "Showed") {
-                    $('#editPiloto').modal();
-                    $('#editPiloto input[name="id"]').val(data.id);
-                    $('#editPiloto input[name="nombres"]').val(data.nombres);
-                    $('#editPiloto input[name="apellidos"]').val(data.apellidos);
-                    $('#editPiloto input[name="licencia"]').val(data.licencia);
-                    $('#editPiloto select[name="estado"]').val(data.estado);
+                    $('#editRuta').modal();
+                    $('#editRuta input[name="id"]').val(data.id);
+                    $('#editRuta input[name="placa"]').val(data.placa);
+                    $('#editRuta input[name="piloto"]').val(data.piloto);
+                    $('#editRuta input[name="ruta"]').val(data.ruta);
                 }else if (data.accion == "Eliminado" || data.accion == "Editado" || data.accion == "Creado"){
                     location.reload();
                 }

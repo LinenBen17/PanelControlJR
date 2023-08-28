@@ -249,6 +249,32 @@ body{
     background: transparent;
     color: #000;
 }
+/*FORM ABASTECIMIENTO*/
+.formAbastecimiento form {
+  max-width: 600px;
+  display: grid; 
+  grid-template-columns: 1fr 1fr 1fr 1fr; 
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-auto-flow: row;
+  gap: 10px; 
+  grid-template-areas: 
+    "placa piloto piloto ruta"
+    "km_inicial km_inicial km_final km_final"
+    "monto_total monto_total galones precio_galon"; 
+}
+.placa { grid-area: placa; }
+.piloto { grid-area: piloto; }
+.ruta { grid-area: ruta; }
+.km_inicial { grid-area: km_inicial; }
+.km_final { grid-area: km_final; }
+.monto_total { grid-area: monto_total; }
+.galones { grid-area: galones; }
+.precio_galon { grid-area: precio_galon; }
+
+.formAbastecimiento form input{
+	width: 100%;
+}
+
 /* FORM GUIA HIJA */
 .formGuia{
   width: 250px;
@@ -319,6 +345,27 @@ body{
 .formGuiaMadre form input,
 .formNewMadre form input{
 	width: 100%;
+}
+/*AUTOCOMPLETADO PILOTOS*/
+.autocomplete-results {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 150px;
+    width: 350px;
+    overflow-y: auto;
+}
+
+.autocomplete-results li {
+    padding: 5px;
+    cursor: pointer;
+    background: var(--thirstnsecondary);
+    color: #FFF;
+    border-bottom: 1px solid #FFF;
+}
+
+.autocomplete-results li:hover {
+    filter: contrast(.7);
 }
 .box .form h2{
     color: #FFF;

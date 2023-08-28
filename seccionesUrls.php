@@ -9,7 +9,9 @@
         "Impr Guias Madres" => "impresionMadres.php",
         "Tracking" => "tracking.php",
         "Pilotos" => "pilotos.php",
-        "Rutas" => "rutas.php",
+        "Camiones" => "camiones.php",
+        "Ruta" => "ruta.php",
+        "Abastecimiento" => "abastecimiento.php"
     );
 
     // Definir las asociaciones entre secciones e iconos
@@ -22,6 +24,8 @@
         "Impr Guias Madres" => "print",
         "Tracking" => "layers-outline",
         "Pilotos" => "body",
-        "Rutas" => "map-outline",
+        "Camiones" => "bus-outline",
+        "Ruta" => "map-outline",
+        "Abastecimiento" => "clipboard-outline",
     );
 ?>

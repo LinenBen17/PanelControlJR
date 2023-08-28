@@ -9,7 +9,7 @@
 	require 'validacionSesion.php';
 	require 'validacionSeccion.php';
 
-    $sql = "SELECT * FROM pilotos";
+    $sql = "SELECT * FROM camiones";
     $sentencia = $mysqli->prepare($sql);
     $sentencia->execute();
 
@@ -49,7 +49,7 @@
             <div class="details">
                 <div class="recentOrders">
                     <div class="cardHeader">
-                        <h2>Control Pilotos</h2>
+                        <h2>Control Camiones</h2>
                     </div>
                     <div class="actionButton">
                         <button class="btn">
@@ -62,12 +62,11 @@
                         <thead>
                             <tr>
                                 <td>#</td>
-                                <td>Nombres</td>
-                                <td>Apellidos</td>
-                                <td>Licencia</td>
+                                <td>Modelo</td>
+                                <td>Marca</td>
+                                <td>Placa</td>
                                 <td>Fecha Creación</td>
                                 <td>Fecha Modif.</td>
-                                <td>Estado</td>
                                 <td></td>
                                 <td></td>
                             </tr>
@@ -76,12 +75,11 @@
                                 <?php while ($resultado = $resultadoSet->fetch_array()) { ?>
                                     <tr>
                                         <td><?php echo htmlspecialchars($resultado['id']);?></td>
-                                        <td><?php echo htmlspecialchars($resultado['nombres']);?></td>
-                                        <td><?php echo htmlspecialchars($resultado['apellidos']);?></td>
-                                        <td><?php echo htmlspecialchars($resultado['licencia']);?></td>
+                                        <td><?php echo htmlspecialchars($resultado['modelo']);?></td>
+                                        <td><?php echo htmlspecialchars($resultado['marca']);?></td>
+                                        <td><?php echo htmlspecialchars($resultado['placa']);?></td>
                                         <td><?php echo htmlspecialchars($resultado['fecha_creacion']);?></td>
                                         <td><?php echo htmlspecialchars($resultado['fecha_modificacion']);?></td>
-                                        <td><?php echo $resultado['estado'] == 1 ? 'Activo' : 'Inactivo';?></td>
                                         <td><button id="<?php echo htmlspecialchars($resultado['id']); ?>" class="btnEditar btnCrud" value="Show">Editar</button></td>
                                         <td><button id="<?php echo htmlspecialchars($resultado['id']); ?>" class="btnEliminar btnCrud" value="Eliminar">Eliminar</button></td>
                                     </tr>
@@ -90,59 +88,41 @@
                     </table>
                 </div>
             </div>
-            <div id="newPiloto" class="modal form">
+            <div id="newCamion" class="modal form">
                 <form method="POST">
-                    <h2>Nuevo Piloto</h2>
+                    <h2>Nuevo Camión</h2>
                     <div class="inputBx">
-                        <label for="">Nombres:</label><br>
-                        <input type="text" name="nombres">
+                        <label for="">Modelo:</label><br>
+                        <input type="text" name="modelo">
                     </div>
                     <div class="inputBx">
-                        <label for="">Apellidos:</label><br>
-                        <input type="text" name="apellidos">
+                        <label for="">Marca:</label><br>
+                        <input type="text" name="marca">
                     </div>
                     <div class="inputBx">
-                        <label for="">Licencia:</label><br>
-                        <input type="text" name="licencia">
-                    </div>
-                    <div class="inputBx">
-                        <label for="">Estado:</label><br>
-                        <div class="select">
-                            <select name="estado">
-                                <option value="0">Inactivo</option>
-                                <option value="1">Activo</option>
-                            </select>
-                        </div>
+                        <label for="">Placa:</label><br>
+                        <input type="text" name="placa">
                     </div>
                     <div class="inputBx">
                         <input type="submit" name="action" class="btn btnCrud" value="Crear">
                     </div>
                 </form>
             </div>
-            <div id="editPiloto" class="modal form">
+            <div id="editCamion" class="modal form">
                 <form method="POST">
-                    <h2>Editar Piloto</h2>
+                    <h2>Editar Camión</h2>
                     <input type="hidden" name="id">
                     <div class="inputBx">
-                        <label for="">Nombres:</label><br>
-                        <input type="text" name="nombres">
+                        <label for="">Modelo:</label><br>
+                        <input type="text" name="modelo">
                     </div>
                     <div class="inputBx">
-                        <label for="">Apellidos:</label><br>
-                        <input type="text" name="apellidos">
+                        <label for="">Marca:</label><br>
+                        <input type="text" name="marca">
                     </div>
                     <div class="inputBx">
-                        <label for="">Licencia:</label><br>
-                        <input type="text" name="licencia">
-                    </div>
-                    <div class="inputBx">
-                        <label for="">Estado:</label><br>
-                        <div class="select">
-                            <select name="estado">
-                                <option value="0">Inactivo</option>
-                                <option value="1">Activo</option>
-                            </select>
-                        </div>
+                        <label for="">Placa:</label><br>
+                        <input type="text" name="placa">
                     </div>
                     <div class="inputBx">
                         <input type="submit" name="action" class="btn btnCrud" value="Editar">
@@ -177,56 +157,53 @@
     </script>
     <script>
         $('.actionButton').click(function() {
-            $('#newPiloto').modal();
+            $('#newCamion').modal();
         });
 
         $(".btnCrud").click(function(e) {
             e.preventDefault();
             console.log($(this).val());
 
-            let datosPiloto;
+            let datosCamion;
 
             if($(this).val() == "Crear"){
-                datosPiloto = {
-                    "nombres": $('#newPiloto input[name="nombres"]').val(),
-                    "apellidos": $('#newPiloto input[name="apellidos"]').val(),
-                    "licencia": $('#newPiloto input[name="licencia"]').val(),
-                    "estado": $('#newPiloto select[name="estado"]').val(),
+                datosCamion = {
+                    "modelo": $('#newCamion input[name="modelo"]').val(),
+                    "marca": $('#newCamion input[name="marca"]').val(),
+                    "placa": $('#newCamion input[name="placa"]').val(),
                     "accion": "Crear",
                 }
             }else if ($(this).val() == "Editar") {
-                datosPiloto = {
-                    "id": $('#editPiloto input[name="id"]').val(),
-                    "nombres": $('#editPiloto input[name="nombres"]').val(),
-                    "apellidos": $('#editPiloto input[name="apellidos"]').val(),
-                    "licencia": $('#editPiloto input[name="licencia"]').val(),
-                    "estado": $('#editPiloto select[name="estado"]').val(),
+                datosCamion = {
+                    "id": $('#editCamion input[name="id"]').val(),
+                    "modelo": $('#editCamion input[name="modelo"]').val(),
+                    "marca": $('#editCamion input[name="marca"]').val(),
+                    "placa": $('#editCamion input[name="placa"]').val(),
                     "accion": "Editar",
                 }
             }else if ($(this).val() == "Show") {
-                datosPiloto = {
+                datosCamion = {
                     "accion": "Show",
                     "id": this.id,
                 }
             }else if ($(this).val() == "Eliminar") {
-                datosPiloto = {
+                datosCamion = {
                     "accion": "Eliminar",
                     "id": this.id,
                 }
             }
            $.ajax({
-              url: 'editPiloto.php',
+              url: 'editCamion.php',
               type: 'POST',
               dataType: 'json',
-              data: datosPiloto,
+              data: datosCamion,
               success: function(data) {
                 if (data.accion == "Showed") {
-                    $('#editPiloto').modal();
-                    $('#editPiloto input[name="id"]').val(data.id);
-                    $('#editPiloto input[name="nombres"]').val(data.nombres);
-                    $('#editPiloto input[name="apellidos"]').val(data.apellidos);
-                    $('#editPiloto input[name="licencia"]').val(data.licencia);
-                    $('#editPiloto select[name="estado"]').val(data.estado);
+                    $('#editCamion').modal();
+                    $('#editCamion input[name="id"]').val(data.id);
+                    $('#editCamion input[name="modelo"]').val(data.modelo);
+                    $('#editCamion input[name="marca"]').val(data.marca);
+                    $('#editCamion input[name="placa"]').val(data.placa);
                 }else if (data.accion == "Eliminado" || data.accion == "Editado" || data.accion == "Creado"){
                     location.reload();
                 }
