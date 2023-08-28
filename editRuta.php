@@ -100,6 +100,21 @@
 
 				echo json_encode($datos);
 				break;
+			case "SearchPlaca":
+			// BUSCA UN PILOTO
+				$sqlSearchPlaca = "SELECT * FROM camiones WHERE placa LIKE '" . $_POST['search'] . "%'";
+				$sentenciaSearchPlaca = $mysqli->prepare($sqlSearchPlaca);
+				$sentenciaSearchPlaca->execute();
+
+				$resultado = $sentenciaSearchPlaca->get_result();
+
+				$datos = [];
+				while ($mostrar = $resultado->fetch_array()) {
+				    $datos[]= $mostrar['placa'];
+				}
+
+				echo json_encode($datos);
+				break;
 		}
 	}
 ?>

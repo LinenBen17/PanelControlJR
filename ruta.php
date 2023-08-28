@@ -93,12 +93,17 @@
                     <h2>Nueva Ruta</h2>
                     <div class="inputBx">
                         <label for="">Placa:</label><br>
-                        <input type="text" name="placa">
+                        <input type="text" class="searchPlaca" name="placa">
+                        <div class="autocompletePlaca">
+                            <ul class="autocomplete-results"></ul>
+                        </div>
                     </div>
                     <div class="inputBx">
                         <label for="">Piloto:</label><br>
                         <input type="text" class="searchPiloto" name="piloto">
-                        <ul class="autocomplete-results"></ul>
+                        <div class="autocompletePiloto">
+                            <ul class="autocomplete-results"></ul>
+                        </div>
                     </div>
                     <div class="inputBx">
                         <label for="">Ruta:</label><br>
@@ -172,16 +177,47 @@
               dataType: 'json',
               data: datosSearch,
               success: function(data) {
-                $('.autocomplete-results').empty();
+                $('.autocompletePiloto .autocomplete-results').empty();
                 data.forEach((piloto)=>{
-                    $('.autocomplete-results').append(`
+                    $('.autocompletePiloto .autocomplete-results').append(`
                         <li>${piloto}</li>
                     `);
                 })
 
-                $('.autocomplete-results li').click(function() {
+                $('.autocompletePiloto .autocomplete-results li').click(function() {
                     $('.searchPiloto').val($(this).text());
-                    $('.autocomplete-results').empty();
+                    $('.autocompletePiloto .autocomplete-results').empty();
+                });
+              },
+              error: function(xhr, textStatus, errorThrown) {
+                console.log(xhr)
+                console.log(textStatus)
+                console.log(errorThrown)
+              }
+            });
+        });
+
+        $('.searchPlaca').on('input', function() {
+            let datosPlaca = {
+                "search": $(this).val(),
+                "accion": "SearchPlaca"
+            }
+            $.ajax({
+              url: 'editRuta.php',
+              type: 'POST',
+              dataType: 'json',
+              data: datosPlaca,
+              success: function(data) {
+                $('.autocompletePlaca .autocomplete-results').empty();
+                data.forEach((placa)=>{
+                    $('.autocompletePlaca .autocomplete-results').append(`
+                        <li>${placa}</li>
+                    `);
+                })
+
+                $('.autocompletePlaca .autocomplete-results li').click(function() {
+                    $('.searchPlaca').val($(this).text());
+                    $('.autocompletePlaca .autocomplete-results').empty();
                 });
               },
               error: function(xhr, textStatus, errorThrown) {

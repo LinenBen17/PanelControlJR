@@ -136,7 +136,8 @@
     	});
 
     	$("#galones").blur(function() {
-    		$("#precio_galon").val(parseInt($("#monto_total").val()) / parseInt($("#galones").val()));
+    		let calculo = parseInt($("#monto_total").val()) / parseInt($("#galones").val());
+    		$("#precio_galon").val(calculo.toFixed(3));
     		$(".save").focus();
     	})
 
@@ -153,7 +154,7 @@
     			datosForm[id] = valor;
     			
     		})
-    		
+
             $.ajax({
               url: 'accionesAbastecimiento.php',
               type: 'POST',
@@ -168,6 +169,13 @@
                 console.log(errorThrown)
               }
             });
+    	})
+    	$(".clean").click(function(){
+    		let inputs = document.querySelectorAll(".formAbastecimiento input");
+
+    		inputs.forEach((input) =>{
+    			input.value = '';
+    		})
     	})
     </script>
 </body>
