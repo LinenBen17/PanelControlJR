@@ -18,6 +18,9 @@
     <!-- jQuery Modal -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+    <!-- SheetJS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <title>Abastecimiento | Transportes JR</title>
     <link rel="stylesheet" type="text/css" href="css/dashboard.css">
 </head>
@@ -82,6 +85,40 @@
                     	</form>
                         <button type="button" class="save btnEditar">Guardar</button>
                         <button type="button" class="clean btnEditar">Limpiar</button>
+                        <button type="button" class="reports btnEditar">Generador de Reportes</button>
+                    </div>
+
+                    <div id="reportes" class="modal form">
+                        <form method="POST">
+                            <h2>Selecciona el filtro deseado:</h2>
+                            <div class="inputBx">
+                                <div class="select">
+                                    <select name="opcionesFiltros" class="opcionesFiltros">
+                                        <option>---------</option>
+                                        <option value="porPlaca">Por Placa</option>
+                                        <option value="porFecha">Por Fecha</option>
+                                        <option value="entreFechas">Entre Fechas</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="inputBx filtroPorPlaca filtros" id="filtroPorPlaca">
+                                <label>Placa:</label><br>
+                                <input type="text" id="placaFilter" placeholder=""><br><br>
+                                <button type="button" class="generar btnEditar">Generar</button>
+                            </div>
+                            <div class="inputBx filtroPorFecha filtros" id="filtroPorFecha">
+                                <label>Fecha:</label><br>
+                                <input type="date" id="fechaFilter" placeholder=""><br><br>
+                                <button type="button" class="generar btnEditar">Generar</button>
+                            </div>
+                            <div class="inputBx filtroEntreFechas filtros" id="filtroEntreFechas">
+                                <label>Entre:</label><br>
+                                <input type="date" id="fechaInicial" placeholder=""><br>
+                                <label>Y:</label><br>
+                                <input type="date" id="fechaFinal" placeholder=""><br><br>
+                                <button type="button" class="generar btnEditar">Generar</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -112,6 +149,14 @@
         })
     </script>
     <script>
+        var fechaActual = new Date();
+        var year = fechaActual.getFullYear();
+        var month = fechaActual.getMonth() + 1; // Los meses van de 0 a 11, por lo que se suma 1
+        var day = fechaActual.getDate();
+
+        var nombreReportes = "REPORT_" + year + "-" + month + "-" + day;
+
+
     	$('#placa').blur(function() {
     		let datosSearch = {
                 "placa": $(this).val(),
@@ -136,8 +181,8 @@
     	});
 
     	$("#galones").blur(function() {
-    		let calculo = parseInt($("#monto_total").val()) / parseInt($("#galones").val());
-    		$("#precio_galon").val(calculo.toFixed(3));
+    		let calculo = $("#monto_total").val() / $("#galones").val();
+    		$("#precio_galon").val(calculo.toFixed(2));
     		$(".save").focus();
     	})
 
@@ -177,6 +222,91 @@
     			input.value = '';
     		})
     	})
+        $(".reports").click(function(){
+            $('#reportes').modal();
+        })
+        $(".opcionesFiltros").change(function() {
+            let opcionSeleccionada = $(".opcionesFiltros option:selected").val();
+            
+            switch (opcionSeleccionada) {
+                case "porPlaca":
+                    $('.filtros').css('display', 'none');
+                    $(".filtroPorPlaca").css('display', 'block');
+                    break;
+                case "porFecha":
+                    $('.filtros').css('display', 'none');
+                    $(".filtroPorFecha").css('display', 'block');
+                    break;
+                case "entreFechas":
+                    $('.filtros').css('display', 'none');
+                    $(".filtroEntreFechas").css('display', 'block');
+                    break;
+                default:
+                    $('.filtros').css('display', 'none');
+                    break;
+            }
+        });
+
+        $('#fechaInicial').change(function () {
+            $("#fechaFinal").attr('min', $('#fechaInicial').val());
+        })
+        $('#fechaFilter').change(function () {
+            console.log($(this).val())
+        })
+
+        $('.generar').click(function() {
+            let divPadre = $(this).parent();
+            let inputs = divPadre.find("input");
+            let datosParaReporte={};
+            
+            inputs.each(function(){
+                datosParaReporte[this.id] = $(this).val();
+            });
+
+            datosParaReporte["accion"] = divPadre.attr("id");
+
+            console.log(datosParaReporte);
+
+            $.ajax({
+              url: 'accionesAbastecimiento.php',
+              type: 'POST',
+              dataType: 'json',
+              data: datosParaReporte,
+              success: function(datos) {
+                let data = Array.isArray(datos) ? datos : [datos];
+
+                // Ahora puedes trabajar con el array de datos de manera consistente
+                console.log(data);
+                const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+                const EXCEL_EXTENSION = '.xlsx';
+
+                downloadAsExcel();
+
+                function downloadAsExcel(){
+                    const worksheet = XLSX.utils.json_to_sheet(data);
+                    const workbook = {
+                        Sheets: {
+                            'data' : worksheet
+                        },
+                        SheetNames: ['data']
+                    };
+                    const excelBuffer = XLSX.write(workbook, {bookType: 'xlsx', type: 'array'});
+                    console.log(excelBuffer);
+                    saveAsExcel(excelBuffer, nombreReportes);
+                }
+
+                function saveAsExcel(buffer, filename){
+                    const data = new Blob([buffer], {type: EXCEL_TYPE});
+                    saveAs(data, filename+EXCEL_EXTENSION);
+                }
+              },
+              error: function(xhr, textStatus, errorThrown) {
+                console.log(xhr)
+                console.log(textStatus)
+                console.log(errorThrown)
+              }
+            });
+        });
     </script>
 </body>
 </html>

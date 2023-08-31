@@ -10,7 +10,7 @@
 
 	if ($_POST) {
 		date_default_timezone_set('America/Guatemala');
-		$fechaActual = date("d/m/Y");
+		$fechaActual = date("Y-m-d");
 		$accion = $_POST['accion'];
 
 
@@ -32,9 +32,9 @@
 			case "Search":
 				//BUSCAR POR PLACA
 				try {
-					$sqlSeach = "SELECT * FROM ruta WHERE placa = ? LIMIT 1";
+					$sqlSearch = "SELECT * FROM ruta WHERE placa = ? LIMIT 1";
 
-					$sentenciaSearch = $mysqli->prepare($sqlSeach);
+					$sentenciaSearch = $mysqli->prepare($sqlSearch);
 					$sentenciaSearch->bind_param("s", $_POST['placa']);
 					$sentenciaSearch->execute();
 					$result = $sentenciaSearch->get_result();
@@ -49,7 +49,86 @@
 					echo json_encode($e->getMessage());
 				}
 				break;
+			case "filtroPorPlaca":
+				$sqlFiltroPlaca = "SELECT *, DATE_FORMAT(fecha_creacion, '%d/%m/%Y') AS fecha_creacionM, DATE_FORMAT(fecha_modificacion, '%d/%m/%Y') AS fecha_modificacionM FROM abastecimiento WHERE placa = ?";
 
+				$sentenciaFiltroPlaca = $mysqli->prepare($sqlFiltroPlaca);
+				$sentenciaFiltroPlaca->bind_param("s", $_POST['placaFilter']);
+				$sentenciaFiltroPlaca->execute();
+				$result = $sentenciaFiltroPlaca->get_result();
+				$mostrarDatos = $result->fetch_assoc();
+
+				echo json_encode([
+					"fecha_creacion" => $mostrarDatos["fecha_creacionM"],
+					"fecha_modificacion" => $mostrarDatos["fecha_modificacionM"],
+					"placa" => $mostrarDatos["placa"],
+					"piloto" => $mostrarDatos["piloto"],
+					"ruta" => $mostrarDatos["ruta"],
+					"km_inicial" => $mostrarDatos["km_inicial"],
+					"km_final" => $mostrarDatos["km_final"],
+					"monto_total" => $mostrarDatos["monto_total"],
+					"galones" => $mostrarDatos["galones"],
+					"precio_galon" => $mostrarDatos["precio_galon"],
+				]);
+				break;
+			case "filtroPorFecha":
+				$fechaInput = $_POST['fechaFilter'];
+				$fechaFormateada = date("d/m/Y", strtotime($fechaInput));
+
+				$sqlFiltroFecha = "SELECT *, DATE_FORMAT(fecha_creacion, '%d/%m/%Y') AS fecha_creacionM, DATE_FORMAT(fecha_modificacion, '%d/%m/%Y') AS fecha_modificacionM FROM abastecimiento WHERE DATE_FORMAT(fecha_creacion, '%d/%m/%Y') = ?";
+
+				$sentenciaFiltroFecha = $mysqli->prepare($sqlFiltroFecha);
+				$sentenciaFiltroFecha->bind_param("s", $fechaFormateada);
+				$sentenciaFiltroFecha->execute(); 
+				$result = $sentenciaFiltroFecha->get_result();
+
+				$datos = [];
+
+				while ($mostrarDatos = $result->fetch_array()) {
+					$datos[]= [
+						"fecha_creacion" => $mostrarDatos["fecha_creacionM"],
+						"fecha_modificacion" => $mostrarDatos["fecha_modificacionM"],
+						"placa" => $mostrarDatos["placa"],
+						"piloto" => $mostrarDatos["piloto"],
+						"ruta" => $mostrarDatos["ruta"],
+						"km_inicial" => $mostrarDatos["km_inicial"],
+						"km_final" => $mostrarDatos["km_final"],
+						"monto_total" => $mostrarDatos["monto_total"],
+						"galones" => $mostrarDatos["galones"],
+						"precio_galon" => $mostrarDatos["precio_galon"],
+					];
+				}
+				echo json_encode($datos);
+				break;
+			case "filtroEntreFechas":
+				$fechaInicial = date("d/m/Y", strtotime($_POST['fechaInicial']));
+				$fechaFinal = date("d/m/Y", strtotime($_POST['fechaFinal']));
+
+				$sqlFiltroFecha = "SELECT *, DATE_FORMAT(fecha_creacion, '%d/%m/%Y') AS fecha_creacionM, DATE_FORMAT(fecha_modificacion, '%d/%m/%Y') AS fecha_modificacionM FROM abastecimiento WHERE DATE_FORMAT(fecha_creacion, '%d/%m/%Y') >= ? AND DATE_FORMAT(fecha_creacion, '%d/%m/%Y') <= ?";
+
+				$sentenciaFiltroFecha = $mysqli->prepare($sqlFiltroFecha);
+				$sentenciaFiltroFecha->bind_param("ss", $fechaInicial, $fechaFinal);
+				$sentenciaFiltroFecha->execute(); 
+				$result = $sentenciaFiltroFecha->get_result();
+
+				$datos = [];
+
+				while ($mostrarDatos = $result->fetch_array()) {
+					$datos[]= [
+						"fecha_creacion" => $mostrarDatos["fecha_creacionM"],
+						"fecha_modificacion" => $mostrarDatos["fecha_modificacionM"],
+						"placa" => $mostrarDatos["placa"],
+						"piloto" => $mostrarDatos["piloto"],
+						"ruta" => $mostrarDatos["ruta"],
+						"km_inicial" => $mostrarDatos["km_inicial"],
+						"km_final" => $mostrarDatos["km_final"],
+						"monto_total" => $mostrarDatos["monto_total"],
+						"galones" => $mostrarDatos["galones"],
+						"precio_galon" => $mostrarDatos["precio_galon"],
+					];
+				}
+				echo json_encode($datos);
+				break;
 		}
 	}
 ?>

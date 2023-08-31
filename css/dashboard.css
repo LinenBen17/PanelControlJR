@@ -367,6 +367,10 @@ body{
 .autocomplete-results li:hover {
     filter: contrast(.7);
 }
+/*DISEÑO PARA LOS FILTROS*/
+.filtros{
+	display: none;
+}
 .box .form h2{
     color: #FFF;
     font-weight: 600;
