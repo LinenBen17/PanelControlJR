@@ -11,7 +11,7 @@
         "Pilotos" => "pilotos.php",
         "Camiones" => "camiones.php",
         "Ruta" => "ruta.php",
-        "Abastecimiento" => "abastecimiento.php"
+        "Abastecimiento" => "abastecimiento.php",
     );
 
     // Definir las asociaciones entre secciones e iconos

@@ -254,13 +254,14 @@ body{
   max-width: 600px;
   display: grid; 
   grid-template-columns: 1fr 1fr 1fr 1fr; 
-  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
   grid-auto-flow: row;
   gap: 10px; 
   grid-template-areas: 
+  	"fechaEstablecida . . ."
     "placa piloto piloto ruta"
     "km_inicial km_inicial km_final km_final"
-    "monto_total monto_total galones precio_galon"; 
+    "monto_total monto_total galones precio_galon"
 }
 .placa { grid-area: placa; }
 .piloto { grid-area: piloto; }
@@ -270,6 +271,7 @@ body{
 .monto_total { grid-area: monto_total; }
 .galones { grid-area: galones; }
 .precio_galon { grid-area: precio_galon; }
+.fechaEstablecida { grid-area: fechaEstablecida; } 
 
 .formAbastecimiento form input{
 	width: 100%;

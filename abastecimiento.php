@@ -82,6 +82,10 @@
                                 <label>Precio x Galón</label>
                                 <input type="number" readonly id="precio_galon" placeholder="">
                             </div>
+                            <div class="inputBx fechaEstablecida">
+                                <label>Fecha</label>
+                                <input type="date" id="fechaEstablecida">
+                            </div>
                     	</form>
                         <button type="button" class="save btnEditar">Guardar</button>
                         <button type="button" class="clean btnEditar">Limpiar</button>
@@ -90,6 +94,7 @@
 
                     <div id="reportes" class="modal form">
                         <form method="POST">
+                            <button type="submit" disabled hidden aria-hidden="true"></button>
                             <h2>Selecciona el filtro deseado:</h2>
                             <div class="inputBx">
                                 <div class="select">
@@ -147,16 +152,29 @@
         list.forEach((item)=>{
             item.addEventListener('mouseover', activeLink)
         })
+
+        //TODOS LOS INPUTS EN MAYUSCULAS
+        $(document).ready( function () {
+            $("input[type='text']").on("keypress", function () {
+                $input=$(this);
+                setTimeout(function () {
+                    $input.val($input.val().toUpperCase());
+                },50);
+            })
+        })
     </script>
     <script>
         var fechaActual = new Date();
         var year = fechaActual.getFullYear();
         var month = fechaActual.getMonth() + 1; // Los meses van de 0 a 11, por lo que se suma 1
         var day = fechaActual.getDate();
+        var seconds = fechaActual.getSeconds();
+        var minutes = fechaActual.getMinutes();
+        var hour = fechaActual.getHours();
 
         var nombreReportes = "REPORT_" + year + "-" + month + "-" + day;
 
-
+        $('#placa').focus();
     	$('#placa').blur(function() {
     		let datosSearch = {
                 "placa": $(this).val(),
