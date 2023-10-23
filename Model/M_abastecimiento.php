@@ -16,6 +16,38 @@
 
 		    return $resultadoSet;
 	    }
+	    public function delete($id){
+	    	$sql = "DELETE FROM abastecimiento WHERE id = ?";
+
+	    	$sentencia = $this->db->prepare($sql);
+	    	$sentencia->bind_param("i", $id);
+	    	$exec = $sentencia->execute();
+
+	    	if ($exec) {
+	    		return true;
+	    	}else{
+	    		return false;
+	    	}
+	    }
+	    public function update($placa, $piloto, $ruta, $km_inicial, $km_final, $monto_total, $galones, $precio_galon, $id){
+			$sqlEdit = "UPDATE abastecimiento SET placa = ?, piloto = ?, ruta = ?, km_inicial = ?, km_final = ?, monto_total = ?, galones = ?, precio_galon = ? WHERE id = ?";
+
+			$sentencia = $this->db->prepare($sqlEdit);
+			$sentencia->bind_param("sssiidddi", $placa, $piloto, $ruta, $km_inicial, $km_final, $monto_total, $galones, $precio_galon, $id);
+			$sentencia->execute();
+
+			return true;
+	    }
+		public function showRegister($id){
+			$sql = "SELECT * FROM abastecimiento WHERE id = ?";
+
+			$sentencia = $this->db->prepare($sql);
+			$sentencia->bind_param("i", $id);
+			$sentencia->execute();
+			$resultadoSet = $sentencia->get_result();
+
+			return $resultadoSet;
+		}
 	    public function newAbastecimiento($placa, $piloto, $ruta, $km_inicial, $km_final, $monto_total, $galones, $precio_galon){
 			date_default_timezone_set('America/Guatemala');
 			$fechaActual = date("d/m/Y");
