@@ -70,6 +70,16 @@
 			
 			return $result;
 	    }
+	    public function searchLastPlaca($search){
+	    	$sqlSearch = "SELECT * FROM abastecimiento WHERE placa = ? ORDER BY id LIMIT 1";
+
+			$sentenciaSearch = $this->db->prepare($sqlSearch);
+			$sentenciaSearch->bind_param("s", $search);
+			$sentenciaSearch->execute();
+			$result = $sentenciaSearch->get_result();
+			
+			return $result;
+	    }
 	    public function filtroPorPlaca($placaFilter){
 	    	$sqlFiltroPlaca = "SELECT *, DATE_FORMAT(fecha_creacion, '%d/%m/%Y') AS fecha_creacionM, DATE_FORMAT(fecha_modificacion, '%d/%m/%Y') AS fecha_modificacionM FROM abastecimiento WHERE placa = ?";
 

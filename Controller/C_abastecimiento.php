@@ -43,12 +43,15 @@
 			break;
 		case "SearchPlaca":
 			$searchPlaca = $abastecimiento->searchPlaca($_POST['placa']);
+			$searchLastPlaca = $abastecimiento->searchLastPlaca($_POST['placa']);
 
 			$mostrar = $searchPlaca->fetch_array();
+			$mostrarLast = $searchLastPlaca->fetch_array();
 			
 			echo json_encode([
 				"piloto" => $mostrar["piloto"],
 				"ruta" => $mostrar["ruta"],
+				"km_final" => $mostrarLast["km_final"],
 			]);
 			break;
 		case "filtroPorPlaca":
