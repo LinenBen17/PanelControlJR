@@ -11,7 +11,7 @@
 	        $password = filter_var($password, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
 	        //OBTENEMOS LOS DATOS ENVIADOS Y VALIDAMOS
-	        $sql = "SELECT id, password, nombre FROM usuarios WHERE usuario = ?";
+	        $sql = "SELECT id, password, nombre, usuario FROM usuarios WHERE usuario = ?";
 
 	        $sentencia_inicial = $this->db->prepare($sql);
 			$sentencia_inicial->bind_param("s", $usuario);
@@ -38,7 +38,7 @@
 
 	        	if (password_verify($password, $password_bd)) {
 	        		//DEVUELVO EL ID Y EL NOMBRE ASOCIADO AL USUARIO
-	        		return [true, $assoc['id'], $assoc['nombre']];
+	        		return [true, $assoc['id'], $assoc['nombre'], $assoc['usuario']];
 	        	}else{
 	        		return false;
 	        	}

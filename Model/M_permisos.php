@@ -15,6 +15,7 @@
 	        "Ruta" => "ruta.php",
 	        "Abastecimiento" => "abastecimiento.php",
 	        "Control Abaste" => "controlAbastecimiento.php",
+	        "Control Boletas" => "controlBoletas.php",
 	    );
 
 	    // Definir las asociaciones entre secciones e iconos 
@@ -29,7 +30,8 @@
 	        "Camiones" => "bus-outline",
 	        "Ruta" => "map-outline",
 	        "Abastecimiento" => "clipboard-outline",
-	        "Control Abaste" => "receipt-outline",
+	        "Control Abaste" => "reader-outline",
+	        "Control Boletas" => "receipt-outline",
 	    );
 	    
 	    public function __construct(){

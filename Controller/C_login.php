@@ -11,6 +11,7 @@
 
 			$_SESSION['id'] = $loginExitoso[1];
 	        $_SESSION['nombre'] = $loginExitoso[2];
+	        $_SESSION['usuario'] = $loginExitoso[3];
 
 		    header("Location: ../View/principal.php");
 		    exit();

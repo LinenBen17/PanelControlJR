@@ -112,6 +112,6 @@
 		</div>
 	</div>
 	<?php require_once 'shared/footer.php';	 ?>
-	<script src="../Public/js/abastecimiento.js"></script>
+	<script src="../Public/js/controlAbaste.js"></script>
 </body>
 </html>
