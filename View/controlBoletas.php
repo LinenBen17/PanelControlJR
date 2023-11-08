@@ -54,6 +54,14 @@
 							<input type="number" name="noBoleta">
 						</div>
 						<div class="inputBx">
+								<label>Fecha Boleta</label><br>
+								<input type="date" name="fechaBoleta">
+						</div>
+						<div class="inputBx">
+								<label>Valor Boleta</label><br>
+								<input type="number" name="valorBoleta">
+						</div>
+						<div class="inputBx">
 							<label>Tipo</label><br>
 							<input type="text" name="tipoBoleta">
 						</div>
@@ -73,6 +81,10 @@
 							<div class="inputBx">
 								<label>No. Boleta</label><br>
 								<input type="number" name="noBoleta">
+							</div>
+							<div class="inputBx">
+								<label>Fecha Boleta</label><br>
+								<input type="date" name="fechaBoleta">
 							</div>
 							<div class="inputBx">
 								<label>Tipo</label><br>

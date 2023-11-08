@@ -1,4 +1,4 @@
-<?php
+<?php 
 	require_once '../Model/M_abastecimiento.php';
 
 	$action = isset($_POST['action']) ? $_POST['action'] : '';
@@ -7,7 +7,7 @@
 
 	switch ($action) {
 		case "Save":
-			$newAbastecimiento = $abastecimiento->newAbastecimiento($_POST['placa'], $_POST['piloto'], $_POST['ruta'], $_POST['km_inicial'], $_POST['km_final'], $_POST['monto_total'], $_POST['galones'], $_POST['precio_galon']);
+			$newAbastecimiento = $abastecimiento->newAbastecimiento($_POST['placa'], $_POST['piloto'], $_POST['ruta'], $_POST['km_inicial'], $_POST['km_final'], $_POST['monto_total'], $_POST['galones'], $_POST['precio_galon'], $_POST['fecha'], $_POST['rendimiento']);
 
 			echo json_encode($newAbastecimiento);
 
@@ -63,11 +63,13 @@
 				$datos[]= [
 					"fecha_creacion" => $mostrarDatos["fecha_creacionM"],
 					"fecha_modificacion" => $mostrarDatos["fecha_modificacionM"],
+					"fecha_combustible" => $mostrarDatos["fecha_combustible"],
 					"placa" => $mostrarDatos["placa"],
 					"piloto" => $mostrarDatos["piloto"],
 					"ruta" => $mostrarDatos["ruta"],
 					"km_inicial" => $mostrarDatos["km_inicial"],
 					"km_final" => $mostrarDatos["km_final"],
+					"rendimiento" => $mostrarDatos["rendimiento"],
 					"monto_total" => $mostrarDatos["monto_total"],
 					"galones" => $mostrarDatos["galones"],
 					"precio_galon" => $mostrarDatos["precio_galon"],
@@ -84,11 +86,13 @@
 				$datos[]= [
 					"fecha_creacion" => $mostrarDatos["fecha_creacionM"],
 					"fecha_modificacion" => $mostrarDatos["fecha_modificacionM"],
+					"fecha_combustible" => $mostrarDatos["fecha_combustible"],
 					"placa" => $mostrarDatos["placa"],
 					"piloto" => $mostrarDatos["piloto"],
 					"ruta" => $mostrarDatos["ruta"],
 					"km_inicial" => $mostrarDatos["km_inicial"],
 					"km_final" => $mostrarDatos["km_final"],
+					"rendimiento" => $mostrarDatos["rendimiento"],
 					"monto_total" => $mostrarDatos["monto_total"],
 					"galones" => $mostrarDatos["galones"],
 					"precio_galon" => $mostrarDatos["precio_galon"],
@@ -105,11 +109,13 @@
 				$datos[]= [
 					"fecha_creacion" => $mostrarDatos["fecha_creacionM"],
 					"fecha_modificacion" => $mostrarDatos["fecha_modificacionM"],
+					"fecha_combustible" => $mostrarDatos["fecha_combustible"],
 					"placa" => $mostrarDatos["placa"],
 					"piloto" => $mostrarDatos["piloto"],
 					"ruta" => $mostrarDatos["ruta"],
 					"km_inicial" => $mostrarDatos["km_inicial"],
 					"km_final" => $mostrarDatos["km_final"],
+					"rendimiento" => $mostrarDatos["rendimiento"],
 					"monto_total" => $mostrarDatos["monto_total"],
 					"galones" => $mostrarDatos["galones"],
 					"precio_galon" => $mostrarDatos["precio_galon"],

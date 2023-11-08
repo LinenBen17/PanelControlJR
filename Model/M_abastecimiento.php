@@ -48,14 +48,14 @@
 
 			return $resultadoSet;
 		}
-	    public function newAbastecimiento($placa, $piloto, $ruta, $km_inicial, $km_final, $monto_total, $galones, $precio_galon){
+	    public function newAbastecimiento($placa, $piloto, $ruta, $km_inicial, $km_final, $monto_total, $galones, $precio_galon, $fecha, $rendimiento){
 			date_default_timezone_set('America/Guatemala');
-			$fechaActual = date("d/m/Y");
+			$fechaActual = date("Y-m-d H:i:s");
 
-	    	$sqlSave = "INSERT INTO `abastecimiento`(`id`, `placa`, `piloto`, `ruta`, `km_inicial`, `km_final`, `monto_total`, `galones`, `precio_galon`, `fecha_creacion`, `fecha_modificacion`) VALUES (NULL,?,?,?,?,?,?,?,?,?,?)";
+	    	$sqlSave = "INSERT INTO `abastecimiento`(`id`, `placa`, `piloto`, `ruta`, `km_inicial`, `km_final`, `monto_total`, `galones`, `precio_galon`, `fecha_creacion`, `fecha_modificacion`, `fecha_combustible`, `rendimiento`) VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 			$sentenciaSave = $this->db->prepare($sqlSave);
-			$sentenciaSave->bind_param("sssiiiiiss", $placa, $piloto, $ruta, $km_inicial, $km_final, $monto_total, $galones, $precio_galon, $fechaActual, $fechaActual);
+			$sentenciaSave->bind_param("sssiiiiisssi", $placa, $piloto, $ruta, $km_inicial, $km_final, $monto_total, $galones, $precio_galon, $fechaActual, $fechaActual, $fecha, $rendimiento);
 			$sentenciaSave->execute();
 
 			return ["accion" => "Saved"];
@@ -71,7 +71,7 @@
 			return $result;
 	    }
 	    public function searchLastPlaca($search){
-	    	$sqlSearch = "SELECT * FROM abastecimiento WHERE placa = ? ORDER BY id LIMIT 1";
+	    	$sqlSearch = "SELECT * FROM abastecimiento WHERE placa = ? ORDER BY id DESC LIMIT 1";
 
 			$sentenciaSearch = $this->db->prepare($sqlSearch);
 			$sentenciaSearch->bind_param("s", $search);

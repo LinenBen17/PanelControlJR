@@ -223,16 +223,16 @@ input{
 }
 /*FORM ABASTECIMIENTO*/
 .formAbastecimiento form {
-  max-width: 600px;
+  max-width: 650px;
   display: grid; 
-  grid-template-columns: 1fr 1fr 1fr 1fr; 
+  grid-template-columns: 1fr 1fr 1fr 1fr 2fr; 
   grid-template-rows: 1fr 1fr 1fr;
   grid-auto-flow: row;
   gap: 10px; 
   grid-template-areas: 
-    "placa piloto piloto ruta"
-    "km_inicial km_inicial km_final km_final"
-    "monto_total monto_total galones precio_galon"; 
+    "placa piloto piloto ruta fecha"
+    "km_inicial km_inicial km_final km_final rendimiento"
+    "monto_total monto_total galones galones precio_galon"; 
 }
 .placa { grid-area: placa; }
 .piloto { grid-area: piloto; }
@@ -242,6 +242,8 @@ input{
 .monto_total { grid-area: monto_total; }
 .galones { grid-area: galones; }
 .precio_galon { grid-area: precio_galon; }
+.rendimiento { grid-area: rendimiento; }
+.fecha { grid-area: fecha; }
 
 .formAbastecimiento form input{
 	width: 100%;

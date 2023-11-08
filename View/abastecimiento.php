@@ -10,6 +10,8 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <!-- jQuery Modal -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <!-- Moment.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 
 	<link rel="stylesheet" type="text/css" href="../Public/css/dashboard.css">
     
@@ -59,6 +61,14 @@
                             <div class="inputBx km_final">
                                 <label>Km. Final</label>
                                 <input type="number" id="km_final" placeholder="">
+                            </div>
+                            <div class="inputBx fecha">
+                                <label>Fecha</label>
+                                <input type="text" id="fecha" placeholder="">
+                            </div>
+                            <div class="inputBx rendimiento">
+                                <label>Rendimiento</label>
+                                <input type="number" id="rendimiento" placeholder="">
                             </div>
                             <div class="inputBx monto_total">
                                 <label>Monto Total</label>
