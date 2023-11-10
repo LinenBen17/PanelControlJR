@@ -44,32 +44,39 @@
 					<div class="cardHeader">
 						<h2>Control Boletas</h2>
 					</div>
-					<form class="formGuardarBoletas">
+					<div class="formGuardarBoletas">
+						<form>
+							<div class="inputBx noManifiesto">
+								<label>No. Manifiesto</label><br>
+								<input type="number" name="noManifiesto">
+							</div>
+							<div class="inputBx noBoleta">
+								<label>No. Boleta</label><br>
+								<input type="number" name="noBoleta">
+							</div>
+							<div class="inputBx fechaBoleta">
+									<label>Fecha Boleta</label><br>
+									<input type="date" name="fechaBoleta">
+							</div>
+							<div class="inputBx valorBoleta">
+									<label>Valor Boleta</label><br>
+									<input type="number" name="valorBoleta">
+							</div>
+							<div class="inputBx tipoBoleta">
+								<label>Tipo</label><br>
+								<input type="text" name="tipoBoleta">
+							</div>
+							<div class="inputBx addBoleta">
+								<br>
+								<button class="btn newBoleta"><ion-icon name="add-sharp"></ion-icon></button>
+							</div>
+						</form>
+						<div class="boletasAdicionales"></div>
 						<div class="inputBx">
-							<label>No. Manifiesto</label><br>
-							<input type="number" name="noManifiesto">
+							<input type="submit" name="Guardar" value="Guardar" class="btn">
 						</div>
-						<div class="inputBx">
-							<label>No. Boleta</label><br>
-							<input type="number" name="noBoleta">
-						</div>
-						<div class="inputBx">
-								<label>Fecha Boleta</label><br>
-								<input type="date" name="fechaBoleta">
-						</div>
-						<div class="inputBx">
-								<label>Valor Boleta</label><br>
-								<input type="number" name="valorBoleta">
-						</div>
-						<div class="inputBx">
-							<label>Tipo</label><br>
-							<input type="text" name="tipoBoleta">
-						</div>
-						<div class="inputBx">
-							<input type="submit" name="confirmar" value="Confirmar" class="btn">
-						</div>
-					</form>
-					<div id="confirmarDatos" class="modal">
+					</div>
+					<!--<div id="confirmarDatos" class="modal">
 						<div class="cardHeader">
 							<h2>Confirmación de datos</h2>
 						</div>
@@ -94,7 +101,7 @@
 								<input type="submit" name="Guardar" value="Guardar" class="btn">
 							</div>
 						</form>
-					</div>
+					</div>-->
 				</div>
 				<div class="recentOrders">
 					<table id="boletasTable" class="display" style="width: 100%;">
@@ -117,5 +124,32 @@
 	<?php require_once 'shared/footer.php';	 ?>
 	<?php echo $_SESSION['usuario'] ?>
 	<script src="../Public/js/controlBoletas.js"></script>
+	<script>
+		$(".newBoleta").click(function(e){
+			e.preventDefault();
+			$(".boletasAdicionales").append(
+				`
+					<div class="boleta">
+						<div class="inputBx noBoleta">
+							<label>No. Boleta</label><br>
+							<input type="number" name="noBoleta">
+						</div>
+						<div class="inputBx fechaBoleta">
+								<label>Fecha Boleta</label><br>
+								<input type="date" name="fechaBoleta">
+						</div>
+						<div class="inputBx valorBoleta">
+								<label>Valor Boleta</label><br>
+								<input type="number" name="valorBoleta">
+						</div>
+						<div class="inputBx tipoBoleta">
+							<label>Tipo</label><br>
+							<input type="text" name="tipoBoleta">
+						</div>
+					</div>
+				`
+			)
+		})
+	</script>
 </body>
 </html>

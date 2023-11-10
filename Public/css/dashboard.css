@@ -221,6 +221,47 @@ input{
     letter-spacing: 2px;
     margin-bottom: 30px;
 }
+/*FORM BOLETAS*/
+.formGuardarBoletas form {
+  max-width: 650px;
+  display: grid; 
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr; 
+  grid-template-rows: 1fr 1fr;
+  grid-auto-flow: row;
+  gap: 10px; 
+  grid-template-areas: 
+    "noManifiesto . . . ."
+    "noBoleta fechaBoleta valorBoleta tipoBoleta addBoleta";
+}
+.noManifiesto { grid-area: noManifiesto; }
+.noBoleta { grid-area: noBoleta; }
+.fechaBoleta { grid-area: fechaBoleta; }
+.valorBoleta { grid-area: valorBoleta; }
+.tipoBoleta { grid-area: tipoBoleta; }
+.addBoleta { grid-area: addBoleta; margin: auto;}
+
+.formGuardarBoletas form input{
+	width: 100%;
+}
+
+.boletasAdicionales{
+	display: flex;
+	flex-direction: column;
+}
+.boleta{
+	width: 650px;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	grid-template-rows: 1fr;
+	grid-auto-flow: row;
+	gap: 10px;
+	grid-template-areas:  
+	"noBoleta fechaBoleta valorBoleta tipoBoleta";
+
+}
+.boleta input{
+	width: 100%;
+}
 /*FORM ABASTECIMIENTO*/
 .formAbastecimiento form {
   max-width: 650px;

@@ -1,17 +1,19 @@
 $("input[name='noManifiesto']").focus();
 
-$("input[name='confirmar']").click(function(e) {
+/*$("input[name='confirmar']").click(function(e) {
 	e.preventDefault();
 
 	$("#confirmarDatos input[name='tipoBoleta']").val($(".formGuardarBoletas input[name='tipoBoleta']").val());
+	$("#confirmarDatos input[name='fechaBoleta']").val($(".formGuardarBoletas input[name='fechaBoleta']").val());
+	$("#confirmarDatos input[name='valorBoleta']").val($(".formGuardarBoletas input[name='valorBoleta']").val());
 
     $('#confirmarDatos').modal();
-})
+})*/
 
-$('#confirmarDatos').on($.modal.AFTER_OPEN, function() {
+/*$('#confirmarDatos').on($.modal.AFTER_OPEN, function() {
     $("#confirmarDatos input[name='noManifiesto']").focus();
     console.log("A")
-});
+});*/
 
 $("input[name='Guardar']").click(function(e) {
 	e.preventDefault();
