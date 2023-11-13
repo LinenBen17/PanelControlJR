@@ -222,22 +222,28 @@ input{
     margin-bottom: 30px;
 }
 /*FORM BOLETAS*/
-.formGuardarBoletas form {
-  max-width: 650px;
+.formGuardarBoletas form,
+.boleta{
+  max-width: 1000px;
   display: grid; 
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr; 
-  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 2fr 1.3fr 1fr 1fr 1fr 1fr 1fr;
   grid-auto-flow: row;
   gap: 10px; 
-  grid-template-areas: 
-    "noManifiesto . . . ."
-    "noBoleta fechaBoleta valorBoleta tipoBoleta addBoleta";
+}
+.formGuardarBoletas form{
+  grid-template-rows: 1fr 1fr;
+	grid-template-areas: 
+    "noManifiesto . fechaManifiesto . . . ."
+    "noBoleta valorBoleta fechaBoleta tipoBoleta agenciaBoleta bancoBoleta addBoleta";
 }
 .noManifiesto { grid-area: noManifiesto; }
+.fechaManifiesto { grid-area: fechaManifiesto; }
 .noBoleta { grid-area: noBoleta; }
 .fechaBoleta { grid-area: fechaBoleta; }
 .valorBoleta { grid-area: valorBoleta; }
 .tipoBoleta { grid-area: tipoBoleta; }
+.agenciaBoleta { grid-area: agenciaBoleta; }
+.bancoBoleta { grid-area: bancoBoleta; }
 .addBoleta { grid-area: addBoleta; margin: auto;}
 
 .formGuardarBoletas form input{
@@ -249,18 +255,24 @@ input{
 	flex-direction: column;
 }
 .boleta{
-	width: 650px;
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr 1fr;
-	grid-template-rows: 1fr;
-	grid-auto-flow: row;
-	gap: 10px;
+  grid-template-rows: 1fr;
 	grid-template-areas:  
-	"noBoleta fechaBoleta valorBoleta tipoBoleta";
+	"noBoleta valorBoleta fechaBoleta tipoBoleta agenciaBoleta bancoBoleta .";
 
 }
 .boleta input{
 	width: 100%;
+}
+.formGuardarBoletas .select,
+.boletas .select{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 130px;
+  height: 3em;
+  border-radius: .25em;
+  overflow: hidden;
+  margin-top: 0;
 }
 /*FORM ABASTECIMIENTO*/
 .formAbastecimiento form {
@@ -395,6 +407,9 @@ select::-ms-expand {
 }
 .select:hover::after {
   color: #FFF;
+}
+.select select:focus {
+  border: 2px solid #5795d3;
 }
 .user{
 	position: relative;

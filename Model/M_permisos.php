@@ -15,6 +15,7 @@
 	        "Ruta" => "ruta.php",
 	        "Abastecimiento" => "abastecimiento.php",
 	        "Control Abaste" => "controlAbastecimiento.php",
+	        "Ingreso Boletas" => "ingresoBoletas.php",
 	        "Control Boletas" => "controlBoletas.php",
 	    );
 
@@ -31,6 +32,7 @@
 	        "Ruta" => "map-outline",
 	        "Abastecimiento" => "clipboard-outline",
 	        "Control Abaste" => "reader-outline",
+	        "Ingreso Boletas" => "create-outline",
 	        "Control Boletas" => "receipt-outline",
 	    );
 	    

@@ -48,11 +48,7 @@ $('#placa').blur(function() {
       }
     });
 });
-$('#km_final').blur(function() {
-    let rendimiento = $('#km_final').val() - $('#km_inicial').val();
-    $('#rendimiento').val(rendimiento);
-    $('#monto_total').focus();
-})
+
 $("#galones").blur(function() {
     let calculo = $("#monto_total").val() / $("#galones").val();
     $("#precio_galon").val(calculo.toFixed(2));
@@ -102,7 +98,3 @@ $('#fechaInicial').change(function () {
 $('#fechaFilter').change(function () {
     console.log($(this).val())
 })
-
-//FECHA Y HORA PREDETERMINADA
-const formattedDate = moment().format('YYYY-MM-DD');
-$("input#fecha").val(formattedDate);

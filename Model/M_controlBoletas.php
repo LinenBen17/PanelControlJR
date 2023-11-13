@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 	class ControlBoletas{
 	    private $db;
@@ -7,28 +8,54 @@ session_start();
 	        require_once 'Conexion.php';
 	        $this->db = Conexion::conectar();
 	    }
-	    public function guardar($noManifiesto, $noBoleta, $tipoBoleta){
+	    public function guardar($datos){
 	    	date_default_timezone_set('America/Guatemala');
-			$fechaActual = date("Y-m-d H:i:s");
+		    $fechaActual = date("Y-m-d H:i:s");
 
-	    	$sqlSelect = "SELECT * FROM boletas WHERE noBoleta = ?";
-	    	$sql = "INSERT INTO `boletas`(`id`, `noManifiesto`, `noBoleta`, `tipoBoleta`, `fechaIngreso`, `fechaModificacion`, `usuarioIngresa`) VALUES(NULL, ?,?,?,?,?,?)";
 
-	    	$sentenciaSelect = $this->db->prepare($sqlSelect);
-	    	$sentenciaSelect->bind_param("i", $noBoleta);
-	    	$sentenciaSelect->execute();
+		    // Preparar la consulta para comprobar duplicados
+		    $sqlSelect = "SELECT * FROM boletas WHERE noBoleta = ?";
+		    $sentenciaSelect = $this->db->prepare($sqlSelect);
 
-	    	$resultadoSelect = $sentenciaSelect->get_result();
+		    // Preparar la consulta de inserción
+		    $sqlInsert = "INSERT INTO `boletas`(`id`, `noManifiesto`, `noBoleta`, `tipoBoleta`, `fechaIngreso`, `fechaModificacion`, `usuarioIngresa`, `fechaBoleta`, `valorBoleta`, `agenciaBoleta`, `bancoBoleta`, `fechaManifiesto`) VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?)";
+		    $sentenciaInsert = $this->db->prepare($sqlInsert);
 
-	    	if ($resultadoSelect->num_rows > 0) {
-	    		return false;
-	    	}else {		
-		    	$sentencia = $this->db->prepare($sql);
-		    	$sentencia->bind_param("iissss", $noManifiesto, $noBoleta, $tipoBoleta, $fechaActual, $fechaActual, $_SESSION['usuario']);
-		    	$sentencia->execute();
+		    // Variable para almacenar resultados
+		    $resultados = [];
 
-		    	return true;
-	    	}
+		    // Iterar sobre los datos
+			foreach ($datos['noBoleta'] as $key => $noBoleta) {
+			    $noManifiesto = $datos['noManifiesto'];
+			    $tipoBoleta = $datos['tipoBoleta'][$key];
+			    $fechaBoleta = $datos['fechaBoleta'][$key];
+			    $valorBoleta = $datos['valorBoleta'][$key];
+			    $agenciaBoleta = $datos['agenciaBoleta'][$key];
+			    $bancoBoleta = $datos['bancoBoleta'][$key];
+			    $fechaManifiesto = $datos['fechaManifiesto'];
+
+		        // Comprobar duplicados
+		        $sentenciaSelect->bind_param("i", $noBoleta);
+		        $sentenciaSelect->execute();
+
+		        $resultadoSelect = $sentenciaSelect->get_result();
+
+		        if ($resultadoSelect->num_rows > 0) {
+		            $resultados[] = ["repetido",$noBoleta];
+		        } else {
+		            // Insertar nuevo registro
+		            $sentenciaInsert->bind_param("iisssssiiss", $noManifiesto, $noBoleta, $tipoBoleta, $fechaActual, $fechaActual, $_SESSION['usuario'], $fechaBoleta, $valorBoleta, $agenciaBoleta, $bancoBoleta, $fechaManifiesto);
+		            $sentenciaInsert->execute();
+
+		            $resultados[] = "registrado";
+		        }
+		    }
+
+		    // Cerrar las consultas y liberar recursos
+		    $sentenciaSelect->close();
+		    $sentenciaInsert->close();
+
+		    return $resultados;
 
 	    }
 	    public function showAllBoletas(){
@@ -37,7 +64,15 @@ session_start();
 	    	$sentencia = $this->db->prepare($sql);
 	    	$sentencia->execute();
 
-	    	return $sentencia->get_result();;
+	    	return $sentencia->get_result();
+	    }
+	    public function showBoletasByUser(){
+	    	$sql = "SELECT * FROM boletas WHERE usuarioIngresa = 'linen'";
+
+	    	$sentencia = $this->db->prepare($sql);
+	    	$sentencia->execute();
+
+	    	return $sentencia->get_result();
 	    }
 	}
 ?>

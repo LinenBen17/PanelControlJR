@@ -16,69 +16,72 @@ $("input[name='noManifiesto']").focus();
 });*/
 
 $("input[name='Guardar']").click(function(e) {
-	e.preventDefault();
+    e.preventDefault();
 
-	if ($(".formGuardarBoletas input[name='noManifiesto']").val() === $(".formGuardarBoletas.confirmacion input[name='noManifiesto']").val() && $(".formGuardarBoletas input[name='noBoleta']").val() === $(".formGuardarBoletas.confirmacion input[name='noBoleta']").val() && $(".formGuardarBoletas input[name='tipoBoleta']").val() === $(".formGuardarBoletas.confirmacion input[name='tipoBoleta']").val()) {
+    var formData1 = $(".formGuardarBoletas form").serializeArray();
+    var formData2 = $(".boleta").find("input, select").serializeArray();
+    var datos = formData1.concat(formData2);
 
-		let inputs = document.querySelectorAll(".formGuardarBoletas input");
-		let datos = {};
+    // Validar campos vacíos
+    var campos = $(".boleta").find("input, select, textarea");
+    var hayCamposVacios = campos.filter(function () {
+        return $(this).val() === "";
+    }).length > 0;
 
-		inputs.forEach((input)=>{
-			let name = input.name;
+    if (hayCamposVacios) {
+        mostrarMensajeError('Los campos agregados deben estar completos.');
+        return;
+    }
 
-			datos[name] = $(input).val()
-		});
+    $.ajax({
+        url: '../Controller/C_controlBoletas.php',
+        type: 'POST',
+        dataType: 'json',
+        data: datos,
+        success: function(data) {
+            if (data.includes("vacio")) {
+                mostrarMensajeError('Todos los campos deben estar llenos.');
+            }
 
-		datos["action"] = "Guardar";
+            Object.values(data).forEach((estado) => {
+                console.log(estado);
+                if (estado.includes("repetido")) {
+                    mostrarMensajeError(`La Boleta ${estado[1]}, ya fue ingresada anteriormente.`);
+                }
+            });
 
-		console.log(datos)
-
-		$.ajax({
-			url: '../Controller/C_controlBoletas.php',
-			type: 'POST',
-			dataType: 'json',
-			data: datos,
-			success: function(data) {
-				if (data) {
-					location.reload();
-				}else {
-					Swal.fire({
-					  position: 'top-end',
-					  icon: 'error',
-					  title: 'Este número de boleta ya ha sido ingresado anteriormente:(.',
-					  background: '#071A2C',
-					  color: "#FFF",
-					  showConfirmButton: false,
-					  timer: 1500
-					})
-				}
-			},
-			error: function(a,b,c){
-				console.log(a)
-				console.log(b)
-				console.log(c)
-			}
-		})
-		
-	}else {
-		Swal.fire({
-		  position: 'top-end',
-		  icon: 'error',
-		  title: 'Los datos no coinciden:).',
-		  background: '#071A2C',
-		  color: "#FFF",
-		  showConfirmButton: false,
-		  timer: 2000
-		})
-	}
+            if (Object.values(data).every(elemento => elemento === "registrado")) {
+                location.reload();
+            }
+        },
+        error: function(a, b, c) {
+            console.log(a);
+            console.log(b);
+            console.log(c);
+        }
+    });
 });
 
-/////DATATABLE BOLETAS INGRESADAS////
+function mostrarMensajeError(mensaje) {
+    Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        title: mensaje,
+        background: '#071A2C',
+        color: "#FFF",
+        showConfirmButton: false,
+        timer: 1500
+    });
+}
+
+/////DATATABLE BOLETAS INGRESADAS POR USUARIO////
 $(document).ready(function() {
 	$('#boletasTable').DataTable({
         ajax: {
             url: '../Controller/C_controlBoletas.php',
-            dataSrc: ''
+            type: 'post',
+            data: {"action" : "BoletasUsuario"},
+            dataSrc:''
         },
         "language": {
             "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
@@ -88,6 +91,40 @@ $(document).ready(function() {
             { data: 'noManifiesto' },
             { data: 'noBoleta' },
             { data: 'tipoBoleta' },
+            { data: 'valorBoleta' },
+            { data: 'bancoBoleta' },
+            { data: 'fechaBoleta' },
+            { data: 'fechaIngreso' },
+            { data: 'usuarioIngresa' },
+        ]
+    });
+});
+
+/////DATATABLE BOLETAS INGRESADAS GENERAL////
+$(document).ready(function() {
+	$('#boletasTableGeneral').DataTable({
+        ajax: {
+            url: '../Controller/C_controlBoletas.php',
+            type: 'post',
+            dataSrc:''
+        },
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+        },
+        dom: 'Bfrtip',
+        buttons: [
+            'excel', 'pdf', 'print'
+        ],
+        columns: [
+            { data: 'id' },
+            { data: 'noManifiesto' },
+            { data: 'fechaManifiesto' },
+            { data: 'noBoleta' },
+            { data: 'tipoBoleta' },
+            { data: 'valorBoleta' },
+            { data: 'bancoBoleta' },
+            { data: 'agenciaBoleta' },
+            { data: 'fechaBoleta' },
             { data: 'fechaIngreso' },
             { data: 'fechaModificacion' },
             { data: 'usuarioIngresa' },

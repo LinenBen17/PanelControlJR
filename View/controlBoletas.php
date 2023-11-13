@@ -1,4 +1,4 @@
-<?php
+ <?php
 	require_once 'shared/verificarSesion.php';
 ?>
 <!DOCTYPE html>
@@ -7,18 +7,24 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Dashboard | Transportes JR</title>
-	<link rel="stylesheet" type="text/css" href="../Public/css/dashboard.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+	    <!-- SheetJS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
     <!-- jQuery Modal -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
-    <!-- SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- DATATABLES -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/css/dataTables.bootstrap.min.css">
+
+	<script type="text/javascript" src="https://cdn.datatables.net/r/dt/jq-2.1.4,jszip-2.5.0,pdfmake-0.1.18,dt-1.10.9,af-2.0.0,b-1.0.3,b-colvis-1.0.3,b-html5-1.0.3,b-print-1.0.3,se-1.0.1/datatables.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+
+	<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
 
+	<link rel="stylesheet" type="text/css" href="../Public/css/dashboard.css">
 </head>
 <body>
 	<div class="container">
@@ -41,115 +47,76 @@
 			</div>
 			<div class="details">
 				<div class="recentOrders">
-					<div class="cardHeader">
-						<h2>Control Boletas</h2>
-					</div>
-					<div class="formGuardarBoletas">
-						<form>
-							<div class="inputBx noManifiesto">
-								<label>No. Manifiesto</label><br>
-								<input type="number" name="noManifiesto">
-							</div>
-							<div class="inputBx noBoleta">
-								<label>No. Boleta</label><br>
-								<input type="number" name="noBoleta">
-							</div>
-							<div class="inputBx fechaBoleta">
-									<label>Fecha Boleta</label><br>
-									<input type="date" name="fechaBoleta">
-							</div>
-							<div class="inputBx valorBoleta">
-									<label>Valor Boleta</label><br>
-									<input type="number" name="valorBoleta">
-							</div>
-							<div class="inputBx tipoBoleta">
-								<label>Tipo</label><br>
-								<input type="text" name="tipoBoleta">
-							</div>
-							<div class="inputBx addBoleta">
-								<br>
-								<button class="btn newBoleta"><ion-icon name="add-sharp"></ion-icon></button>
-							</div>
-						</form>
-						<div class="boletasAdicionales"></div>
-						<div class="inputBx">
-							<input type="submit" name="Guardar" value="Guardar" class="btn">
-						</div>
-					</div>
-					<!--<div id="confirmarDatos" class="modal">
-						<div class="cardHeader">
-							<h2>Confirmación de datos</h2>
-						</div>
-						<form class="formGuardarBoletas confirmacion">
-							<div class="inputBx">
-								<label>No. Manifiesto</label><br>
-								<input type="number" name="noManifiesto">
-							</div>
-							<div class="inputBx">
-								<label>No. Boleta</label><br>
-								<input type="number" name="noBoleta">
-							</div>
-							<div class="inputBx">
-								<label>Fecha Boleta</label><br>
-								<input type="date" name="fechaBoleta">
-							</div>
-							<div class="inputBx">
-								<label>Tipo</label><br>
-								<input type="text" name="tipoBoleta">
-							</div>
-							<div class="inputBx">
-								<input type="submit" name="Guardar" value="Guardar" class="btn">
-							</div>
-						</form>
-					</div>-->
-				</div>
-				<div class="recentOrders">
-					<table id="boletasTable" class="display" style="width: 100%;">
+                    <table id="boletasTableGeneral" class="display" style="width: 100%;">
                         <thead>
                             <tr>
                                 <th>id</th>
                                 <th>No. Manifiesto</th>
+                                <th>Fecha Manifiesto</th>
                                 <th>No. Boleta</th>
-                                <th>Tipo Boleta</th>
+                                <th>Tipo</th>
+                                <th>Valor</th>
+                                <th>Banco</th>
+                                <th>Agencia</th>
+                                <th>Fecha Boleta</th>
                                 <th>Fecha Ingreso</th>
                                 <th>Fecha Modificación</th>
                                 <th>Usuario Ingresó</th>
                             </tr>
                         </thead>
                     </table>
-				</div>
+                    <!--<div class="formAbastecimiento">
+                        <button type="button" class="reports btnEditar">Generador de Reportes</button>
+                    </div>-->
+
+                    <!--<div id="reportes" class="modal form">
+                        <form method="POST">
+                            <h2>Selecciona el filtro deseado:</h2>
+                            <div class="inputBx">
+                                <div class="select">
+                                    <select name="opcionesFiltros" class="opcionesFiltros">
+                                        <option>---------</option>
+                                        <option value="porPlaca">Por Placa</option>
+                                        <option value="porFecha">Por Fecha</option>
+                                        <option value="entreFechas">Entre Fechas</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="inputBx filtroPorPlaca filtros" id="filtroPorPlaca">
+                                <label>Placa:</label><br>
+                                <input type="text" id="placaFilter" placeholder=""><br><br>
+                                <button type="button" class="generar btnEditar">Generar</button>
+                            </div>
+                            <div class="inputBx filtroPorFecha filtros" id="filtroPorFecha">
+                                <label>Fecha:</label><br>
+                                <input type="date" id="fechaFilter" placeholder=""><br><br>
+                                <button type="button" class="generar btnEditar">Generar</button>
+                            </div>
+                            <div class="inputBx filtroEntreFechas filtros" id="filtroEntreFechas">
+                                <label>Entre:</label><br>
+                                <input type="date" id="fechaInicial" placeholder=""><br>
+                                <label>Y:</label><br>
+                                <input type="date" id="fechaFinal" placeholder=""><br><br>
+                                <button type="button" class="generar btnEditar">Generar</button>
+                            </div>
+                        </form>
+                    </div>-->
+                   <div id="editarUser" class="modal form">
+                        <div class="cardHeader">
+                            <h2>Editar Registro</h2>
+                        </div>
+                        <div class="formAbastecimiento">
+                            <form></form>
+                        </div>
+                        <div class="inputBx">
+                            <input type="submit" class="btn update" value="editar">
+                        </div>
+                    </div>
+                </div>
 			</div>
 		</div>
 	</div>
 	<?php require_once 'shared/footer.php';	 ?>
-	<?php echo $_SESSION['usuario'] ?>
 	<script src="../Public/js/controlBoletas.js"></script>
-	<script>
-		$(".newBoleta").click(function(e){
-			e.preventDefault();
-			$(".boletasAdicionales").append(
-				`
-					<div class="boleta">
-						<div class="inputBx noBoleta">
-							<label>No. Boleta</label><br>
-							<input type="number" name="noBoleta">
-						</div>
-						<div class="inputBx fechaBoleta">
-								<label>Fecha Boleta</label><br>
-								<input type="date" name="fechaBoleta">
-						</div>
-						<div class="inputBx valorBoleta">
-								<label>Valor Boleta</label><br>
-								<input type="number" name="valorBoleta">
-						</div>
-						<div class="inputBx tipoBoleta">
-							<label>Tipo</label><br>
-							<input type="text" name="tipoBoleta">
-						</div>
-					</div>
-				`
-			)
-		})
-	</script>
 </body>
 </html>
