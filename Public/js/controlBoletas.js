@@ -131,3 +131,17 @@ $(document).ready(function() {
         ]
     });
 });
+
+document.addEventListener('keydown', function(event) {
+    // Verificar si la tecla 'Ctrl' (o 'Meta' en Mac) está presionada
+    const isCtrlKey = event.ctrlKey || event.metaKey;
+
+    // Verificar si la tecla presionada es 'G' y que 'Ctrl' está también presionado
+    if (isCtrlKey && event.key === 'g') {
+        // Evitar el comportamiento predeterminado del navegador
+        event.preventDefault();
+
+        // Aquí puedes realizar la acción que desees al detectar la combinación de teclas Ctrl + G
+        $("input[name='Guardar']").click();
+    }
+});

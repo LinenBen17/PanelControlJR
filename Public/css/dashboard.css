@@ -245,6 +245,7 @@ input{
 .agenciaBoleta { grid-area: agenciaBoleta; }
 .bancoBoleta { grid-area: bancoBoleta; }
 .addBoleta { grid-area: addBoleta; margin: auto;}
+.removeBoleta { grid-area: removeBoleta; margin: auto;}
 
 .formGuardarBoletas form input{
 	width: 100%;
@@ -257,7 +258,7 @@ input{
 .boleta{
   grid-template-rows: 1fr;
 	grid-template-areas:  
-	"noBoleta valorBoleta fechaBoleta tipoBoleta agenciaBoleta bancoBoleta .";
+	"noBoleta valorBoleta fechaBoleta tipoBoleta agenciaBoleta bancoBoleta removeBoleta";
 
 }
 .boleta input{

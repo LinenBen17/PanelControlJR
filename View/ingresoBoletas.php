@@ -191,9 +191,16 @@
 									</select>
 								</div>
 							</div>
+							<div class="inputBx removeBoleta">
+								<button class="btn deleteBoleta"><ion-icon name="close-outline"></ion-icon></button>
+							</div>
 					</div>
 				`
 			)
+			$(".deleteBoleta").click(function(){
+				console.log("A")
+				$(".deleteBoleta").parent().parent().remove();
+			});
 		})
 	</script>
 </body>
