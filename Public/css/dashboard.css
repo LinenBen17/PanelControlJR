@@ -233,11 +233,12 @@ input{
 .formGuardarBoletas form{
   grid-template-rows: 1fr 1fr;
 	grid-template-areas: 
-    "noManifiesto . fechaManifiesto . . . ."
+    "noManifiesto . fechaManifiesto . lugarDeposito . ."
     "noBoleta valorBoleta fechaBoleta tipoBoleta agenciaBoleta bancoBoleta addBoleta";
 }
 .noManifiesto { grid-area: noManifiesto; }
 .fechaManifiesto { grid-area: fechaManifiesto; }
+.lugarDeposito { grid-area: lugarDeposito; }
 .noBoleta { grid-area: noBoleta; }
 .fechaBoleta { grid-area: fechaBoleta; }
 .valorBoleta { grid-area: valorBoleta; }

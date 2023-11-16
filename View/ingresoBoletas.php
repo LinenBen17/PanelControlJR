@@ -54,6 +54,24 @@
 								<label>Fecha Manifiesto</label><br>
 								<input type="date" name="fechaManifiesto">
 							</div>
+							<div class="inputBx lugarDeposito">
+								<label>Agencia</label><br>
+								<div class="select">
+									<select name="lugarDeposito">
+										<option value="Jutiapa">JUT</option>
+										<option value="Santa Rosa">BAR</option>
+										<option value="Jalapa">JAL</option>
+										<option value="Zacapa">ZAC</option>
+										<option value="Chiquimula">CHI</option>
+										<option value="Escuintla">ESC</option>
+										<option value="Suchitepequez">MAZ</option>
+										<option value="Chimaltenango">CHM</option>
+										<option value="Quetzaltenango">XEL</option>
+										<option value="Quiche">QCH</option>
+										<option value="Izabal">PTB</option>
+									</select>
+								</div>
+							</div>
 							<div class="inputBx noBoleta">
 								<label>No. Boleta</label><br>
 								<input type="number" name="noBoleta[]">
@@ -136,6 +154,7 @@
                                 <th>Tipo</th>
                                 <th>Valor</th>
                                 <th>Banco</th>
+                                <th>Agencia Depositó</th>
                                 <th>Fecha Boleta</th>
                                 <th>Fecha Ingreso</th>
                                 <th>Usuario Ingresó</th>

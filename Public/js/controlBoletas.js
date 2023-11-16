@@ -93,6 +93,7 @@ $(document).ready(function() {
             { data: 'tipoBoleta' },
             { data: 'valorBoleta' },
             { data: 'bancoBoleta' },
+            { data: 'lugarDeposito' },
             { data: 'fechaBoleta' },
             { data: 'fechaIngreso' },
             { data: 'usuarioIngresa' },
@@ -123,11 +124,14 @@ $(document).ready(function() {
             { data: 'tipoBoleta' },
             { data: 'valorBoleta' },
             { data: 'bancoBoleta' },
+            { data: 'lugarDeposito' },
             { data: 'agenciaBoleta' },
             { data: 'fechaBoleta' },
             { data: 'fechaIngreso' },
             { data: 'fechaModificacion' },
             { data: 'usuarioIngresa' },
+            { data: 'editar' },
+            { data: 'eliminar' },
         ]
     });
 });

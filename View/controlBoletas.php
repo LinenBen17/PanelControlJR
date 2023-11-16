@@ -57,11 +57,14 @@
                                 <th>Tipo</th>
                                 <th>Valor</th>
                                 <th>Banco</th>
+                                <th>Agencia Depositó</th>
                                 <th>Agencia</th>
                                 <th>Fecha Boleta</th>
                                 <th>Fecha Ingreso</th>
                                 <th>Fecha Modificación</th>
                                 <th>Usuario Ingresó</th>
+                                <th></th>
+                                <th></th>
                             </tr>
                         </thead>
                     </table>
@@ -116,7 +119,7 @@
 			</div>
 		</div>
 	</div>
-	<?php require_once 'shared/footer.php';	 ?>
+	<?php require_once 'shared/footer.php';	 ?> 
 	<script src="../Public/js/controlBoletas.js"></script>
 </body>
-</html>
+</html> 

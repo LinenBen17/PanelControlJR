@@ -29,6 +29,7 @@
 					"fechaBoleta" => $mostrarDatos['fechaBoleta'],
 					"fechaIngreso" => $mostrarDatos['fechaIngreso'],
 					"usuarioIngresa" => $mostrarDatos['usuarioIngresa'],
+					"lugarDeposito" => $mostrarDatos['lugarDeposito'],
 				];
 			}
 
@@ -53,6 +54,9 @@
 					"fechaIngreso" => $mostrarDatos['fechaIngreso'],
 					"fechaModificacion" => $mostrarDatos['fechaModificacion'],
 					"usuarioIngresa" => $mostrarDatos['usuarioIngresa'],
+					"lugarDeposito" => $mostrarDatos['lugarDeposito'],
+					"editar" => '<a href="#" id="' . $mostrarDatos['id'] . '" class="btnEditar">Editar</a>',
+					"eliminar" => '<a href="#" id="' . $mostrarDatos['id'] . '" class="btnEliminar">Eliminar</a>', 
 				];
 			}
 

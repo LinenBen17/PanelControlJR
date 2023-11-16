@@ -7,7 +7,7 @@ var hours = fechaActual.getHours();
 var minutes = fechaActual.getMinutes();
 var seconds = fechaActual.getSeconds();
 var nombreReportes;
-
+ 
 ////MUESTRA LA TABLA DE ABASTECIMIENTO////
 $(document).ready(function(){
 
@@ -89,7 +89,7 @@ $(document).ready(function(){
                     $('#editarUser').modal();
 
                     $('#editarUser').on($.modal.AFTER_CLOSE, function() {
-                        $('#editarUser .roles > div').remove();
+                        $('#editarUser form > div').remove();
                     });
                 },
                 error: function(a, b, c) {

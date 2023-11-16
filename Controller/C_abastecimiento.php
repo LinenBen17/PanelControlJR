@@ -21,7 +21,7 @@
 			$showRegister = $abastecimiento->showRegister($_POST['id']);
 
 			$mostrarDatos = $showRegister->fetch_assoc();
-
+ 
 			$datos = [
 				"id" => $mostrarDatos["id"],
 				"placa" => $mostrarDatos["placa"],

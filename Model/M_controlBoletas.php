@@ -18,7 +18,7 @@ session_start();
 		    $sentenciaSelect = $this->db->prepare($sqlSelect);
 
 		    // Preparar la consulta de inserción
-		    $sqlInsert = "INSERT INTO `boletas`(`id`, `noManifiesto`, `noBoleta`, `tipoBoleta`, `fechaIngreso`, `fechaModificacion`, `usuarioIngresa`, `fechaBoleta`, `valorBoleta`, `agenciaBoleta`, `bancoBoleta`, `fechaManifiesto`) VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?)";
+		    $sqlInsert = "INSERT INTO `boletas`(`id`, `noManifiesto`, `noBoleta`, `tipoBoleta`, `fechaIngreso`, `fechaModificacion`, `usuarioIngresa`, `fechaBoleta`, `valorBoleta`, `agenciaBoleta`, `bancoBoleta`, `fechaManifiesto`, `lugarDeposito`) VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?)";
 		    $sentenciaInsert = $this->db->prepare($sqlInsert);
 
 		    // Variable para almacenar resultados
@@ -33,6 +33,7 @@ session_start();
 			    $agenciaBoleta = $datos['agenciaBoleta'][$key];
 			    $bancoBoleta = $datos['bancoBoleta'][$key];
 			    $fechaManifiesto = $datos['fechaManifiesto'];
+			    $lugarDeposito = $datos['lugarDeposito'];
 
 		        // Comprobar duplicados
 		        $sentenciaSelect->bind_param("i", $noBoleta);
@@ -44,7 +45,7 @@ session_start();
 		            $resultados[] = ["repetido",$noBoleta];
 		        } else {
 		            // Insertar nuevo registro
-		            $sentenciaInsert->bind_param("iisssssiiss", $noManifiesto, $noBoleta, $tipoBoleta, $fechaActual, $fechaActual, $_SESSION['usuario'], $fechaBoleta, $valorBoleta, $agenciaBoleta, $bancoBoleta, $fechaManifiesto);
+		            $sentenciaInsert->bind_param("iisssssiisss", $noManifiesto, $noBoleta, $tipoBoleta, $fechaActual, $fechaActual, $_SESSION['usuario'], $fechaBoleta, $valorBoleta, $agenciaBoleta, $bancoBoleta, $fechaManifiesto, $lugarDeposito);
 		            $sentenciaInsert->execute();
 
 		            $resultados[] = "registrado";
@@ -67,12 +68,13 @@ session_start();
 	    	return $sentencia->get_result();
 	    }
 	    public function showBoletasByUser(){
-	    	$sql = "SELECT * FROM boletas WHERE usuarioIngresa = 'linen'";
+	    	$sql = "SELECT * FROM boletas WHERE usuarioIngresa = ?";
 
-	    	$sentencia = $this->db->prepare($sql);
-	    	$sentencia->execute();
+		    $sentencia = $this->db->prepare($sql);
+		    $sentencia->bind_param("s", $_SESSION['usuario']);
+		    $sentencia->execute();
 
-	    	return $sentencia->get_result();
+		    return $sentencia->get_result();
 	    }
 	}
 ?>
