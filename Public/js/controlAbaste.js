@@ -9,7 +9,7 @@ var seconds = fechaActual.getSeconds();
 var nombreReportes;
  
 ////MUESTRA LA TABLA DE ABASTECIMIENTO////
-$(document).ready(function(){
+$(document).ready(function(){ 
 
     $('#abastecimientoTable').DataTable({
         ajax: {
@@ -61,7 +61,7 @@ $(document).ready(function(){
             
         });
 
-        // DATOS PARA EDITAR USUARIO
+        // DATOS PARA EDITAR REGISTRO
         $('a.btnEditar').click(function(e) {
             e.preventDefault();
             var id = this.id;

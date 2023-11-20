@@ -1,4 +1,4 @@
-<?php
+<?php 
 	require_once '../Model/M_controlBoletas.php';
 	$action = isset($_POST['action']) ? $_POST['action'] : ''; 
 
@@ -12,6 +12,31 @@
 
 				echo json_encode($guardar);
 			}
+			break;
+		case "ShowRegister":
+			$showRegister = $controlBoletas->showRegister($_POST['id']);
+
+			$mostrarDatos = $showRegister->fetch_assoc();
+ 
+			$datos = [
+				"id" => $mostrarDatos['id'],
+				"noManifiesto" => $mostrarDatos['noManifiesto'],
+				"fechaManifiesto" => $mostrarDatos['fechaManifiesto'],
+				"lugarDeposito" => $mostrarDatos['lugarDeposito'],
+				"noBoleta" => $mostrarDatos['noBoleta'],
+				"valorBoleta" => $mostrarDatos['valorBoleta'],
+				"fechaBoleta" => $mostrarDatos['fechaBoleta'],
+				"tipoBoleta" => $mostrarDatos['tipoBoleta'],
+				"agenciaBoleta" => $mostrarDatos['agenciaBoleta'],
+				"bancoBoleta" => $mostrarDatos['bancoBoleta'],
+			];
+
+			echo json_encode($datos);
+			break;
+		case "Update":
+			$update = $controlBoletas->update($_POST);
+
+			echo json_encode($update);
 			break;
 		case "BoletasUsuario":
 			$showAllBoletas = $controlBoletas->showBoletasByUser();

@@ -11,9 +11,7 @@
 	    <!-- SheetJS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
-    <!-- jQuery Modal -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+
     <!-- DATATABLES -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/css/dataTables.bootstrap.min.css">
@@ -108,17 +106,21 @@
                         <div class="cardHeader">
                             <h2>Editar Registro</h2>
                         </div>
-                        <div class="formAbastecimiento">
+                        <div class="formGuardarBoletas">
                             <form></form>
                         </div>
                         <div class="inputBx">
-                            <input type="submit" class="btn update" value="editar">
+                            <button class="btn update" value="Update">Editar</button>
                         </div>
                     </div>
                 </div>
 			</div>
 		</div>
 	</div>
+    <!-- jQuery Modal -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+
 	<?php require_once 'shared/footer.php';	 ?> 
 	<script src="../Public/js/controlBoletas.js"></script>
 </body>

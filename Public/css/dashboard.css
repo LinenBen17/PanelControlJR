@@ -649,7 +649,7 @@ select::-ms-expand {
 }
 /** MODAL **/
 div.modal{
-	max-width: 800px;
+	max-width: 950px;
 }
 .editarImage{
 	width: 66.67%

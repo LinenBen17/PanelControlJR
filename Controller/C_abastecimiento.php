@@ -1,4 +1,4 @@
-<?php 
+<?php
 	require_once '../Model/M_abastecimiento.php';
 
 	$action = isset($_POST['action']) ? $_POST['action'] : '';
