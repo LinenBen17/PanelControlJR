@@ -128,6 +128,24 @@ session_start();
 
 	    	return $sentencia->get_result();
 	    }
+	    public function getManifiestoData($noManifiesto){
+	    	$sql = "SELECT * FROM manifiestos WHERE `MANIFIESTO` = ?";
+
+	    	$sentencia = $this->db->prepare($sql);
+	    	$sentencia->bind_param("i", $noManifiesto);
+	    	$sentencia->execute();
+
+	    	return $sentencia->get_result();
+	    }
+	    public function getTotalesBoletas($noManifiesto){
+	    	$totalesBoletas = "SELECT tipoBoleta, SUM(valorBoleta) as totalValor FROM boletas WHERE noManifiesto = ? GROUP BY tipoBoleta";
+
+	    	$sentencia = $this->db->prepare($totalesBoletas);
+	    	$sentencia->bind_param("i", $noManifiesto);
+	    	$sentencia->execute();
+
+	    	return $sentencia->get_result();
+	    }
 	    public function showBoletasByUser(){
 	    	$sql = "SELECT * FROM boletas WHERE usuarioIngresa = ?";
 

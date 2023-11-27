@@ -60,6 +60,26 @@
 
 			echo json_encode($datos);
 			break;
+		case "getManifiesto":
+			//$getManifiestoData = $controlBoletas->getManifiestoData($_POST["noManifiesto"]);
+			$getTotalesBoletas = $controlBoletas->getTotalesBoletas($_POST["noManifiesto"]);
+
+			//$mostrarDatosManifiesto = $getManifiestoData->fetch_assoc();
+			$mostrarValoresBoletas = $getTotalesBoletas->fetch_assoc();
+
+			$datos = [
+			/*	"noManifiesto" => $mostrarDatosManifiesto["MANIFIESTO"],
+				"fechaManifiesto" => $mostrarDatosManifiesto["FECHA"],
+				"origenManifiesto" => $mostrarDatosManifiesto["ORIGEN"],
+				"destinoManifiesto" => $mostrarDatosManifiesto["DESTINO"],
+				"rutaManifiesto" => $mostrarDatosManifiesto["RUTA"],
+				"totalContado" => $mostrarDatosManifiesto["CONTADO"],
+				"totalPorCobrar" => $mostrarDatosManifiesto["POR_COBRAR"],*/
+				"tipoBoleta" => $mostrarValoresBoletas["tipoBoleta"],
+				"totalValor" => $mostrarValoresBoletas["totalValor"],
+			];
+			echo json_encode($datos);
+			break;
 		default:
 			$showAllBoletas = $controlBoletas->showAllBoletas();
 

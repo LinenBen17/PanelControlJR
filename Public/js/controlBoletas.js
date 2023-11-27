@@ -320,11 +320,63 @@ document.addEventListener('keydown', function(event) {
     const isCtrlKey = event.ctrlKey || event.metaKey;
 
     // Verificar si la tecla presionada es 'G' y que 'Ctrl' está también presionado
-    if (isCtrlKey && event.key === 'g') {
+    if (isCtrlKey && event.key === 's') {
         // Evitar el comportamiento predeterminado del navegador
         event.preventDefault();
 
         // Aquí puedes realizar la acción que desees al detectar la combinación de teclas Ctrl + G
         $("input[name='Guardar']").click();
     }
+});
+
+document.addEventListener('keydown', function(event) {
+    // Verificar si la tecla 'Ctrl' (o 'Meta' en Mac) está presionada
+    const isCtrlKey = event.ctrlKey || event.metaKey;
+
+    // Verificar si la tecla presionada es 'G' y que 'Ctrl' está también presionado
+    if (isCtrlKey && event.key === 'y') {
+        // Evitar el comportamiento predeterminado del navegador
+        event.preventDefault();
+
+        // Aquí puedes realizar la acción que desees al detectar la combinación de teclas Ctrl + G
+        $(".newBoleta").click();
+    }
+});
+
+
+/////CONTROL MANIFIESTO////
+ 
+/////OBTENER DATOS MANIFIESTO/////
+$("input[name='noManifiesto']").blur(function() {
+    $.ajax({
+        url: '../Controller/C_controlBoletas.php',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            noManifiesto: $("input[name='noManifiesto']").val(),
+            action: "getManifiesto",
+        },
+    })
+    .done(function(data) {
+        var opcion = $('#agenciaSelect option:contains(' + data["destinoManifiesto"] + ')');
+
+        console.log(data);
+        $("input[name='manifiesto']").val(data["noManifiesto"]);
+
+        $("input[name='fecha']").val(data["fechaManifiesto"]);
+        $("input[name='fechaManifiesto']").val(data["fechaManifiesto"]);
+
+        $("input[name='origen']").val(data["origenManifiesto"]);
+
+        $("input[name='destino']").val(data["destinoManifiesto"]);
+        $("select[name='lugarDeposito']").val(opcion.val());
+
+        $("input[name='ruta']").val(data["rutaManifiesto"]);
+        $("input[name='totalContado']").val(data["totalContado"]);
+        $("input[name='totalPorCobrar']").val(data["totalPorCobrar"]);
+    })
+    .fail(function() {
+        console.log("error");
+    })
+    
 });

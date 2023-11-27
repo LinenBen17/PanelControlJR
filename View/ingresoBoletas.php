@@ -44,79 +44,113 @@
 					<div class="cardHeader">
 						<h2>Control Boletas</h2>
 					</div>
-					<div class="formGuardarBoletas">
-						<form>
-							<div class="inputBx noManifiesto">
-								<label>No. Manifiesto</label><br>
-								<input type="number" name="noManifiesto">
-							</div>
-							<div class="inputBx fechaManifiesto">
-								<label>Fecha Manifiesto</label><br>
-								<input type="date" name="fechaManifiesto">
-							</div>
-							<div class="inputBx lugarDeposito">
-								<label>Agencia</label><br>
-								<div class="select">
-									<select name="lugarDeposito">
-										<option value="Jutiapa">JUT</option>
-										<option value="Santa Rosa">BAR</option>
-										<option value="Jalapa">JAL</option>
-										<option value="Zacapa">ZAC</option>
-										<option value="Chiquimula">CHI</option>
-										<option value="Escuintla">ESC</option>
-										<option value="Suchitepequez">MAZ</option>
-										<option value="Chimaltenango">CHM</option>
-										<option value="Quetzaltenango">XEL</option>
-										<option value="Quiche">QCH</option>
-										<option value="Izabal">PTB</option>
-									</select>
+					<div class="control">
+						<div class="formGuardarBoletas">
+							<form>
+								<div class="inputBx noManifiesto">
+									<label>No. Manifiesto</label><br>
+									<input type="number" name="noManifiesto">
 								</div>
-							</div>
-							<div class="inputBx noBoleta">
-								<label>No. Boleta</label><br>
-								<input type="number" name="noBoleta[]">
-							</div>
-							<div class="inputBx valorBoleta">
-								<label>Valor Boleta</label><br>
-								<input type="number" name="valorBoleta[]">
-							</div>
-							<div class="inputBx fechaBoleta">
-								<label>Fecha Boleta</label><br>
-								<input type="datetime-local" name="fechaBoleta[]">
-							</div>
-							<div class="inputBx tipoBoleta">
-								<label>Tipo</label><br>
-								<div class="select">
-									<select name="tipoBoleta[]" id="">
-										<option value="Por Cobrar">Por Cobrar</option>
-										<option value="Contado">Contado</option>
-									</select>
+								<div class="inputBx lugarDeposito">
+									<label>Agencia</label><br>
+									<div class="select">
+										<select name="lugarDeposito">
+											<option value="Jutiapa">JUT</option>
+											<option value="Santa Rosa">BAR</option>
+											<option value="Jalapa">JAL</option>
+											<option value="Zacapa">ZAC</option>
+											<option value="Chiquimula">CHI</option>
+											<option value="Escuintla">ESC</option>
+											<option value="Suchitepequez">MAZ</option>
+											<option value="Chimaltenango">CHM</option>
+											<option value="Quetzaltenango">XEL</option>
+											<option value="Quiche">QCH</option>
+											<option value="Izabal">PTB</option>
+										</select>
+									</div>
 								</div>
-							</div>
-							<div class="inputBx agenciaBoleta">
-								<label>Agencia</label><br>
-								<input type="text" name="agenciaBoleta[]">
-							</div>
-							<div class="inputBx bancoBoleta">
-								<label>Banco</label><br>
-								<div class="select">
-									<select name="bancoBoleta[]" id="">
-										<option value="Banrural">Banrural</option>
-										<option value="InterBanco">InterBanco</option>
-										<option value="Banco Industrial">BI</option>
-									</select>
+								<div class="inputBx fechaManifiesto">
+									<label>Fecha Manifiesto</label><br>
+									<input type="date" name="fechaManifiesto">
 								</div>
+								<div class="inputBx noBoleta">
+									<label>No. Boleta</label><br>
+									<input type="number" name="noBoleta[]">
+								</div>
+								<div class="inputBx valorBoleta">
+									<label>Valor Boleta</label><br>
+									<input type="number" name="valorBoleta[]">
+								</div>
+								<div class="inputBx fechaBoleta">
+									<label>Fecha Boleta</label><br>
+									<input type="datetime-local" name="fechaBoleta[]">
+								</div>
+								<div class="inputBx tipoBoleta">
+									<label>Tipo</label><br>
+									<div class="select">
+										<select name="tipoBoleta[]" id="">
+											<option value="Por Cobrar">Por Cobrar</option>
+											<option value="Contado">Contado</option>
+										</select>
+									</div>
+								</div>
+								<div class="inputBx agenciaBoleta">
+									<label>Agencia</label><br>
+									<input type="text" name="agenciaBoleta[]">
+								</div>
+								<div class="inputBx bancoBoleta">
+									<label>Banco</label><br>
+									<div class="select">
+										<select name="bancoBoleta[]" id="">
+											<option value="Banrural">Banrural</option>
+											<option value="InterBanco">InterBanco</option>
+											<option value="Banco Industrial">BI</option>
+										</select>
+									</div>
+								</div>
+								<div class="inputBx addBoleta">
+									<button class="btn newBoleta"><ion-icon name="add-sharp"></ion-icon></button>
+								</div>
+								<input type="hidden" name="action" value="Guardar">
+							</form>
+							<div class="boletasAdicionales"></div>
+							<div class="inputBx">
+								<input type="submit" name="Guardar" value="Guardar" class="btn">
 							</div>
-							<div class="inputBx addBoleta">
-								<button class="btn newBoleta"><ion-icon name="add-sharp"></ion-icon></button>
-							</div>
-							<input type="hidden" name="action" value="Guardar">
-						</form>
-						<div class="boletasAdicionales"></div>
-						<div class="inputBx">
-							<input type="submit" name="Guardar" value="Guardar" class="btn">
 						</div>
-					</div>
+						<div class="formManifiesto">
+							<form>
+								<div class="inputBx manifiesto">
+									<label>No. Manifiesto</label><br>
+									<input type="text" readonly name="manifiesto" >
+								</div>
+								<div class="inputBx fecha">
+									<label>Fecha Manifiesto</label><br>
+									<input type="text" readonly name="fecha" >
+								</div>
+								<div class="inputBx origen">
+									<label>Origen</label><br>
+									<input type="text" readonly name="origen" >
+								</div>
+								<div class="inputBx destino">
+									<label>Destino</label><br>
+									<input type="text" readonly name="destino" >
+								</div>
+								<div class="inputBx ruta">
+									<label>Ruta</label><br>
+									<input type="text" readonly name="ruta" >
+								</div>
+								<div class="inputBx totalContado">
+									<label>Total Contado</label><br>
+									<input type="text" readonly name="totalContado" >
+								</div>
+								<div class="inputBx totalPorCobrar">
+									<label>Total Por Cobrar</label><br>
+									<input type="text" readonly name="totalPorCobrar" >
+								</div>
+							</form>
+						</div>
+					</div>	
 					<!--<div id="confirmarDatos" class="modal">
 						<div class="cardHeader">
 							<h2>Confirmación de datos</h2>
@@ -166,6 +200,7 @@
 		</div>
 	</div>
 	<?php require_once 'shared/footer.php';	 ?>
+	<script src="https://raw.githack.com/jaywcjlove/hotkeys/master/dist/hotkeys.min.js"></script>
 	<?php echo $_SESSION['usuario'] ?>
 	<script src="../Public/js/controlBoletas.js"></script>
 	<script>
@@ -218,7 +253,7 @@
 			)
 			$(".deleteBoleta").click(function(){
 				console.log("A")
-				$(".deleteBoleta").parent().parent().remove();
+				$(this).parent().parent().remove();
 			});
 		})
 	</script>
