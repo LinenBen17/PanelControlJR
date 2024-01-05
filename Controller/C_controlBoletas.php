@@ -38,6 +38,11 @@
 
 			echo json_encode($update);
 			break;
+		case "Delete":
+			$delete = $controlBoletas->deleteRegister($_POST["id"]);
+
+			echo json_encode($delete);
+			break;
 		case "BoletasUsuario":
 			$showAllBoletas = $controlBoletas->showBoletasByUser();
 

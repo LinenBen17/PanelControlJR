@@ -74,6 +74,18 @@ function mostrarMensajeError(mensaje) {
     });
 }
 
+function mostrarMensajeSuccess(mensaje) {
+    Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: mensaje,
+        background: '#071A2C',
+        color: "#FFF",
+        showConfirmButton: false,
+        timer: 1500
+    });
+}
+
 /////DATATABLE BOLETAS INGRESADAS POR USUARIO////
 $(document).ready(function() {
 	$('#boletasTable').DataTable({
@@ -145,25 +157,28 @@ $(document).ready(function() {
             var id = this.id;
 
             $.ajax({
-                url: '../Controller/C_abastecimiento.php',
+                url: '../Controller/C_controlBoletas.php',
                 type: 'POST',
                 dataType: 'json',
                 data: {id: id, action: "Delete"},
                 success: function(data) {
-                    if(data){
-                        location.reload();
+                    if(data == "deleted"){
+                        mostrarMensajeSuccess("Registro eliminado con éxito.");
+                        setTimeout(function() {
+                            location.reload();
+                        }, 1500);
                     }
                     else {
-                        alert(":(((")
+                        mostrarMensajeError("Hubo un problema al eliminar el registro.");
                     }
                 },
-                error: function() {
-                    console.log("ERROR");
+                error: function(e, a, b) {
+                    console.log(e, a, b);
                 }
             })
             
         });
-
+ 
         // DATOS PARA EDITAR REGISTRO
         $('a.btnEditar').click(function(e) {
             e.preventDefault();
@@ -280,16 +295,25 @@ $(document).ready(function() {
             e.preventDefault();
 
             let inputs = document.querySelectorAll(".formGuardarBoletas input");
+            let selects = document.querySelectorAll(".formGuardarBoletas select");
+
             let datosForm = {
                 "action": "Update",
             };
 
             inputs.forEach((input) =>{
                 let id = input.id;
-                let valor = input.value;
+                let valorInput = input.value;
                 
-                datosForm[id] = valor;
+                datosForm[id] = valorInput;
                 
+            })
+
+            selects.forEach((select) =>{
+                let id = select.id;
+                let valorSelect = select.value;
+
+                datosForm[id] = valorSelect
             })
 
             $.ajax({
@@ -298,10 +322,13 @@ $(document).ready(function() {
                 dataType: 'json',
                 data: datosForm,
                 success:function(data) {
-                    if (data) {
-                        console.log(data);
-                    }else{
-                        alert(":((");
+                    if (data == "registrado") {
+                        mostrarMensajeSuccess("Modificación exitosa.");
+                        setTimeout(function(){
+                            location.reload();
+                        }, 1500)
+                    }else if(data == "repetido"){
+                        mostrarMensajeError("El número de boleta ya existe.")
                     }
                 },
                 error:function(a,b,c) {
@@ -312,6 +339,7 @@ $(document).ready(function() {
             })
             
         });
+
     });
 });
 

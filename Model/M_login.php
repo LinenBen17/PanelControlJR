@@ -38,9 +38,9 @@
 
 	        	if (password_verify($password, $password_bd)) {
 	        		//DEVUELVO EL ID Y EL NOMBRE ASOCIADO AL USUARIO
-	        		return [true, $assoc['id'], $assoc['nombre'], $assoc['usuario']];
+	        		return ["exito", $assoc['id'], $assoc['nombre'], $assoc['usuario']];
 	        	}else{
-	        		return false;
+	        		return [false];
 	        	}
 	        }
 	    }

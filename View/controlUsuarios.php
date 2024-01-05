@@ -72,6 +72,10 @@
 						<label for="">Usuario:</label><br>
 						<input type="text" name="usuario">
 					</div>
+					<div class="inputBx">
+						<label for="">Contraseña:</label><br>
+						<input type="text" name="password">
+					</div>
 					<label>Permisos Usuarios:</label><br><br>
 					<div class="roles"></div><br><br>
 					<div class="inputBx">

@@ -56,6 +56,7 @@
 									<div class="select">
 										<select name="lugarDeposito">
 											<option value="Jutiapa">JUT</option>
+											<option value="Capital">CAP</option>
 											<option value="Santa Rosa">BAR</option>
 											<option value="Jalapa">JAL</option>
 											<option value="Zacapa">ZAC</option>

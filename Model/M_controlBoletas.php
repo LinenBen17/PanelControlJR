@@ -69,15 +69,27 @@ session_start();
 
 			return $resultadoSet;
 		}
+		public function deleteRegister($id){
+			$sql = "DELETE FROM boletas WHERE id = ?";
+
+	    	$sentencia = $this->db->prepare($sql);
+	    	$sentencia->bind_param("i", $id);
+	    	$exec = $sentencia->execute();
+
+	    	return ["deleted"];
+
+		}
 		public function update($datos){
 			date_default_timezone_set('America/Guatemala');
 		    $fechaActual = date("Y-m-d H:i:s");
 
-
-		    return "A"; die();
-		    // Preparar la consulta para comprobar duplicados
-		    $sqlSelect = "SELECT * FROM boletas WHERE noBoleta = ?";
+		    // Preparar la consulta para comparar boletas
+		    $sqlSelect = "SELECT * FROM boletas WHERE id = ?";
 		    $sentenciaSelect = $this->db->prepare($sqlSelect);
+
+		    //Preparar la consulta para comprobar duplicados
+		    $sqlSelectBoleta = "SELECT * FROM boletas WHERE noBoleta = ?";
+		    $sentenciaSelectBoleta = $this->db->prepare($sqlSelectBoleta);
 
 		    // Preparar la consulta de inserción
 		    $sqlUpdate = "UPDATE `boletas` SET `id`= ?, `noManifiesto`= ?, `noBoleta`= ?, `tipoBoleta`= ?, `fechaModificacion`= ?, `fechaBoleta`= ?, `valorBoleta`= ?, `agenciaBoleta`= ?, `bancoBoleta`= ?, `fechaManifiesto`= ?, `lugarDeposito`= ? WHERE `id` = ?";
@@ -85,38 +97,55 @@ session_start();
 
 		    // Variable para almacenar resultados
 		    $resultados = [];
-
+ 
 		    // Iterar sobre los datos
 			$id = $datos['id'];
 		    $noManifiesto = $datos['noManifiesto'];
+
 		    $noBoleta = $datos['noBoleta'];
-		    $tipoBoleta = $datos['tipoBoleta'][$key];
-		    $fechaBoleta = $datos['fechaBoleta'][$key];
-		    $valorBoleta = $datos['valorBoleta'][$key];
-		    $agenciaBoleta = $datos['agenciaBoleta'][$key];
-		    $bancoBoleta = $datos['bancoBoleta'][$key];
+		    $tipoBoleta = $datos['tipoBoleta'];
+		    $fechaBoleta = $datos['fechaBoleta'];
+		    $valorBoleta = $datos['valorBoleta'];
+		    $agenciaBoleta = $datos['agenciaBoleta'];
+		    $bancoBoleta = $datos['bancoBoleta'];
 		    $fechaManifiesto = $datos['fechaManifiesto'];
 		    $lugarDeposito = $datos['lugarDeposito'];
 
-	        // Comprobar duplicados
-	        $sentenciaSelect->bind_param("i", $noBoleta);
+	        // Obtener datos de la Boleta seleccionada
+	        $sentenciaSelect->bind_param("i", $id);
 	        $sentenciaSelect->execute();
 
 	        $resultadoSelect = $sentenciaSelect->get_result();
+	        $datosSelect = $resultadoSelect->fetch_assoc();
 
-	        if ($resultadoSelect->num_rows > 0) {
-	            $resultados[] = ["repetido",$noBoleta];
+	        // SI EL NUMERO DE BOLETA ES DIFERENTE AL QUE YA ESTA POR DEFECTO
+	        if($noBoleta != $datosSelect["noBoleta"]){
+		        // Obtener duplicados
+		        $sentenciaSelectBoleta->bind_param("i", $noBoleta);
+		        $sentenciaSelectBoleta->execute();
+
+		        $resultadoSelectBoleta = $sentenciaSelectBoleta->get_result();
+	        	//VERIFICA SI HAY UNO REPETIDO
+		        if ($resultadoSelectBoleta->num_rows > 0) {
+		            $resultados[] = "repetido";
+		        }else{
+		        	// editar registro si no está repetido
+		            $sentenciaUpdate->bind_param("iiisssissssi", $id, $noManifiesto, $noBoleta, $tipoBoleta, $fechaActual, $fechaBoleta, $valorBoleta, $agenciaBoleta, $bancoBoleta, $fechaManifiesto, $lugarDeposito, $id);
+		            $sentenciaUpdate->execute();
+
+		            $resultados[] = "registrado";
+		        }
 	        } else {
 	            // Insertar nuevo registro
-	            $sentenciaUpdate->bind_param("iisssiisssi", $noManifiesto, $noBoleta, $tipoBoleta, $fechaActual, $fechaBoleta, $valorBoleta, $agenciaBoleta, $bancoBoleta, $fechaManifiesto, $lugarDeposito, $id);
+	            $sentenciaUpdate->bind_param("iiisssissssi", $id, $noManifiesto, $noBoleta, $tipoBoleta, $fechaActual, $fechaBoleta, $valorBoleta, $agenciaBoleta, $bancoBoleta, $fechaManifiesto, $lugarDeposito, $id);
 	            $sentenciaUpdate->execute();
 
 	            $resultados[] = "registrado";
 	        }
 
-		    // Cerrar las consultas y liberar recursos
-		    $sentenciaSelect->close();
-		    $sentenciaInsert->close();
+	        //Cerrar conexiones
+	        $sentenciaSelect->close();
+	        $sentenciaUpdate->close();
 
 		    return $resultados;
 	    }

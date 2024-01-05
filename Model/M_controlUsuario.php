@@ -18,7 +18,7 @@
 	    }
 	    public function getUser($id){
 	    	//CODIGO PARA OBTENER TODOS LOS USUARIOS
-	    	$sql = "SELECT id, usuario, nombre FROM usuarios WHERE id = ?";
+	    	$sql = "SELECT id, usuario, nombre, password FROM usuarios WHERE id = ?";
 
 	    	$sentencia = $this->db->prepare($sql);
 	    	$sentencia->bind_param("i", $id);
@@ -91,12 +91,13 @@
 			$id = $id;
 	    	$usuario = $usuario;
 	    	$nombre = $nombre;
+	    	$newPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
 			// SQL EDITAR NOMBRE Y USUARIO ACTUAL
-			$sqlEdit = "UPDATE usuarios SET usuario = ?, nombre = ? WHERE id = ?";
+			$sqlEdit = "UPDATE usuarios SET usuario = ?, nombre = ?, password = ? WHERE id = ?";
 
 			$sentenciaEdit = $this->db->prepare($sqlEdit);
-			$sentenciaEdit->bind_param("ssi", $usuario, $nombre, $id);
+			$sentenciaEdit->bind_param("sssi", $usuario, $nombre, $newPassword, $id);
 			$sentenciaEdit->execute();
 
 			$sentenciaEdit->close();
