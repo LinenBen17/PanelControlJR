@@ -17,7 +17,7 @@
 				<h2>Login</h2>
 				<form class="formLogin" autocomplete="off">
 					<div class="inputBx">
-						<input type="text" name="usuario" placeholder="Username" autocomplete="off">
+						<input type="text" name="usuario" placeholder="Username" autocomplete="off" onfocus>
 						<ion-icon name="person-circle-outline"></ion-icon>
 					</div>
 					<div class="inputBx">

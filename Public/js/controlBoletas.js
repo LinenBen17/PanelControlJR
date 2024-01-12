@@ -15,6 +15,62 @@ $("input[name='noManifiesto']").focus();
     console.log("A")
 });*/
 
+//CONTROL BOLETAS//
+
+//AÑADIR NUEVAS BOLETAS
+$(".newBoleta").click(function(e){
+    e.preventDefault();
+    $(".boletasAdicionales").append(
+        `
+            <div class="boleta">
+                    
+                    <div class="inputBx noBoleta">
+                        <label>No. Boleta</label><br>
+                        <input type="number" name="noBoleta[]">
+                    </div>
+                    <div class="inputBx valorBoleta">
+                            <label>Valor Boleta</label><br>
+                            <input type="number" name="valorBoleta[]">
+                    </div>
+                    <div class="inputBx fechaBoleta">
+                            <label>Fecha Boleta</label><br>
+                            <input type="datetime-local" name="fechaBoleta[]">
+                    </div>
+                    <div class="inputBx tipoBoleta">
+                        <label>Tipo</label><br>
+                        <div class="select">
+                            <select name="tipoBoleta[]" id="">
+                                <option value="Por Cobrar">Por Cobrar</option>
+                                <option value="Contado">Contado</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="inputBx agenciaBoleta">
+                        <label>Agencia</label><br>
+                        <input type="text" name="agenciaBoleta[]">
+                    </div>
+                    <div class="inputBx bancoBoleta">
+                        <label>Banco</label><br>
+                        <div class="select">
+                            <select name="bancoBoleta[]" id="">
+                                <option value="Banrural">Banrural</option>
+                                <option value="InterBanco">InterBanco</option>
+                                <option value="Banco Industrial">BI</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="inputBx removeBoleta">
+                        <button class="btn deleteBoleta"><ion-icon name="close-outline"></ion-icon></button>
+                    </div>
+            </div>
+        `
+    )
+    $(".deleteBoleta").click(function(){
+        $(this).parent().parent().remove();
+    });
+})
+
+//GUARDAR BOLETAS
 $("input[name='Guardar']").click(function(e) {
     e.preventDefault();
 
@@ -61,30 +117,6 @@ $("input[name='Guardar']").click(function(e) {
         }
     });
 });
-
-function mostrarMensajeError(mensaje) {
-    Swal.fire({
-        position: 'top-end',
-        icon: 'error',
-        title: mensaje,
-        background: '#071A2C',
-        color: "#FFF",
-        showConfirmButton: false,
-        timer: 1500
-    });
-}
-
-function mostrarMensajeSuccess(mensaje) {
-    Swal.fire({
-        position: 'top-end',
-        icon: 'success',
-        title: mensaje,
-        background: '#071A2C',
-        color: "#FFF",
-        showConfirmButton: false,
-        timer: 1500
-    });
-}
 
 /////DATATABLE BOLETAS INGRESADAS POR USUARIO////
 $(document).ready(function() {
@@ -371,7 +403,6 @@ document.addEventListener('keydown', function(event) {
     }
 });
 
-
 /////CONTROL MANIFIESTO////
  
 /////OBTENER DATOS MANIFIESTO/////
@@ -408,3 +439,29 @@ $("input[name='noManifiesto']").blur(function() {
     })
     
 });
+
+
+//FUNCIONES DE MENSAJES
+function mostrarMensajeError(mensaje) {
+    Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        title: mensaje,
+        background: '#071A2C',
+        color: "#FFF",
+        showConfirmButton: false,
+        timer: 1500
+    });
+}
+
+function mostrarMensajeSuccess(mensaje) {
+    Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: mensaje,
+        background: '#071A2C',
+        color: "#FFF",
+        showConfirmButton: false,
+        timer: 1500
+    });
+}

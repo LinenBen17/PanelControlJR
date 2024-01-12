@@ -11,7 +11,7 @@
 			$getPermisos = $controlUsuario->getPermisos();
 
 			$permisos = [];
-
+ 
 			foreach ($getPermisos as $permiso) {
 				$permisos[] = [
 					"id" => $permiso['id'],

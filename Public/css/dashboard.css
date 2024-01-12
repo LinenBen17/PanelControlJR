@@ -226,8 +226,52 @@ input{
 	grid-template-columns: 1fr 1fr;
 	gap: 20px;
 }
+/*FORM GASTOS*/
+.herramientas{
+	display: flex;
+	gap: 10px;
+}
+.formGastos form,
+.gastos{
+  max-width: 100%;
+  display: grid; 
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-auto-flow: row;
+  gap: 10px; 
+
+  grid-template-areas: 
+  "noManifiestoGastos fechaManifiestoGastos agenciaGasto rutaAgenciaGasto"
+  "costoGasto descripcionGasto descripcionGasto addGasto";
+
+}
+.gastos{
+  grid-template-rows: 1fr;
+	grid-template-areas:  
+	"costoGasto descripcionGasto descripcionGasto agenciaGasto removeGasto";
+	border-top: 1px solid var(--colorsecondary);
+}
+.gastos input{
+	width: 100%;
+}
+
+.gastosAdicionales{
+	display: flex;
+	flex-direction: column;
+}
+
+.formGastos .noManifiesto { grid-area: noManifiestoGastos;}
+.formGastos .fechaManifiesto { grid-area: fechaManifiestoGastos;}
+.formGastos .costoGasto { grid-area: costoGasto;}
+.formGastos .descripcionGasto { grid-area: descripcionGasto;}
+.formGastos .agenciaGasto { grid-area: agenciaGasto;}
+.formGastos .rutaAgenciaGasto { grid-area: rutaAgenciaGasto;}
+.formGastos .addGasto { grid-area: addGasto; margin: auto;}
+.formGastos .removeGasto { grid-area: removeGasto; margin: auto;}
+
 /*FORM BOLETAS*/
-.formGuardarBoletas{
+.formGuardarBoletas,
+.formGastos{
 	max-width: 100%;
 }
 .formGuardarBoletas form,
@@ -241,23 +285,24 @@ input{
 .formGuardarBoletas form{
   grid-template-rows: 1fr 1fr 1fr;
 	grid-template-areas: 
-    "noManifiesto fechaManifiesto lugarDeposito ."
-    "noBoleta fechaBoleta valorBoleta . "
-    "tipoBoleta agenciaBoleta bancoBoleta addBoleta";
+    "noManifiestoIngreso fechaManifiestoIngreso lugarDepositoIngreso ."
+    "noBoletaIngreso fechaBoletaIngreso valorBoletaIngreso . "
+    "tipoBoletaIngreso agenciaBoletaIngreso bancoBoletaIngreso addBoletaIngreso";
 }
-.noManifiesto { grid-area: noManifiesto; }
-.fechaManifiesto { grid-area: fechaManifiesto; }
-.lugarDeposito { grid-area: lugarDeposito; }
-.noBoleta { grid-area: noBoleta; }
-.fechaBoleta { grid-area: fechaBoleta; }
-.valorBoleta { grid-area: valorBoleta; }
-.tipoBoleta { grid-area: tipoBoleta; }
-.agenciaBoleta { grid-area: agenciaBoleta; }
-.bancoBoleta { grid-area: bancoBoleta; }
-.addBoleta { grid-area: addBoleta; margin: auto;}
-.removeBoleta { grid-area: removeBoleta; margin: auto;}
+.formGuardarBoletas .noManifiesto { grid-area: noManifiestoIngreso; }
+.formGuardarBoletas .fechaManifiesto { grid-area: fechaManifiestoIngreso; }
+.formGuardarBoletas .lugarDeposito { grid-area: lugarDepositoIngreso; }
+.formGuardarBoletas .noBoleta { grid-area: noBoletaIngreso; }
+.formGuardarBoletas .fechaBoleta { grid-area: fechaBoletaIngreso; }
+.formGuardarBoletas .valorBoleta { grid-area: valorBoletaIngreso; }
+.formGuardarBoletas .tipoBoleta { grid-area: tipoBoletaIngreso; }
+.formGuardarBoletas .agenciaBoleta { grid-area: agenciaBoletaIngreso; }
+.formGuardarBoletas .bancoBoleta { grid-area: bancoBoletaIngreso; }
+.formGuardarBoletas .addBoleta { grid-area: addBoletaIngreso; margin: auto;}
+.formGuardarBoletas .removeBoleta { grid-area: removeBoletaIngreso; margin: auto;}
 
-.formGuardarBoletas form input{
+.formGuardarBoletas form input,
+.formGastos form input{
 	width: 100%;
 }
 
@@ -268,15 +313,17 @@ input{
 .boleta{
   grid-template-rows: 1fr 1fr;
 	grid-template-areas:  
-	"noBoleta fechaBoleta valorBoleta ."
-	"tipoBoleta agenciaBoleta bancoBoleta removeBoleta";
+	"noBoletaIngreso fechaBoletaIngreso valorBoletaIngreso ."
+	"tipoBoletaIngreso agenciaBoletaIngreso bancoBoletaIngreso removeBoletaIngreso";
 	border-top: 1px solid var(--colorsecondary);
 }
 .boleta input{
 	width: 100%;
 }
 .formGuardarBoletas .select,
-.boletas .select{
+.boletas .select,
+.formGastos .select,
+.gastos .select{
   position: relative;
   display: flex;
   flex-direction: column;
