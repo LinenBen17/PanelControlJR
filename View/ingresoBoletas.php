@@ -1,4 +1,4 @@
-<?php
+<?php 
 	require_once 'shared/verificarSesion.php';
 ?>
 <!DOCTYPE html>
@@ -42,7 +42,7 @@
 			<div class="details">
 				<div class="recentOrders">
 					<div class="cardHeader">
-						<h2>Control Boletas</h2><br><br>
+						<h2>Ingreso de Boletas</h2><br><br>
 					</div>
 					<div class="herramientas">
 						<div class="ingresoGastos">
@@ -78,7 +78,7 @@
 										</select>
 									</div>
 								</div>
-								<div class="inputBx fechaManifiesto">
+								<div class="inputBx fechaManifiesto fechaActual">
 									<label>Fecha Manifiesto</label><br>
 									<input type="date" name="fechaManifiesto">
 								</div>
@@ -266,11 +266,7 @@
 			</div>
 		</div>
 	</div>
-	<!-- jQuery Modal -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 	<?php require_once 'shared/footer.php';	 ?>
-	<script src="https://raw.githack.com/jaywcjlove/hotkeys/master/dist/hotkeys.min.js"></script>
 	<?php echo $_SESSION['usuario'] ?>
 	<script src="../Public/js/controlBoletas.js"></script>
 	<script src="../Public/js/controlGastos.js"></script>

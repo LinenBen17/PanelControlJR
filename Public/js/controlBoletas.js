@@ -1,4 +1,44 @@
+//FUNCIONES DE MENSAJES
+function mostrarMensajeError(mensaje) {
+    Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        title: mensaje,
+        background: '#071A2C',
+        color: "#FFF",
+        showConfirmButton: false,
+        timer: 1500
+    });
+}
+
+function mostrarMensajeSuccess(mensaje) {
+    Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: mensaje,
+        background: '#071A2C',
+        color: "#FFF",
+        showConfirmButton: false,
+        timer: 1500
+    });
+}
+//Focus en el input No. Manifiesto
 $("input[name='noManifiesto']").focus();
+
+//Asignar fecha por default a los inputs date
+function fechaActual(classInput){
+    //Se obtiene/n el/los inputs a los que se le asignará fecha
+    var inputs = document.querySelectorAll(classInput);
+
+    //Se obtiene el ultimo input para evitar sobreescritura en los inputs anteriores
+    var inputFechaActual = inputs[inputs.length -1];
+
+    //Asignar fecha por default
+    inputFechaActual.value="2024"+"-"+"01"+"-"+"01";
+    console.log(inputFechaActual)
+}
+fechaActual(".fechaActual input");
+
 
 /*$("input[name='confirmar']").click(function(e) {
 	e.preventDefault();
@@ -32,7 +72,7 @@ $(".newBoleta").click(function(e){
                             <label>Valor Boleta</label><br>
                             <input type="number" name="valorBoleta[]">
                     </div>
-                    <div class="inputBx fechaBoleta">
+                    <div class="inputBx fechaBoleta fechaActual">
                             <label>Fecha Boleta</label><br>
                             <input type="datetime-local" name="fechaBoleta[]">
                     </div>
@@ -216,6 +256,8 @@ $(document).ready(function() {
             e.preventDefault();
             var id = this.id;
 
+            console.log(id)
+
             $.ajax({
                 url: '../Controller/C_controlBoletas.php',
                 type: 'POST',
@@ -239,7 +281,7 @@ $(document).ready(function() {
                                     <input type="date" name="${campo}" id="${campo}" value="${data[campo]}">
                                 </div>
                             `;
-                        }else if (campo === 'lugarDeposito') {
+                        }else if (campo === 'agenciaGasto') {
                             inputHtml = `
                                 <div class="inputBx ${campo}">
                                     <label for="">${campo.toUpperCase()}</label><br>
@@ -441,27 +483,3 @@ $("input[name='noManifiesto']").blur(function() {
 });
 
 
-//FUNCIONES DE MENSAJES
-function mostrarMensajeError(mensaje) {
-    Swal.fire({
-        position: 'top-end',
-        icon: 'error',
-        title: mensaje,
-        background: '#071A2C',
-        color: "#FFF",
-        showConfirmButton: false,
-        timer: 1500
-    });
-}
-
-function mostrarMensajeSuccess(mensaje) {
-    Swal.fire({
-        position: 'top-end',
-        icon: 'success',
-        title: mensaje,
-        background: '#071A2C',
-        color: "#FFF",
-        showConfirmButton: false,
-        timer: 1500
-    });
-}

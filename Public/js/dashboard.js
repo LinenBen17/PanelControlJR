@@ -9,22 +9,21 @@ toggle.onclick = function(){
 }
 //add hovered class in selected list item
 let list = document.querySelectorAll('.navigation li');
-function activeLink() {
-	list.forEach((item)=>{
-		item.classList.remove('hovered');
-	});
-	this.classList.add('hovered');
-}
-list.forEach((item)=>{
-	item.addEventListener('mouseover', activeLink)
+list.forEach((item, indice)=>{
+    item.addEventListener('click', function(){
+        localStorage.setItem('itemActual', indice);
+    });
 })
+list[localStorage.getItem('itemActual')].classList.add('hovered');
 
 //TODOS LOS INPUTS EN MAYUSCULAS
 $(document).ready( function () {
-	$("input[type='text']").on("keypress", function () {
-		$input=$(this);
-		setTimeout(function () {
-			$input.val($input.val().toUpperCase());
-		},50);
+	setInterval(function(){
+		$("input[type='text']").on("keypress", function () {
+			$input=$(this);
+			setTimeout(function () {
+				$input.val($input.val().toUpperCase());
+			},50);
+		})
 	})
 })

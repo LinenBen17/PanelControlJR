@@ -17,6 +17,7 @@
 	        "Control Abaste" => "controlAbastecimiento.php",
 	        "Ingreso Boletas" => "ingresoBoletas.php",
 	        "Control Boletas" => "controlBoletas.php",
+	        "Control Gastos" => "controlGastos.php",
 	    );
 
 	    // Definir las asociaciones entre secciones e iconos 
@@ -34,6 +35,7 @@
 	        "Control Abaste" => "reader-outline",
 	        "Ingreso Boletas" => "create-outline",
 	        "Control Boletas" => "receipt-outline",
+	        "Control Gastos" => "cash-outline",
 	    );
 	    
 	    public function __construct(){

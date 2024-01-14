@@ -34,6 +34,7 @@ $(".login").click(function(e){
         dataType: 'json',
         data: datos,
         success: function(data) {
+            console.log(data)
             if (data == "Correcto") {
             	location.href = "View/principal.php";
             }else{
@@ -46,4 +47,4 @@ $(".login").click(function(e){
             console.log(c);
         }
 	})
-})
+}) 

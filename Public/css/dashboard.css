@@ -248,7 +248,7 @@ input{
 .gastos{
   grid-template-rows: 1fr;
 	grid-template-areas:  
-	"costoGasto descripcionGasto descripcionGasto agenciaGasto removeGasto";
+	"costoGasto descripcionGasto descripcionGasto removeGasto";
 	border-top: 1px solid var(--colorsecondary);
 }
 .gastos input{
