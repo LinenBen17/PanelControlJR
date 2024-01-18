@@ -117,5 +117,99 @@
 	    	return ["deleted"];
 
 		}
+		public function update($datos){
+			date_default_timezone_set('America/Guatemala');
+		    $fechaActual = date("Y-m-d H:i:s");
+
+		    // Preparar la consulta para comparar boletas
+		    $sqlSelect = "SELECT * FROM depositoscontraentregas WHERE id = ?";
+		    $sentenciaSelect = $this->db->prepare($sqlSelect);
+
+		    //Preparar la consulta para comprobar duplicados
+		    $sqlSelectBoleta = "SELECT * FROM depositoscontraentregas WHERE noBoleta = ?";
+		    $sentenciaSelectBoleta = $this->db->prepare($sqlSelectBoleta);
+
+		    //Preparar la consulta para comprobar duplicados
+		    $sqlSelectGuia = "SELECT * FROM depositoscontraentregas WHERE noGuia = ?";
+		    $sentenciaSelectGuia = $this->db->prepare($sqlSelectGuia);
+
+		    //Preparar la consulta para comprobar duplicados
+		    $sqlSelectContraEntrega = "SELECT * FROM depositoscontraentregas WHERE noContraEntrega = ?";
+		    $sentenciaSelectContraEntrega = $this->db->prepare($sqlSelectContraEntrega);
+
+		    // Preparar la consulta de inserción
+		    $sqlUpdate = "UPDATE `depositoscontraentregas` SET `noManifiesto` = ?,`fechaManifiesto` = ?,`noContraEntrega` = ?,`noGuia` = ?,`noBoleta` = ?,`valorBoleta` = ?,`fechaBoleta` = ?,`noCuenta` = ?,`nombreCuenta` = ?,`usuarioModifica` = ?,`fechaModificacion` = ? WHERE `id` = ?";
+		    $sentenciaUpdate = $this->db->prepare($sqlUpdate);
+
+		    // Variable para almacenar resultados
+		    $resultados = [];
+ 
+		    // Iterar sobre los datos
+			$id = $datos['id'];
+		    $noManifiesto = $datos['noManifiesto'];
+
+		    // Iterar sobre los datos
+		    $noBoleta = $datos['noBoleta'];  
+		    $fechaManifiesto = $datos['fechaManifiesto'];
+		    $noContraEntrega = $datos['noContraEntrega'];
+		    $noGuia = $datos['noGuia'];
+		    $valorBoleta = $datos['valorBoleta'];
+		    $fechaBoleta = $datos['fechaBoleta'];
+		    $noCuenta = $datos['noCuenta'];
+		    $nombreCuenta = $datos['nombreCuenta'];
+
+	        // Obtener datos de la Boleta seleccionada
+	        $sentenciaSelect->bind_param("i", $id);
+	        $sentenciaSelect->execute();
+
+	        $resultadoSelect = $sentenciaSelect->get_result();
+	        $datosSelect = $resultadoSelect->fetch_assoc();
+
+	        // SI EL NUMERO DE BOLETA ES DIFERENTE AL QUE YA ESTA POR DEFECTO
+	        if($noBoleta != $datosSelect["noBoleta"] || $noGuia != $datosSelect["noGuia"] || $noContraEntrega != $datosSelect["noContraEntrega"]){
+		        // Comprobar duplicados
+			    $sentenciaSelectBoleta->bind_param("i", $noBoleta);
+			    $sentenciaSelectBoleta->execute();
+			    $resultadoSelectBoleta = $sentenciaSelectBoleta->get_result();
+
+			    // Comprobar duplicados
+			    $sentenciaSelectCE->bind_param("i", $noContraEntrega);
+			    $sentenciaSelectCE->execute();
+			    $resultadoSelectCE = $sentenciaSelectCE->get_result();
+
+			    // Comprobar duplicados
+			    $sentenciaSelectGuia->bind_param("i", $noGuia);
+			    $sentenciaSelectGuia->execute();
+			    $resultadoSelectGuia = $sentenciaSelectGuia->get_result();
+
+	        	//VERIFICA SI HAY UNO REPETIDO
+		        if ($resultadoSelectBoleta->num_rows > 0) {
+			        $resultados[] = "repetidoBoleta";
+			    } elseif ($resultadoSelectCE->num_rows > 0) {
+			        $resultados[] = "repetidoCE";
+			    } elseif ($resultadoSelectGuia->num_rows > 0) {
+			        $resultados[] = "repetidoGuia";
+			    } else {
+			        // Insertar nuevo registro
+			        $sentenciaUpdate->bind_param("isiiidsisssi", $noManifiesto, $fechaManifiesto, $noContraEntrega, $noGuia, $noBoleta, $valorBoleta, $fechaBoleta, $noCuenta, $nombreCuenta, $_SESSION['usuario'], $fechaActual, $id);
+			        $sentenciaUpdate->execute();
+			        $resultados[] = "registrado";
+			    }
+	        } else {
+	            // Insertar nuevo registro
+		        $sentenciaUpdate->bind_param("isiiidsisssi", $noManifiesto, $fechaManifiesto, $noContraEntrega, $noGuia, $noBoleta, $valorBoleta, $fechaBoleta, $noCuenta, $nombreCuenta, $_SESSION['usuario'], $fechaActual, $id);
+		        $sentenciaUpdate->execute();
+		        $resultados[] = "registrado";
+	        }
+
+	        //Cerrar conexiones
+	        /*$sentenciaSelectBoleta->close();
+		    $sentenciaSelectCE->close();
+		    $sentenciaSelectGuia->close();
+		    $sentenciaSelect->close();
+	        $sentenciaUpdate->close();*/
+
+		    return $resultados;
+	    }
 	}
 ?>
