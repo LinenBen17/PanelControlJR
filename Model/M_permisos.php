@@ -18,6 +18,8 @@
 	        "Ingreso Boletas" => "ingresoBoletas.php",
 	        "Control Boletas" => "controlBoletas.php",
 	        "Control Gastos" => "controlGastos.php",
+	        "Depositos CE" => "ingresoDepositosCE.php",
+	        "Control CE" => "controlDepositosCE.php",
 	    );
 
 	    // Definir las asociaciones entre secciones e iconos 
@@ -36,6 +38,8 @@
 	        "Ingreso Boletas" => "create-outline",
 	        "Control Boletas" => "receipt-outline",
 	        "Control Gastos" => "cash-outline",
+	        "Depositos CE" => "wallet-outline",
+	        "Control CE" => "folder-open-outline",
 	    );
 	    
 	    public function __construct(){

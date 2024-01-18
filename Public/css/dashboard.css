@@ -226,6 +226,30 @@ input{
 	grid-template-columns: 1fr 1fr;
 	gap: 20px;
 }
+/*FORM DEPOSITOS CONTRA ENTREGAS*/
+.formGuardarDepositosCE form{
+  max-width: 900px;
+  display: grid; 
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-auto-flow: row;
+  gap: 10px; 
+
+  grid-template-areas: 
+  "noManifiestoCE fechaManifiestoCE noContraEntregaCE noGuiaCE ."
+  "noBoletaCE valorBoletaCE fechaBoletaCE noCuentaCE nombreCuentaCE";
+
+}
+.formGuardarDepositosCE .noManifiesto { grid-area: noManifiestoCE;}
+.formGuardarDepositosCE .fechaManifiesto { grid-area: fechaManifiestoCE;}
+.formGuardarDepositosCE .noContraEntrega { grid-area: noContraEntregaCE;}
+.formGuardarDepositosCE .noGuia { grid-area: noGuiaCE;}
+.formGuardarDepositosCE .noBoleta { grid-area: noBoletaCE;}
+.formGuardarDepositosCE .valorBoleta { grid-area: valorBoletaCE;}
+.formGuardarDepositosCE .fechaBoleta { grid-area: fechaBoletaCE;}
+.formGuardarDepositosCE .noCuenta { grid-area: noCuentaCE;}
+.formGuardarDepositosCE .nombreCuenta { grid-area: nombreCuentaCE;}
+
 /*FORM GASTOS*/
 .herramientas{
 	display: flex;
@@ -302,7 +326,8 @@ input{
 .formGuardarBoletas .removeBoleta { grid-area: removeBoletaIngreso; margin: auto;}
 
 .formGuardarBoletas form input,
-.formGastos form input{
+.formGastos form input,
+.formGuardarDepositosCE form input{
 	width: 100%;
 }
 

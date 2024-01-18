@@ -46,32 +46,36 @@
 			</div>
 			<div class="details">
 				<div class="recentOrders">
-                    <table id="boletasTableGeneral" class="display" style="width: 100%;">
+					<div class="cardHeader">
+						<h2>Control Depósitos Contra Entrega</h2><br><br>
+					</div>
+                    <table id="ceTablaGeneral" class="display" style="width: 100%;">
                         <thead>
                             <tr>
                                 <th>id</th>
                                 <th>No. Manifiesto</th>
                                 <th>Fecha Manifiesto</th>
+                                <th>No. Contra Entrega</th>
+                                <th>No. Guía</th>
                                 <th>No. Boleta</th>
-                                <th>Tipo</th>
-                                <th>Valor</th>
-                                <th>Banco</th>
-                                <th>Agencia Depositó</th>
-                                <th>Agencia</th>
+                                <th>Valor Boleta</th>
                                 <th>Fecha Boleta</th>
-                                <th>Fecha Ingreso</th>
-                                <th>Fecha Modificación</th>
+                                <th>No. Cuenta</th>
+                                <th>Nombre Cuenta</th>
                                 <th>Usuario Ingresó</th>
+                                <th>Fecha Ingreso</th>
+                                <th>Usuario Modificó</th>
+                                <th>Fecha Modificación</th>
                                 <th></th>
                                 <th></th>
                             </tr>
                         </thead>
                     </table>
-                   <div id="editarUser" class="modal form">
+                   <div id="editarDepositoCE" class="modal form">
                         <div class="cardHeader">
                             <h2>Editar Registro</h2>
                         </div>
-                        <div class="formGuardarBoletas">
+                        <div class="formGuardarDepositosCE">
                             <form></form>
                         </div>
                         <div class="inputBx">
@@ -87,6 +91,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 
 	<?php require_once 'shared/footer.php';	 ?> 
-	<script src="../Public/js/controlBoletas.js"></script>
+	<script src="../Public/js/controlDepositosCE.js"></script>
 </body>
 </html> 

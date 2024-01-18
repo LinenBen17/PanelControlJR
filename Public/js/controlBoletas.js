@@ -37,7 +37,12 @@ function fechaActual(classInput){
     inputFechaActual.value="2024"+"-"+"01"+"-"+"01";
     console.log(inputFechaActual)
 }
-fechaActual(".fechaActual input");
+
+try{
+    fechaActual(".fechaActual input");
+}catch (e){
+    console.log("error en la función" + e)
+}
 
 
 /*$("input[name='confirmar']").click(function(e) {
@@ -281,7 +286,7 @@ $(document).ready(function() {
                                     <input type="date" name="${campo}" id="${campo}" value="${data[campo]}">
                                 </div>
                             `;
-                        }else if (campo === 'agenciaGasto') {
+                        }else if (campo === 'lugarDeposito') {
                             inputHtml = `
                                 <div class="inputBx ${campo}">
                                     <label for="">${campo.toUpperCase()}</label><br>
