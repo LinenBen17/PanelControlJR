@@ -80,6 +80,7 @@
 					"fechaIngreso" => $mostrarDatos['fechaIngreso'],
 					"usuarioModifica" => $mostrarDatos['usuarioModifica'],
 					"fechaModificacion" => $mostrarDatos['fechaModificacion'],
+					"estado" => "<input type='checkbox' value='" . $mostrarDatos['estado'] . "' " . ($mostrarDatos["estado"] == 1 ? 'checked' : ' ') . ">",
 					"editar" => '<a href="#" id="' . $mostrarDatos['id'] . '" class="btnEditar">Editar</a>',
 					"eliminar" => '<a href="#" id="' . $mostrarDatos['id'] . '" class="btnEliminar">Eliminar</a>', 
 				];

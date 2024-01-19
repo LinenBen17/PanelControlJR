@@ -123,6 +123,7 @@ $(document).ready(function() {
             { data: 'fechaIngreso' },
             { data: 'usuarioModifica' },
             { data: 'fechaModificacion' },
+            { data: 'estado' },
             { data: 'editar' },
             { data: 'eliminar' },
         ]
@@ -272,7 +273,14 @@ $(document).ready(function() {
                         setTimeout(function(){
                             location.reload();
                         }, 1500)
-                    }else if(data == "repetido"){
+                    }else if(data == "repetidoGuia"){
+                        mostrarMensajeError("El número de guía ya fue ingresado.")
+                    }else if(data == "repetidoBoleta"){
+                        mostrarMensajeError("El número de boleta ya fue ingresado.")
+                    }else if(data == "repetidoCE"){
+                        mostrarMensajeError("El número de contra entrega ya fue ingresado.")
+                    }
+                    else if(data == "repetido"){
                         mostrarMensajeError("Hubo un error al guardar.")
                     }
                 },

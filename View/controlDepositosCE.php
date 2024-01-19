@@ -66,6 +66,7 @@
                                 <th>Fecha Ingreso</th>
                                 <th>Usuario Modificó</th>
                                 <th>Fecha Modificación</th>
+                                <th>Estado</th>
                                 <th></th>
                                 <th></th>
                             </tr>
