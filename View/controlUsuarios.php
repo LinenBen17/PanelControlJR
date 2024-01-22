@@ -8,6 +8,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Dashboard | Transportes JR</title>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+	<!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- jQuery Modal -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
@@ -61,7 +63,7 @@
 				</div>
 			</div>
 			<div id="editarUser" class="modal form">
-				<form action="../Controller/C_controlUsuarios.php" method="POST">
+				<form class="formEditarUser">
 					<h2>Editar Usuario</h2>
 					<input type="hidden" name="id">
 					<div class="inputBx">
@@ -79,7 +81,7 @@
 					<label>Permisos Usuarios:</label><br><br>
 					<div class="roles"></div><br><br>
 					<div class="inputBx">
-						<input type="submit" name="action" class="btn" value="editar">
+						<input type="submit" name="action" class="btn updateUser" value="editar">
 					</div>
 				</form>
 			</div>
@@ -108,105 +110,6 @@
 		</div>
 	</div>
 	<?php require_once 'shared/footer.php';	 ?>
-	<script>
-		// CREAR USUARIO
-		$(".btnCrear").click(function() {
-			$.ajax({
-				url: '../Controller/C_controlUsuarios.php',
-				type: 'POST',
-				dataType: 'json',
-				data: {action: "permisos"},
-				success: function(data) {
-					data.forEach((seccion) => {
-						$('#crearUser .roles').append(`
-							<div class="checkBox">
-								<p>${seccion.seccion}</p>
-								<label class="switch">
-									<input type="checkbox" name="${seccion['seccion'].replace(/\s+/g, '').toLowerCase()}" value="${seccion.id}">
-									<span class="slider round"></span>
-								</label>
-							</div>
-						`)
-					})
-					$("#crearUser").modal();
-					$('#crearUser').on($.modal.AFTER_CLOSE, function() {
-						$('#crearUser .roles > div').remove();
-					});
-				},
-				error: function(a,b,c) {
-					console.log(a);
-					console.log(b);
-					console.log(c);
-				}
-			})
-
-		});
-		// DATOS PARA EDITAR USUARIO
-		$('.btnEditar').click(function(e) {
-			e.preventDefault();
-			var id = this.id;
-
-			$.ajax({
-				url: '../Controller/C_controlUsuarios.php',
-				type: 'POST',
-				dataType: 'json',
-				data: {id: id, action: "obtener"},
-				success: function(data) {
-					var nombre = data[0].nombre;
-					var usuario = data[0].usuario;
-					var id = data[0].id;
-
-					var secciones = Object.keys(data[1]);
-
-					$('#editarUser input[name="id"]').val(id);
-					$('#editarUser input[name="nombre"]').val(nombre);
-					$('#editarUser input[name="usuario"]').val(usuario);
-
-					secciones.forEach((seccion)=>{
-						$('#editarUser .roles').append(`
-							<div class="checkBox">
-								<p>${seccion}</p>
-								<label class="switch">
-									<input type="checkbox" name="${seccion.replace(/\s+/g, '').toLowerCase()}" ${data[1][seccion].checked} value="${data[1][seccion].id}">
-									<span class="slider round"></span>
-								</label>
-							</div>
-						`)
-					});
-
-					$('#editarUser').modal();
-					$('#editarUser').on($.modal.AFTER_CLOSE, function() {
-						$('#editarUser .roles > div').remove();
-					});
-				},
-				error: function(a, b, c) {
-					console.log(a);
-					console.log(b);
-					console.log(c);
-				}
-			})
-			
-		});
-
-		//ELIMINAR USUARIO
-		$('.btnEliminar').click(function(e) {
-			e.preventDefault();
-			var id = this.id;
-
-			$.ajax({
-				url: '../Controller/C_controlUsuarios.php',
-				type: 'POST',
-				dataType: 'json',
-				data: {id: id, action: "eliminar"},
-				success: function(data) {
-					location.reload();
-				},
-				error: function() {
-					console.log("ERROR");
-				}
-			})
-			
-		});
-	</script>
+	<script src="../Public/js/controlUsuarios.js"></script>
 </body>
 </html>

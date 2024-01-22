@@ -61,6 +61,7 @@
                                 <th>Valor Boleta</th>
                                 <th>Fecha Boleta</th>
                                 <th>No. Cuenta</th>
+                                <th>Teléfono</th>
                                 <th>Nombre Cuenta</th>
                                 <th>Usuario Ingresó</th>
                                 <th>Fecha Ingreso</th>

@@ -1,4 +1,4 @@
-<?php
+<?php 
 	session_start();
 	class ControlDepositos{
 	    private $db;
@@ -7,7 +7,7 @@
 	        require_once 'Conexion.php';
 	        $this->db = Conexion::conectar();
 	    }
-	    public function saveDeposito($datos){
+	    public function saveDeposito($datos, $files){
 		    date_default_timezone_set('America/Guatemala');
 		    $fechaActual = date("Y-m-d H:i:s");
 
@@ -24,7 +24,7 @@
 		    $sentenciaSelectGuia = $this->db->prepare($sqlSelectGuia);
 
 		    // Preparar la consulta de inserción
-		    $sqlInsert = "INSERT INTO `depositoscontraentregas`(`id`, `noManifiesto`, `fechaManifiesto`, `noContraEntrega`, `noGuia`, `noBoleta`, `valorBoleta`, `fechaBoleta`, `noCuenta`, `nombreCuenta`, `usuarioIngresa`, `fechaIngreso`, `usuarioModifica`, `fechaModificacion`) VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		    $sqlInsert = "INSERT INTO `depositoscontraentregas`(`id`, `noManifiesto`, `fechaManifiesto`, `noContraEntrega`, `noGuia`, `noBoleta`, `valorBoleta`, `fechaBoleta`, `noCuenta`, `nombreCuenta`, `usuarioIngresa`, `fechaIngreso`, `usuarioModifica`, `fechaModificacion`, `imagenBoleta`, `telefonoCE`) VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		    $sentenciaInsert = $this->db->prepare($sqlInsert);
 
 		    // Variable para almacenar resultados
@@ -40,6 +40,13 @@
 		    $fechaBoleta = $datos['fechaBoleta'];
 		    $noCuenta = $datos['noCuenta'];
 		    $nombreCuenta = $datos['nombreCuenta'];
+		    $telefonoCE = $datos['telefonoCE'];
+
+		    // Renombrar la imagen
+		    $imageFileType = strtolower(pathinfo($files["file"]["name"],PATHINFO_EXTENSION));
+		    $nuevoNombreImagen = $noGuia . "." . $imageFileType;
+
+		    $directorioUploads = dirname(__DIR__) . "/uploads/images/depositosCE/$noManifiesto/";
 
 		    // Comprobar duplicados
 		    $sentenciaSelectBoleta->bind_param("i", $noBoleta);
@@ -56,6 +63,7 @@
 		    $sentenciaSelectGuia->execute();
 		    $resultadoSelectGuia = $sentenciaSelectGuia->get_result();
 
+
 		    if ($resultadoSelectBoleta->num_rows > 0) {
 		        $resultados[] = "repetidoBoleta";
 		    } elseif ($resultadoSelectCE->num_rows > 0) {
@@ -63,8 +71,20 @@
 		    } elseif ($resultadoSelectGuia->num_rows > 0) {
 		        $resultados[] = "repetidoGuia";
 		    } else {
+		    	// Subir imagen al servidor
+		    	try {
+			    	// Verifica si la carpeta existe
+					if (!is_dir($directorioUploads)) {
+					    // Si no existe, crea la carpeta
+					    mkdir($directorioUploads, 0777, true);
+					}
+					//SUBE LA IMAGEN
+		    		move_uploaded_file($files["file"]["tmp_name"], $directorioUploads . $nuevoNombreImagen);
+		    	} catch (Exception $e) {
+		    		return $e->getMessage();die();
+		    	}
 		        // Insertar nuevo registro
-		        $sentenciaInsert->bind_param("isiiidsisssss", $noManifiesto, $fechaManifiesto, $noContraEntrega, $noGuia, $noBoleta, $valorBoleta, $fechaBoleta, $noCuenta, $nombreCuenta, $_SESSION['usuario'], $fechaActual, $_SESSION['usuario'], $fechaActual);
+		        $sentenciaInsert->bind_param("isiiidsissssssi", $noManifiesto, $fechaManifiesto, $noContraEntrega, $noGuia, $noBoleta, $valorBoleta, $fechaBoleta, $noCuenta, $nombreCuenta, $_SESSION['usuario'], $fechaActual, $_SESSION['usuario'], $fechaActual, $nuevoNombreImagen, $telefonoCE);
 		        $sentenciaInsert->execute();
 		        $resultados[] = "registrado";
 		    }
@@ -108,11 +128,11 @@
 
 
 		public function deleteRegister($id){
-			$sql = "DELETE FROM gastos WHERE id = ?";
+			$sql = "DELETE FROM depositoscontraentregas WHERE id = ?";
 
 	    	$sentencia = $this->db->prepare($sql);
 	    	$sentencia->bind_param("i", $id);
-	    	$exec = $sentencia->execute();
+	    	$sentencia->execute();
 
 	    	return ["deleted"];
 
@@ -181,8 +201,21 @@
 		    }
 		    return $resultados;
 		}
-		public function estadoCE($datos){
-			
+		public function changeStatus($datos){
+			$sqlUpdate = "UPDATE depositoscontraentregas SET estado = ? WHERE id = ?";
+
+		    $estado = $datos["estadoCheck"] == "false" ? 0 : 1;
+		    $id = $datos['id'];
+
+		    try {
+		        $sentenciaUpdate = $this->db->prepare($sqlUpdate);
+		        $sentenciaUpdate->bind_param("ii", $estado, $id);
+		        $sentenciaUpdate->execute();
+
+		        return "Actualizado";
+		    } catch (Exception $e) {
+		        return "Error al actualizar el registro" . " " . $e->getMessage();
+		    }
 		}
 	}
 ?>

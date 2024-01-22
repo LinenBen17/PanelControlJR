@@ -58,7 +58,7 @@
 			try {
 				$updateUsers = $controlUsuario->updateUsers($_POST['id'], $_POST['usuario'], $_POST['nombre'], $_POST);
 				
-				header("location: ../View/controlUsuarios.php");
+				echo json_encode($updateUsers);
 			} catch (Exception $e) {
 				echo json_encode([$e]);
 			}

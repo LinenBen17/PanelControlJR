@@ -159,33 +159,7 @@
 								</div>
 							</form>
 						</div>
-					</div>	
-					<!--<div id="confirmarDatos" class="modal">
-						<div class="cardHeader">
-							<h2>Confirmación de datos</h2>
-						</div>
-						<form class="formGuardarBoletas confirmacion">
-							<div class="inputBx">
-								<label>No. Manifiesto</label><br>
-								<input type="number" name="noManifiesto">
-							</div>
-							<div class="inputBx">
-								<label>No. Boleta</label><br>
-								<input type="number" name="noBoleta">
-							</div>
-							<div class="inputBx">
-								<label>Fecha Boleta</label><br>
-								<input type="date" name="fechaBoleta">
-							</div>
-							<div class="inputBx">
-								<label>Tipo</label><br>
-								<input type="text" name="tipoBoleta">
-							</div>
-							<div class="inputBx">
-								<input type="submit" name="Guardar" value="Guardar" class="btn">
-							</div>
-						</form>
-					</div>-->
+					</div>
 				</div>
 				<div class="recentOrders">
 					<table id="boletasTable" class="display" style="width: 100%;">

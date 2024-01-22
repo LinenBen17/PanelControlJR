@@ -28,16 +28,26 @@ $("input[name='guardarDepositoCE']").click(function(e){
     e.preventDefault();
 
     var formData1 = $(".formGuardarDepositosCE form").serializeArray();
-    
-    formData1.push({ name: "action", value: "Save" });
 
-    console.log(formData1)
+    var formData2 = new FormData();
+    formData2.append('file', document.getElementById("inputfileCE").files[0]);
+
+    // Agregar los campos del formulario a formData2
+    for (var i = 0; i < formData1.length; i++) {
+        formData2.append(formData1[i].name, formData1[i].value);
+    }
+
+    formData2.append('action', 'Save');
+
+    console.log(formData2);
 
     $.ajax({
         url: '../Controller/C_controlDepositosCE.php',
         type: 'POST',
         dataType: 'json',
-        data: formData1,
+        data: formData2,
+        processData: false,
+        contentType: false,
         success:function(data) {
             console.log(data)
             if (data == "registrado") {
@@ -51,6 +61,8 @@ $("input[name='guardarDepositoCE']").click(function(e){
                 mostrarMensajeError("El número de contra entrega ya fue ingresado.")
             }else if(data == "repetidoGuia"){
                 mostrarMensajeError("El número de guía ya fue ingresado.")
+            }else if (data == "vacio") {
+                mostrarMensajeError("Ningún campo debe estar vacío.")
             }
         },
         error:function(a,b,c) {
@@ -119,6 +131,7 @@ $(document).ready(function() {
             { data: 'fechaBoleta' },
             { data: 'noCuenta' },
             { data: 'nombreCuenta' },
+            { data: 'telefonoCE' },
             { data: 'usuarioIngresa' },
             { data: 'fechaIngreso' },
             { data: 'usuarioModifica' },
@@ -139,7 +152,7 @@ $(document).ready(function() {
             var id = this.id;
 
             $.ajax({
-                url: '../Controller/C_controlGastos.php',
+                url: '../Controller/C_controlDepositosCE.php',
                 type: 'POST',
                 dataType: 'json',
                 data: {id: id, action: "Delete"},
@@ -159,6 +172,32 @@ $(document).ready(function() {
                 }
             })
             
+        });
+        //ESTABLECER ESTATUS
+        $('.statusCheck').on('change', function() {
+            var datos = {
+                "id": this.id,
+                "estadoCheck": $(this).is(':checked'),
+                "action": "changeStatus"
+            };
+
+            $.ajax({
+                url: '../Controller/C_controlDepositosCE.php',
+                type: 'POST',
+                dataType: 'json',
+                data: datos,
+                success: function(data) {
+                    if (data == "Actualizado") {
+                        mostrarMensajeSuccess("El estado ha sido actualizado correctamente.");
+                        setTimeout(function(){
+                            location.reload();
+                        }, 1500);
+                    }
+                },
+                error: function(e, a, b) {
+                    console.log(e, a, b);
+                }
+            })
         });
         // DATOS PARA EDITAR REGISTRO
         $('a.btnEditar').click(function(e) {

@@ -63,6 +63,10 @@
 									<label>No. Guía</label><br>
 									<input type="number" name="noGuia">
 								</div>
+								<div class="inputfile-container subirCE">
+							        <input type="file" name="uploadCEimage" id="inputfileCE" class="inputfileCE" accept="image/*">
+							        <label for="inputfileCE" class="labelUploadCE btn"><ion-icon name="cloud-upload"></ion-icon></label>
+							    </div>
 								<div class="inputBx noBoleta">
 									<label>No. Boleta</label><br>
 									<input type="number" name="noBoleta">
@@ -83,8 +87,12 @@
 									<label>Nombre de la Cuenta</label><br>
 									<input type="text" name="nombreCuenta">
 								</div>
+								<div class="inputBx telefonoCE">
+									<label>Teléfono/Whatsapp</label><br>
+									<input type="number" name="telefonoCE">
+								</div>
 							</form>
-							<div class="inputBx">
+							<div class="inputBx ">
 								<input type="submit" name="guardarDepositoCE" value="Guardar" class="btn">
 							</div>
 						</div>
@@ -113,5 +121,14 @@
 	<?php require_once 'shared/footer.php';	 ?>
 	<?php echo $_SESSION['usuario'] ?>
 	<script src="../Public/js/controlDepositosCE.js"></script>
+	<script>
+        const inputfile = document.getElementById('inputfileCE');
+        const label = document.querySelector('.labelUploadCE');
+
+        inputfile.addEventListener('change', function(e) {
+            const filename = e.target.files[0].name;
+            label.textContent = filename;
+        });
+    </script>
 </body>
 </html>	

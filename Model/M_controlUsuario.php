@@ -84,31 +84,45 @@
 			return true;
 	    }
 	    public function updateUsers($id, $usuario, $nombre, $postData){
-	    	//ARRAY DE PERMISOS
-	    	$permisosNuevos = $this->permisosEnviados($postData);
-	    	
-			//Usuarios datos
+	    	// ARRAY DE PERMISOS
+			$permisosNuevos = $this->permisosEnviados($postData);
+
+			// Usuarios datos
 			$id = $id;
-	    	$usuario = $usuario;
-	    	$nombre = $nombre;
-	    	$newPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
+			$usuario = $usuario;
+			$nombre = $nombre;
+			$password = $_POST['password'];
 
 			// SQL EDITAR NOMBRE Y USUARIO ACTUAL
-			$sqlEdit = "UPDATE usuarios SET usuario = ?, nombre = ?, password = ? WHERE id = ?";
+			$sqlEdit = "UPDATE usuarios SET usuario = ?, nombre = ? ";
+
+			// Verificar si el campo de contraseña está vacío o no
+			if(!empty($password)) {
+			    $sqlEdit .= ", password = ? ";
+			    $newPassword = password_hash($password, PASSWORD_DEFAULT);
+			}
+
+			$sqlEdit .= "WHERE id = ?";
 
 			$sentenciaEdit = $this->db->prepare($sqlEdit);
-			$sentenciaEdit->bind_param("sssi", $usuario, $nombre, $newPassword, $id);
+
+			// Verificar si el campo de contraseña está vacío o no
+			if(!empty($password)) {
+			    $sentenciaEdit->bind_param("sssi", $usuario, $nombre, $newPassword, $id);
+			} else {
+			    $sentenciaEdit->bind_param("ssi", $usuario, $nombre, $id);
+			}
+
 			$sentenciaEdit->execute();
 
 			$sentenciaEdit->close();
-
 			//SQL PARA SABER LOS PERMISOS ACTUALES DEL USUARIO
 			$sqlId = "SELECT * FROM asignacion WHERE id_usuario = ?";
 
 			$sentenciaId = $this->db->prepare($sqlId);
 			$sentenciaId->bind_param("i", $id);
 			$sentenciaId->execute();
-
+ 
 			$resultadosId = $sentenciaId->get_result();
 
 			// ARREGLO Y LUEGO FOREACH PARA ALMACENAR LOS PERMISOS ACTUALES;
