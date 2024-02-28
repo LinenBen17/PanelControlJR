@@ -137,6 +137,7 @@ $(document).ready(function() {
             { data: 'usuarioModifica' },
             { data: 'fechaModificacion' },
             { data: 'estado' },
+            { data: 'imagenBoleta' },
             { data: 'editar' },
             { data: 'eliminar' },
         ]

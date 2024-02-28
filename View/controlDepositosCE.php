@@ -68,6 +68,7 @@
                                 <th>Usuario Modificó</th>
                                 <th>Fecha Modificación</th>
                                 <th>Estado</th>
+                                <th>Imagen</th>
                                 <th></th>
                                 <th></th>
                             </tr>
