@@ -72,24 +72,33 @@
 		default:
 			$showAllCE = $controlDepositos->showAllCE();
 
-			$datos = [];
-
-			function find_file($dir, $pattern){
-			    $dirs = glob($dir . '/*', GLOB_ONLYDIR);
-			    $files = glob($dir . '/' . $pattern);
-			    
-			    foreach($dirs as $subdir){
-			        $files = array_merge($files, find_file($subdir, $pattern));
+			function find_image($dir, $image_name) {
+			    $images = array();
+			    $files = scandir($dir);
+			    foreach ($files as $file) {
+			        if ($file === '.' || $file === '..') {
+			            continue;
+			        }
+			        $file_path = $dir . '/' . $file;
+			        if (is_dir($file_path)) {
+			            $images = array_merge($images, find_image($file_path, $image_name));
+			        } else {
+			            $image_info = getimagesize($file_path);
+			            if ($image_info !== false && in_array($image_info[2], array(IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_GIF))) {
+			                if (pathinfo($file, PATHINFO_FILENAME) === $image_name) {
+			                    $images[] = $file_path;
+			                }
+			            }
+			        }
 			    }
-			    
-			    return $files;
+			    return $images;
 			}
 
-			while ($mostrarDatos = $showAllCE->fetch_array()) {
-				$dir =  dirname(__DIR__) . "/uploads/images/"; // Establecer el directorio inicial
-				$pattern = $mostrarDatos['imagenBoleta']; // Establecer el patrón del archivo que desea buscar
+			$datos = [];
 
-				$results = find_file($dir, $pattern);
+			while ($mostrarDatos = $showAllCE->fetch_array()) {
+				$image_name = $mostrarDatos['noGuia'];
+				$images = find_image('..', $image_name);
 
 				$datos[]= [
 					"id" => $mostrarDatos['id'],
@@ -108,6 +117,7 @@
 					"usuarioModifica" => $mostrarDatos['usuarioModifica'],
 					"fechaModificacion" => $mostrarDatos['fechaModificacion'],
 					"estado" => "<label class='switch'><input type='checkbox' class='statusCheck' value='" . $mostrarDatos['estado'] . "' " . ($mostrarDatos["estado"] == 1 ? 'checked' : ' ') . " id='" . $mostrarDatos['id'] ."'><span class='slider round'></span></label>",
+					"imagenBoleta" => $images,
 					"editar" => '<a href="#" id="' . $mostrarDatos['id'] . '" class="btnEditar">Editar</a>',
 					"eliminar" => '<a href="#" id="' . $mostrarDatos['id'] . '" class="btnEliminar">Eliminar</a>', 
 				];
