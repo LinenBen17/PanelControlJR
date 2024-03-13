@@ -20,6 +20,8 @@
 	        "Control Gastos" => "controlGastos.php",
 	        "Depositos CE" => "ingresoDepositosCE.php",
 	        "Control CE" => "controlDepositosCE.php",
+	        "Registro Fact" => "registroFacturas.php",
+	        "Control Fact" => "controlFacturas.php",
 	    );
 
 	    // Definir las asociaciones entre secciones e iconos 
@@ -40,6 +42,8 @@
 	        "Control Gastos" => "cash-outline",
 	        "Depositos CE" => "wallet-outline",
 	        "Control CE" => "folder-open-outline",
+	        "Registro Fact" => "save-outline",
+	        "Control Fact" => "save-outline",
 	    );
 	    
 	    public function __construct(){

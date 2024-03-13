@@ -63,9 +63,9 @@
                                 <label>Ruta</label>
                                 <input type="text" id="ruta" placeholder="">
                             </div>
-                            <div class="inputBx fecha">
-                                <label>Fecha</label>
-                                <input type="date" id="fecha" placeholder="">
+                            <div class="inputBx fechaVale">
+                                <label>Fecha Vale</label>
+                                <input type="date" id="fechaVale" placeholder="">
                             </div>
                             <div class="inputBx serie">
                                 <label>Serie</label>
@@ -74,6 +74,20 @@
                             <div class="inputBx noFactura">
                                 <label>No. Factura</label>
                                 <input type="number" id="noFactura" placeholder="">
+                            </div>
+                            <div class="inputBx fecha">
+                                <label>Fecha Factura</label>
+                                <input type="date" id="fecha" placeholder="">
+                            </div>
+                            <div class="inputBx tipoCombustible">
+                                <label>Tipo Combustible</label><br>
+                                <div class="select">
+                                    <select name="tipoCombustible" id="tipoCombustible">
+                                        <option value="Diesel">Diesel</option>
+                                        <option value="Regular">regular</option>
+                                        <option value="Super">Super</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="inputBx monto_total">
                                 <label>Monto Total</label>

@@ -7,7 +7,7 @@
 
 	switch ($action) {
 		case "Save":
-			$newFactura = $facturasCombustible->newFactura($_POST['placa'], $_POST['piloto'], $_POST['ruta'], $_POST['fecha'], $_POST['serie'], $_POST['noFactura'], $_POST['monto_total'], $_POST['galones'], $_POST['precio_galon']);
+			$newFactura = $facturasCombustible->newFactura($_POST['placa'], $_POST['piloto'], $_POST['ruta'], $_POST['fecha'], $_POST['fechaVale'], $_POST['serie'], $_POST['noFactura'], $_POST['monto_total'], $_POST['galones'], $_POST['tipoCombustible'], $_POST['precio_galon']);
 
 			echo json_encode($newFactura);
 

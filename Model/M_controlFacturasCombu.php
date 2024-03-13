@@ -8,14 +8,14 @@
 	        require_once 'Conexion.php';
 	        $this->db = Conexion::conectar();
 	    }
-	    public function newFactura($placa, $piloto, $ruta, $fecha, $serie, $noFactura, $monto_total, $galones, $precio_galon){
+	    public function newFactura($placa, $piloto, $ruta, $fecha, $fechaVale, $serie, $noFactura, $monto_total, $galones, $tipoCombustible, $precio_galon){
 			date_default_timezone_set('America/Guatemala');
 			$fechaActual = date("Y-m-d H:i:s");
 
-	    	$sqlSave = "INSERT INTO `facturascombustibles`(`id`, `fecha`, `placa`, `piloto`, `ruta`, `serie`, `noFactura`, `galones`, `precio_galon`, `monto_total`, `fecha_creacion`, `fecha_modificacion`, `usuario_ingresa`, `usuario_modifica`) VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+	    	$sqlSave = "INSERT INTO `facturascombustibles`(`id`, `fecha`, `fechaVale`, `placa`, `piloto`, `ruta`, `serie`, `noFactura`, `galones`, `tipoCombustible`, `precio_galon`, `monto_total`, `fecha_creacion`, `fecha_modificacion`, `usuario_ingresa`, `usuario_modifica`) VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 			$sentenciaSave = $this->db->prepare($sqlSave);
-			$sentenciaSave->bind_param("sssssidddssss", $fecha, $placa, $piloto, $ruta, $serie, $noFactura, $galones, $precio_galon, $monto_total, $fechaActual, $fechaActual, $_SESSION['usuario'], $_SESSION['usuario']);
+			$sentenciaSave->bind_param("ssssssidsddssss", $fecha, $fechaVale, $placa, $piloto, $ruta, $serie, $noFactura, $galones, $tipoCombustible, $precio_galon, $monto_total, $fechaActual, $fechaActual, $_SESSION['usuario'], $_SESSION['usuario']);
 			$sentenciaSave->execute();
 
 			return ["accion" => "Saved"];
