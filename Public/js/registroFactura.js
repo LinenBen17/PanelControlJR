@@ -62,11 +62,11 @@ $(document).ready(function() {
     });
 });
 
-$("#galones").blur(function() {
+$(document).on('blur', '#galones', function() {
     let calculo = $("#monto_total").val() / $("#galones").val();
     $("#precio_galon").val(calculo.toFixed(2));
     $(".save").focus();
-})
+});
 
 $(".save").click(function(e){
     e.preventDefault();
@@ -86,23 +86,29 @@ $(".save").click(function(e){
 
     datosForm[selects.id] = selects.value;
 
-    console.log(datosForm)
-
-    $.ajax({
-      url: '../Controller/C_controlFacturasCombu.php',
-      type: 'POST',
-      dataType: 'json',
-      data: datosForm,
-      success: function(data) {
-        if (data) {
+    inputs.forEach(function(input) {
+        if (input.value == "") {
+            mostrarMensajeError("Todos los campos deben estar llenos.");
+        }else{
+            $.ajax({
+              url: '../Controller/C_controlFacturasCombu.php',
+              type: 'POST',
+              dataType: 'json',
+              data: datosForm,
+              success: function(data) {
+                if (data) {
+                    location.reload();
+                }
+              },
+              error: function(xhr, textStatus, errorThrown) {
+                console.log(xhr)
+                console.log(textStatus)
+                console.log(errorThrown)
+              }
+            });
         }
-      },
-      error: function(xhr, textStatus, errorThrown) {
-        console.log(xhr)
-        console.log(textStatus)
-        console.log(errorThrown)
-      }
-    });
+    })
+
 })
 $(".clean").click(function(){
     let inputs = document.querySelectorAll(".formRegistroFact input");
@@ -114,7 +120,7 @@ $(".clean").click(function(){
 
 /////DATATABLE BOLETAS INGRESADAS GENERAL////
 $(document).ready(function() {
-    $('#formRegistroFact').DataTable({
+    $('#facturasTableGeneral').DataTable({
         ajax: {
             url: '../Controller/C_controlFacturasCombu.php',
             type: 'post',
@@ -128,8 +134,9 @@ $(document).ready(function() {
             'excel', 'print'
         ],
         columns: [
-            { data: '#' },
+            { data: 'id' },
             { data: 'fecha' },
+            { data: 'fechaVale' },
             { data: 'placa' },
             { data: 'piloto' },
             { data: 'ruta' },
@@ -146,7 +153,7 @@ $(document).ready(function() {
         ]
     });
 
-    $('#boletasTableGeneral').DataTable().on('draw.dt', function () {
+    $('#facturasTableGeneral').DataTable().on('draw.dt', function () {
         $('.btnEliminar').off('click');
     $('a.btnEditar').off('click');
     $('.update').off('click');
@@ -156,11 +163,12 @@ $(document).ready(function() {
             var id = this.id;
 
             $.ajax({
-                url: '../Controller/C_controlBoletas.php',
+                url: '../Controller/C_controlFacturasCombu.php',
                 type: 'POST',
                 dataType: 'json',
                 data: {id: id, action: "Delete"},
                 success: function(data) {
+                    console.log(data)
                     if(data == "deleted"){
                         mostrarMensajeSuccess("Registro eliminado con éxito.");
                         setTimeout(function() {
@@ -186,7 +194,7 @@ $(document).ready(function() {
             console.log(id)
 
             $.ajax({
-                url: '../Controller/C_controlBoletas.php',
+                url: '../Controller/C_controlFacturasCombu.php',
                 type: 'POST',
                 dataType: 'json',
                 data: {id: id, action: "ShowRegister"},
@@ -200,7 +208,7 @@ $(document).ready(function() {
                         console.log(campo)
                         var inputHtml = '';
 
-                        if (campo === 'fechaManifiesto') {
+                        if (campo === 'fecha' || campo === 'fechaVale') {
                             // Si es un campo de fecha, genera un input de tipo fecha
                             inputHtml = `
                                 <div class="inputBx ${campo}">
@@ -208,61 +216,27 @@ $(document).ready(function() {
                                     <input type="date" name="${campo}" id="${campo}" value="${data[campo]}">
                                 </div>
                             `;
-                        }else if (campo === 'lugarDeposito') {
+                        }else if (campo === "tipoCombustible") {
                             inputHtml = `
                                 <div class="inputBx ${campo}">
                                     <label for="">${campo.toUpperCase()}</label><br>
                                     <div class="select">
                                         <select name="${campo}" id="${campo}">
-                                            <option value="Jutiapa" ${data[campo] === 'Jutiapa' ? 'selected' : ''}>JUT</option>
-                                            <option value="Santa Rosa" ${data[campo] === 'Santa Rosa' ? 'selected' : ''}>BAR</option>
-                                            <option value="Jalapa" ${data[campo] === 'Jalapa' ? 'selected' : ''}>JAL</option>
-                                            <option value="Zacapa" ${data[campo] === 'Zacapa' ? 'selected' : ''}>ZAC</option>
-                                            <option value="Chiquimula" ${data[campo] === 'Chiquimula' ? 'selected' : ''}>CHI</option>
-                                            <option value="Escuintla" ${data[campo] === 'Escuintla' ? 'selected' : ''}>ESC</option>
-                                            <option value="Suchitepequez" ${data[campo] === 'Suchitepequez' ? 'selected' : ''}>MAZ</option>
-                                            <option value="Chimaltenango" ${data[campo] === 'Chimaltenango' ? 'selected' : ''}>CHM</option>
-                                            <option value="Quetzaltenango" ${data[campo] === 'Quetzaltenango' ? 'selected' : ''}>XEL</option>
-                                            <option value="Quiche" ${data[campo] === 'Quiche' ? 'selected' : ''}>QCH</option>
-                                            <option value="Izabal" ${data[campo] === 'Izabal' ? 'selected' : ''}>PTB</option>
+                                            <option value="Diesel"  ${data[campo] === 'Diesel' ? 'selected' : ''}>Diesel</option>
+                                            <option value="Regular"  ${data[campo] === 'Regular' ? 'selected' : ''}>regular</option>
+                                            <option value="Super"  ${data[campo] === 'Super' ? 'selected' : ''}>Super</option>
                                         </select>
                                     </div>
                                 </div>
                             `;
-                        }else if (campo === "fechaBoleta") {
+                        }else if (campo === "monto_total" || campo === "galones" || campo === "precio_galon") {
                             inputHtml = `
                                 <div class="inputBx ${campo}">
                                     <label for="">${campo.toUpperCase()}</label><br>
-                                    <input type="datetime-local" name="${campo}" id="${campo}" value="${data[campo]}">
+                                    <input type="number" name="${campo}" id="${campo}" value="${data[campo]}">
                                 </div>
                             `;
-                        }else if (campo === "bancoBoleta") {
-                            inputHtml = `
-                                <div class="inputBx ${campo}">
-                                    <label for="">${campo.toUpperCase()}</label><br>
-                                    <div class="select">
-                                        <select name="${campo}" id="${campo}">
-                                            <option value="Banrural" ${data[campo] === 'Banrural' ? 'selected' : ''}>Banrural</option>
-                                            <option value="InterBanco" ${data[campo] === 'InterBanco' ? 'selected' : ''}>InterBanco</option>
-                                            <option value="Banco Industrial" ${data[campo] === 'Banco Industrial' ? 'selected' : ''}>BI</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            `;
-                        }else if (campo === 'tipoBoleta') {
-                            // Si es el campo tipoBoleta, genera un select con opciones
-                            inputHtml = `
-                                <div class="inputBx ${campo}">
-                                    <label for="">${campo.toUpperCase()}</label><br>
-                                    <div class="select">
-                                        <select name="${campo}" id="${campo}">
-                                            <option value="Por Cobrar" ${data[campo] === 'Por Cobrar' ? 'selected' : ''}>Por Cobrar</option>
-                                            <option value="Contado" ${data[campo] === 'Contado' ? 'selected' : ''}>Contado</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            `;
-                        } else {
+                        }else {
                             // Para otros campos, genera un input de texto
                             inputHtml = `
                                 <div class="inputBx ${campo}">
@@ -272,16 +246,16 @@ $(document).ready(function() {
                             `;
                         }
 
-                        $('#editarUser form').append(inputHtml);
+                        $('#editarFactura form').append(inputHtml);
                     });
 
                     $("#" + campos[0]).attr({
                         'type': 'hidden',
                     });
-                    $('#editarUser').modal();
+                    $('#editarFactura').modal();
 
-                    $('#editarUser').on($.modal.AFTER_CLOSE, function() {
-                        $('#editarUser form > div').remove();
+                    $('#editarFactura').on($.modal.AFTER_CLOSE, function() {
+                        $('#editarFactura form > div').remove();
                     });
                 },
                 error: function(a, b, c) {
@@ -295,8 +269,8 @@ $(document).ready(function() {
         $('.update').click(function(e) {
             e.preventDefault();
 
-            let inputs = document.querySelectorAll(".formGuardarBoletas input");
-            let selects = document.querySelectorAll(".formGuardarBoletas select");
+            let inputs = document.querySelectorAll(".formRegistroFact input");
+            let selects = document.querySelectorAll(".formRegistroFact select");
 
             let datosForm = {
                 "action": "Update",
@@ -318,11 +292,12 @@ $(document).ready(function() {
             })
 
             $.ajax({
-                url: '../Controller/C_controlBoletas.php',
+                url: '../Controller/C_controlFacturasCombu.php',
                 type: 'POST',
                 dataType: 'json',
                 data: datosForm,
                 success:function(data) {
+                    console.log(data)
                     if (data == "registrado") {
                         mostrarMensajeSuccess("Modificación exitosa.");
                         setTimeout(function(){

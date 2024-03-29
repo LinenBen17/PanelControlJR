@@ -51,6 +51,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Fecha Factura</th>
+                                <th>Fecha Vale</th>
                                 <th>Placa</th>
                                 <th>Piloto</th>
                                 <th>Ruta</th>
@@ -87,6 +88,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 
 	<?php require_once 'shared/footer.php';	 ?> 
-	<script src="../Public/js/controlBoletas.js"></script>
+	<script src="../Public/js/registroFactura.js"></script>
 </body>
 </html> 
