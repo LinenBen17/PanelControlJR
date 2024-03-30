@@ -20,7 +20,7 @@ function mostrarMensajeSuccess(mensaje) {
         color: "#FFF",
         showConfirmButton: false,
         timer: 1500
-    });
+    }); 
 }
 /////FECHA ACTUAL//////
 var fechaActual = new Date();
@@ -38,6 +38,7 @@ $(document).ready(function() {
         ajax: {
             url: '../Controller/C_controlFacturasCombu.php',
             type: 'post',
+            data: {"action" : "SelectAllUser"},
             dataSrc:''
         },
         "language": {
@@ -86,28 +87,33 @@ $(".save").click(function(e){
 
     datosForm[selects.id] = selects.value;
 
+    let camposLlenos = true; // Suponemos que todos los campos están llenos inicialmente
+
     inputs.forEach(function(input) {
         if (input.value == "") {
             mostrarMensajeError("Todos los campos deben estar llenos.");
-        }else{
-            $.ajax({
-              url: '../Controller/C_controlFacturasCombu.php',
-              type: 'POST',
-              dataType: 'json',
-              data: datosForm,
-              success: function(data) {
+            camposLlenos = false; // Cambiamos la variable a false si encontramos un campo vacío
+        }
+    });
+
+    if (camposLlenos) {
+        $.ajax({
+            url: '../Controller/C_controlFacturasCombu.php',
+            type: 'POST',
+            dataType: 'json',
+            data: datosForm,
+            success: function(data) {
                 if (data) {
                     location.reload();
                 }
-              },
-              error: function(xhr, textStatus, errorThrown) {
+            },
+            error: function(xhr, textStatus, errorThrown) {
                 console.log(xhr)
                 console.log(textStatus)
                 console.log(errorThrown)
-              }
-            });
-        }
-    })
+            }
+        });
+    }
 
 })
 $(".clean").click(function(){

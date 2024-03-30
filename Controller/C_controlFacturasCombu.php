@@ -44,6 +44,30 @@
 
 			echo json_encode($delete);
 			break;
+		case "SelectAllUser":
+			$selectAllByUser = $facturasCombustible->selectAllByUser();
+
+			$datos = [];
+
+			while ($mostrarDatos = $selectAllByUser->fetch_array()) {
+				$datos[]= [
+					"id" => $mostrarDatos['id'],
+					"placa" => $mostrarDatos['placa'],
+					"piloto" => $mostrarDatos['piloto'],
+					"ruta" => $mostrarDatos['ruta'],
+					"fechaVale" => $mostrarDatos['fechaVale'],
+					"serie" => $mostrarDatos['serie'],
+					"noFactura" => $mostrarDatos['noFactura'],
+					"fecha" => $mostrarDatos['fecha'],
+					"tipoCombustible" => $mostrarDatos['tipoCombustible'],
+					"monto_total" => $mostrarDatos['monto_total'],
+					"galones" => $mostrarDatos['galones'],
+					"precio_galon" => $mostrarDatos['precio_galon'],
+				];
+			}
+
+			echo json_encode($datos);
+			break;
 		default:
 			$showAllCE = $facturasCombustible->selectAll();
 
