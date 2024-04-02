@@ -32,7 +32,7 @@ var minutes = fechaActual.getMinutes();
 var seconds = fechaActual.getSeconds();
 var nombreReportes;
 
-/////FUNCIONES PARA EL FORMULARIO DE ABASTECIMIENTO/////
+/////SELECCIONA REGISTROS POR USUARIO/////
 $(document).ready(function() {
     $('#facturasTableUser').DataTable({
         ajax: {
@@ -137,7 +137,13 @@ $(document).ready(function() {
         },
         dom: 'Bfrtip',
         buttons: [
-            'excel', 'print'
+            {
+                extend: 'excel',
+                text: 'Exportar a Excel',
+                exportOptions: {
+                    columns: ':lt(-2)' // Índices de las columnas que quieres exportar
+                }
+            },
         ],
         columns: [
             { data: 'id' },

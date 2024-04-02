@@ -22,6 +22,7 @@
 	        "Control CE" => "controlDepositosCE.php",
 	        "Registro Fact" => "registroFacturas.php",
 	        "Control Fact" => "controlFacturas.php",
+	        "Registro Ordenes" => "registroOrdenes.php"
 	    );
 
 	    // Definir las asociaciones entre secciones e iconos 
@@ -43,7 +44,8 @@
 	        "Depositos CE" => "wallet-outline",
 	        "Control CE" => "folder-open-outline",
 	        "Registro Fact" => "save-outline",
-	        "Control Fact" => "save-outline",
+	        "Control Fact" => "build-outline",
+	        "Registro Ordenes" => "newspaper-outline",
 	    );
 	    
 	    public function __construct(){
