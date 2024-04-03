@@ -50,6 +50,10 @@
                                 <label>No. Orden</label>
                                 <input type="number" id="noOrden" placeholder="">
                             </div>
+                            <div class="inputBx noFactura">
+                                <label>No. Factura</label>
+                                <input type="text" id="noFactura" placeholder="">
+                            </div>
                             <div class="inputBx fecha">
                                 <label>Fecha</label>
                                 <input type="date" id="fecha" placeholder="">
@@ -86,7 +90,7 @@
                         <button type="button" class="save btnEditar">Guardar</button>
                         <button type="button" class="clean btnEditar">Limpiar</button>
                     </div><br>
-                <table id="facturasTableUser" class="display" style="width: 100%;">
+                <table id="facturasTableUer" class="display" style="width: 100%;">
                     <thead>
                         <tr>
                             <th>id</th>

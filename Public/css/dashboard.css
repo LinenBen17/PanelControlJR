@@ -422,16 +422,17 @@ div.inputBx textarea{
 .formRegistroOrdenes form {
   max-width: 690px;
   display: grid; 
-  grid-template-columns: 1fr 1fr 1fr 1fr; 
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr; 
   grid-template-rows: 1fr 1fr 1fr;
   grid-auto-flow: row;
   gap: 10px; 
   grid-template-areas: 
-    "noOrdenFOrdenes fechaFOrdenes proveedorFOrdenes placaFOrdenes"
-    "cantidadFOrdenes descripcionFOrdenes precioUnitarioFOrdenes totalFOrdenes"
-    "observacionFOrdenes observacionFOrdenes observacionFOrdenes observacionFOrdenes"; 
+    "noOrdenFOrdenes noFacturaFOrdenes fechaFOrdenes proveedorFOrdenes placaFOrdenes"
+    "cantidadFOrdenes descripcionFOrdenes descripcionFOrdenes precioUnitarioFOrdenes totalFOrdenes"
+    "observacionFOrdenes observacionFOrdenes observacionFOrdenes observacionFOrdenes observacionFOrdenes"; 
 }
 .formRegistroOrdenes .noOrden { grid-area: noOrdenFOrdenes; }
+.formRegistroOrdenes .noFactura { grid-area: noFacturaFOrdenes; }
 .formRegistroOrdenes .fecha { grid-area: fechaFOrdenes; }
 .formRegistroOrdenes .proveedor { grid-area: proveedorFOrdenes; }
 .formRegistroOrdenes .placa { grid-area: placaFOrdenes; }
