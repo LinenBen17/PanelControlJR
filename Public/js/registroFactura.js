@@ -42,7 +42,7 @@ $(document).ready(function() {
             dataSrc:''
         },
         "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+            url: '//cdn.datatables.net/plug-ins/2.0.3/i18n/es-ES.json',
         },
         dom: 'Bfrtip',
         buttons: [
@@ -50,15 +50,17 @@ $(document).ready(function() {
         ],
         columns: [
             { data: 'id' },
+            { data: 'fecha' },
+            { data: 'fechaVale' },
             { data: 'placa' },
             { data: 'piloto' },
             { data: 'ruta' },
-            { data: 'fecha' },
             { data: 'serie' },
             { data: 'noFactura' },
-            { data: 'monto_total' },
             { data: 'galones' },
+            { data: 'tipoCombustible' },
             { data: 'precio_galon' },
+            { data: 'monto_total' },
         ]
     });
 });
@@ -133,7 +135,7 @@ $(document).ready(function() {
             dataSrc:''
         },
         "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+            url: '//cdn.datatables.net/plug-ins/2.0.3/i18n/es-ES.json',
         },
         dom: 'Bfrtip',
         buttons: [

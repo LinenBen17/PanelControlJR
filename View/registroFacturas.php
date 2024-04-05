@@ -110,16 +110,18 @@
                 <table id="facturasTableUser" class="display" style="width: 100%;">
                     <thead>
                         <tr>
-                            <th>id</th>
+                            <th>#</th>
+                            <th>Fecha Factura</th>
+                            <th>Fecha Vale</th>
                             <th>Placa</th>
                             <th>Piloto</th>
                             <th>Ruta</th>
-                            <th>Fecha</th>
                             <th>Serie</th>
                             <th>No. Factura</th>
-                            <th>Monto Total</th>
                             <th>Galones</th>
+                            <th>Tipo</th>
                             <th>Precio X Galón</th>
+                            <th>Monto</th>
                         </tr>
                     </thead>
                 </table>

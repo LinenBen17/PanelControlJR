@@ -13,82 +13,81 @@
 
 			break;
 		case "ShowRegister":
-			$showRegister = $facturasCombustible->showRegister($_POST['id']);
+			$showRegister = $ordenesCompra->showRegister($_POST['id']);
 
 			$mostrarDatos = $showRegister->fetch_assoc();
  
 			$datos = [
 				"id" => $mostrarDatos['id'],
-				"placa" => $mostrarDatos['placa'],
-				"piloto" => $mostrarDatos['piloto'],
-				"ruta" => $mostrarDatos['ruta'],
-				"fechaVale" => $mostrarDatos['fechaVale'],
-				"serie" => $mostrarDatos['serie'],
+				"noOrden" => $mostrarDatos['noOrden'],
 				"noFactura" => $mostrarDatos['noFactura'],
 				"fecha" => $mostrarDatos['fecha'],
-				"tipoCombustible" => $mostrarDatos['tipoCombustible'],
-				"monto_total" => $mostrarDatos['monto_total'],
-				"galones" => $mostrarDatos['galones'],
-				"precio_galon" => $mostrarDatos['precio_galon'],
+				"proveedor" => $mostrarDatos['proveedor'],
+				"placa" => $mostrarDatos['placa'],
+				"cantidad" => $mostrarDatos['cantidad'],
+				"descripcion" => $mostrarDatos['descripcion'],
+				"precioUnitario" => $mostrarDatos['precioUnitario'],
+				"total" => $mostrarDatos['total'],
+				"observacion" => $mostrarDatos['observacion'],
 			];
 
 			echo json_encode($datos);
 			break;
 		case "Update":
-			$update = $facturasCombustible->update($_POST);
+			$update = $ordenesCompra->update($_POST);
 
 			echo json_encode($update);
 			break;
 		case "Delete":
-			$delete = $facturasCombustible->deleteRegister($_POST['id']);
+			$delete = $ordenesCompra->deleteRegister($_POST['id']);
 
 			echo json_encode($delete);
 			break;
 		case "SelectAllUser":
-			$selectAllByUser = $facturasCombustible->selectAllByUser();
+			$selectAllByUser = $ordenesCompra->selectAllByUser();
 
 			$datos = [];
 
 			while ($mostrarDatos = $selectAllByUser->fetch_array()) {
 				$datos[]= [
 					"id" => $mostrarDatos['id'],
-					"placa" => $mostrarDatos['placa'],
-					"piloto" => $mostrarDatos['piloto'],
-					"ruta" => $mostrarDatos['ruta'],
-					"fechaVale" => $mostrarDatos['fechaVale'],
-					"serie" => $mostrarDatos['serie'],
+					"noOrden" => $mostrarDatos['noOrden'],
 					"noFactura" => $mostrarDatos['noFactura'],
 					"fecha" => $mostrarDatos['fecha'],
-					"tipoCombustible" => $mostrarDatos['tipoCombustible'],
-					"monto_total" => $mostrarDatos['monto_total'],
-					"galones" => $mostrarDatos['galones'],
-					"precio_galon" => $mostrarDatos['precio_galon'],
+					"proveedor" => $mostrarDatos['proveedor'],
+					"placa" => $mostrarDatos['placa'],
+					"cantidad" => $mostrarDatos['cantidad'],
+					"descripcion" => $mostrarDatos['descripcion'],
+					"precioUnitario" => $mostrarDatos['precioUnitario'],
+					"total" => $mostrarDatos['total'],
+					"observacion" => $mostrarDatos['observacion'],
 				];
 			}
 
 			echo json_encode($datos);
 			break;
 		default:
-			$showAllCE = $facturasCombustible->selectAll();
+			$showAllCE = $ordenesCompra->selectAll();
 
 			$datos = [];
 
 			while ($mostrarDatos = $showAllCE->fetch_array()) {
 				$datos[]= [
 					"id" => $mostrarDatos['id'],
-					"fecha" => $mostrarDatos['fecha'],
-					"fechaVale" => $mostrarDatos['fechaVale'],
-					"placa" => $mostrarDatos['placa'],
-					"piloto" => $mostrarDatos['piloto'],
-					"ruta" => $mostrarDatos['ruta'],
-					"serie" => $mostrarDatos['serie'],
+					"noOrden" => $mostrarDatos['noOrden'],
 					"noFactura" => $mostrarDatos['noFactura'],
-					"galones" => $mostrarDatos['galones'],
-					"tipoCombustible" => $mostrarDatos['tipoCombustible'],
-					"precio_galon" => $mostrarDatos['precio_galon'],
-					"monto_total" => $mostrarDatos['monto_total'],
-					"fecha_creacion" => $mostrarDatos['fecha_creacion'],
+					"fecha" => $mostrarDatos['fecha'],
+					"proveedor" => $mostrarDatos['proveedor'],
+					"placa" => $mostrarDatos['placa'],
+					"cantidad" => $mostrarDatos['cantidad'],
+					"descripcion" => $mostrarDatos['descripcion'],
+					"precioUnitario" => $mostrarDatos['precioUnitario'],
+					"total" => $mostrarDatos['total'],
+					"observacion" => $mostrarDatos['observacion'],
+					"fecha_ingreso" => $mostrarDatos['fecha_ingreso'],
+					"fecha_modificacion" => $mostrarDatos['fecha_modificacion'],
 					"usuario_ingresa" => $mostrarDatos['usuario_ingresa'],
+					"usuario_modifica" => $mostrarDatos['usuario_modifica'],
 					"editar" => '<a href="#" id="' . $mostrarDatos['id'] . '" class="btnEditar">Editar</a>',
 					"eliminar" => '<a href="#" id="' . $mostrarDatos['id'] . '" class="btnEliminar">Eliminar</a>', 
 				];

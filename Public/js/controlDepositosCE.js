@@ -83,7 +83,7 @@ $(document).ready(function() {
             dataSrc:''
         },
         "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+            url: '//cdn.datatables.net/plug-ins/2.0.3/i18n/es-ES.json',
         },
         columns: [
             { data: 'id' },
@@ -108,7 +108,7 @@ $(document).ready(function() {
             dataSrc:''
         },
         "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+            url: '//cdn.datatables.net/plug-ins/2.0.3/i18n/es-ES.json',
         },
         dom: 'Bfrtip',
         buttons: [

@@ -22,7 +22,8 @@
 	        "Control CE" => "controlDepositosCE.php",
 	        "Registro Fact" => "registroFacturas.php",
 	        "Control Fact" => "controlFacturas.php",
-	        "Registro Ordenes" => "registroOrdenes.php"
+	        "Registro Ordenes" => "registroOrdenes.php",
+	        "Control Ordenes" => "controlOrdenes.php",
 	    );
 
 	    // Definir las asociaciones entre secciones e iconos 
@@ -46,6 +47,7 @@
 	        "Registro Fact" => "save-outline",
 	        "Control Fact" => "build-outline",
 	        "Registro Ordenes" => "newspaper-outline",
+	        "Control Ordenes" => "book-outline",
 	    );
 	    
 	    public function __construct(){

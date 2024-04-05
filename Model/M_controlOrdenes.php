@@ -30,7 +30,7 @@
 			return ["accion" => "Saved"];
 	    }
 	    public function selectAllByUser(){
-	    	$sql = "SELECT * FROM facturascombustibles WHERE usuario_ingresa = ?";
+	    	$sql = "SELECT * FROM ordenesdecompra WHERE usuario_ingresa = ?";
 
 	    	$sentencia =  $this->db->prepare($sql);
 	    	$sentencia->bind_param("s", $_SESSION['usuario']);
@@ -39,7 +39,7 @@
 	    	return $sentencia->get_result();
 	    }
 	    public function selectAll(){
-	    	$sql = "SELECT * FROM facturascombustibles";
+	    	$sql = "SELECT * FROM ordenesdecompra";
 
 	    	$sentencia =  $this->db->prepare($sql);
 	    	$sentencia->execute();
@@ -51,29 +51,29 @@
 		    $fechaActual = date("Y-m-d H:i:s");
 
 		    // Preparar la consulta de inserción
-		    $sqlUpdate = "UPDATE `facturascombustibles` SET `fecha`= ?, `fechaVale`= ?, `placa`= ?, `piloto`= ?, `ruta`= ?, `serie`= ?, `noFactura`= ?, `galones`= ?, `tipoCombustible`= ?, `precio_galon`= ?, `monto_total`= ?, `fecha_modificacion`= ?, `usuario_modifica`= ? WHERE id = ?";
+		    $sqlUpdate = "UPDATE `ordenesdecompra` SET `noOrden`=?, `noFactura`=?, `fecha`=?, `proveedor`=?, `placa`=?, `cantidad`=?, `descripcion`=?, `precioUnitario`=?, `total`=?, `observacion`=?, `usuario_modifica`=?, `fecha_modificacion`=? WHERE `id`= ?";
+
 		    $sentenciaUpdate = $this->db->prepare($sqlUpdate);
 
 		    // Variable para almacenar resultados
 		    $resultados = [];
  
 		    // Iterar sobre los datos
-			$id = $datos['id'];
-			$fecha = $datos['fecha'];
-		    $fechaVale = $datos['fechaVale'];
+		    $id = $datos["id"];
+			$noOrden = $datos['noOrden'];
+			$noFactura = $datos['noFactura'];
+		    $fecha = $datos['fecha'];
 
+		    $proveedor = $datos['proveedor'];
 		    $placa = $datos['placa'];
-		    $piloto = $datos['piloto'];
-		    $ruta = $datos['ruta'];
-		    $serie = $datos['serie'];
-		    $noFactura = $datos['noFactura'];
-		    $galones = $datos['galones'];
-		    $tipoCombustible = $datos['tipoCombustible'];
-		    $precio_galon = $datos['precio_galon'];
-		    $monto_total = $datos['monto_total'];
+		    $cantidad = $datos['cantidad'];
+		    $descripcion = $datos['descripcion'];
+		    $precioUnitario = $datos['precioUnitario'];
+		    $total = $datos['total'];
+		    $observacion = $datos['observacion'];
 
 			// Edita el registro
-            $sentenciaUpdate->bind_param("ssssssidsddssi", $fecha, $fechaVale, $placa, $piloto, $ruta, $serie, $noFactura, $galones, $tipoCombustible, $precio_galon, $monto_total, $fechaActual, $_SESSION['usuario'], $id);
+            $sentenciaUpdate->bind_param("issssisddsssi", $noOrden, $noFactura, $fecha, $proveedor, $placa, $cantidad, $descripcion, $precioUnitario, $total, $observacion, $_SESSION['usuario'], $fechaActual,$id);
             $sentenciaUpdate->execute();
 
             $resultados[] = "registrado";
@@ -84,7 +84,7 @@
 		    return $resultados;
 		}
 	    public function showRegister($id){
-	    	$sql = "SELECT * FROM facturascombustibles WHERE id = ?";
+	    	$sql = "SELECT * FROM ordenesdecompra WHERE id = ?";
 
 	    	$sentencia =  $this->db->prepare($sql);
 	    	$sentencia->bind_param("i", $id);
@@ -93,7 +93,7 @@
 	    	return $sentencia->get_result();
 	    }
 	    public function deleteRegister($id){
-			$sql = "DELETE FROM facturascombustibles WHERE id = ?";
+			$sql = "DELETE FROM ordenesdecompra WHERE id = ?";
 
 	    	$sentencia = $this->db->prepare($sql);
 	    	$sentencia->bind_param("i", $id);

@@ -52,17 +52,17 @@
 			while ($mostrarDatos = $selectAllByUser->fetch_array()) {
 				$datos[]= [
 					"id" => $mostrarDatos['id'],
+					"fecha" => $mostrarDatos['fecha'],
+					"fechaVale" => $mostrarDatos['fechaVale'],
 					"placa" => $mostrarDatos['placa'],
 					"piloto" => $mostrarDatos['piloto'],
 					"ruta" => $mostrarDatos['ruta'],
-					"fechaVale" => $mostrarDatos['fechaVale'],
 					"serie" => $mostrarDatos['serie'],
 					"noFactura" => $mostrarDatos['noFactura'],
-					"fecha" => $mostrarDatos['fecha'],
-					"tipoCombustible" => $mostrarDatos['tipoCombustible'],
-					"monto_total" => $mostrarDatos['monto_total'],
 					"galones" => $mostrarDatos['galones'],
+					"tipoCombustible" => $mostrarDatos['tipoCombustible'],
 					"precio_galon" => $mostrarDatos['precio_galon'],
+					"monto_total" => $mostrarDatos['monto_total'],
 				];
 			}
 

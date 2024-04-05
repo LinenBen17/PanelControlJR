@@ -34,15 +34,15 @@ var nombreReportes;
 
 /////SELECCIONA REGISTROS POR USUARIO/////
 $(document).ready(function() {
-    $('#facturasTableUser').DataTable({
+    $('#ordenesCompraTable').DataTable({
         ajax: {
-            url: '../Controller/C_controlFacturasCombu.php',
+            url: '../Controller/C_controlOrdenes.php',
             type: 'post',
             data: {"action" : "SelectAllUser"},
             dataSrc:''
         },
         "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+            url: '//cdn.datatables.net/plug-ins/2.0.3/i18n/es-ES.json',
         },
         dom: 'Bfrtip',
         buttons: [
@@ -50,23 +50,24 @@ $(document).ready(function() {
         ],
         columns: [
             { data: 'id' },
-            { data: 'placa' },
-            { data: 'piloto' },
-            { data: 'ruta' },
-            { data: 'fecha' },
-            { data: 'serie' },
+            { data: 'noOrden' },
             { data: 'noFactura' },
-            { data: 'monto_total' },
-            { data: 'galones' },
-            { data: 'precio_galon' },
+            { data: 'fecha' },
+            { data: 'proveedor' },
+            { data: 'placa' },
+            { data: 'cantidad' },
+            { data: 'descripcion' },
+            { data: 'precioUnitario' },
+            { data: 'total' },
+            { data: 'observacion' },
         ]
     });
 });
 
-$(document).on('blur', '#galones', function() {
-    let calculo = $("#monto_total").val() / $("#galones").val();
-    $("#precio_galon").val(calculo.toFixed(2));
-    $(".save").focus();
+$(document).on('blur', '#precioUnitario', function() {
+    let calculo = $("#cantidad").val() * $(this).val();
+    $("#total").val(calculo.toFixed(2));
+    $("#observacion").focus();
 });
 
 $(".save").click(function(e){
@@ -117,7 +118,7 @@ $(".save").click(function(e){
 
 })
 $(".clean").click(function(){
-    let inputs = document.querySelectorAll(".formRegistroFact input");
+    let inputs = document.querySelectorAll(".ordenesCompraTable input");
 
     inputs.forEach((input) =>{
         input.value = '';
@@ -126,14 +127,14 @@ $(".clean").click(function(){
 
 /////DATATABLE BOLETAS INGRESADAS GENERAL////
 $(document).ready(function() {
-    $('#facturasTableGeneral').DataTable({
+    $('#ordenesTableGeneral').DataTable({
         ajax: {
-            url: '../Controller/C_controlFacturasCombu.php',
+            url: '../Controller/C_controlOrdenes.php',
             type: 'post',
             dataSrc:''
         },
         "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+            url: '//cdn.datatables.net/plug-ins/2.0.3/i18n/es-ES.json',
         },
         dom: 'Bfrtip',
         buttons: [
@@ -141,31 +142,32 @@ $(document).ready(function() {
                 extend: 'excel',
                 text: 'Exportar a Excel',
                 exportOptions: {
-                    columns: ':lt(-2)' // Índices de las columnas que quieres exportar
-                }
+                    columns: ':lt(-2)', // Índices de las columnas que quieres exportar
+                },
             },
         ],
         columns: [
             { data: 'id' },
-            { data: 'fecha' },
-            { data: 'fechaVale' },
-            { data: 'placa' },
-            { data: 'piloto' },
-            { data: 'ruta' },
-            { data: 'serie' },
+            { data: 'noOrden' },
             { data: 'noFactura' },
-            { data: 'galones' },
-            { data: 'tipoCombustible' },
-            { data: 'precio_galon' },
-            { data: 'monto_total' },
-            { data: 'fecha_creacion' },
+            { data: 'fecha' },
+            { data: 'proveedor' },
+            { data: 'placa' },
+            { data: 'cantidad' },
+            { data: 'descripcion' },
+            { data: 'precioUnitario' },
+            { data: 'total' },
+            { data: 'observacion' },
+            { data: 'fecha_ingreso' },
+            { data: 'fecha_modificacion' },
             { data: 'usuario_ingresa' },
+            { data: 'usuario_modifica' },
             { data: 'editar' },
             { data: 'eliminar' },
         ]
     });
 
-    $('#facturasTableGeneral').DataTable().on('draw.dt', function () {
+    $('#ordenesTableGeneral').DataTable().on('draw.dt', function () {
         $('.btnEliminar').off('click');
     $('a.btnEditar').off('click');
     $('.update').off('click');
@@ -175,7 +177,7 @@ $(document).ready(function() {
             var id = this.id;
 
             $.ajax({
-                url: '../Controller/C_controlFacturasCombu.php',
+                url: '../Controller/C_controlOrdenes.php',
                 type: 'POST',
                 dataType: 'json',
                 data: {id: id, action: "Delete"},
@@ -206,7 +208,7 @@ $(document).ready(function() {
             console.log(id)
 
             $.ajax({
-                url: '../Controller/C_controlFacturasCombu.php',
+                url: '../Controller/C_controlOrdenes.php',
                 type: 'POST',
                 dataType: 'json',
                 data: {id: id, action: "ShowRegister"},
@@ -220,7 +222,7 @@ $(document).ready(function() {
                         console.log(campo)
                         var inputHtml = '';
 
-                        if (campo === 'fecha' || campo === 'fechaVale') {
+                        if (campo === 'fecha') {
                             // Si es un campo de fecha, genera un input de tipo fecha
                             inputHtml = `
                                 <div class="inputBx ${campo}">
@@ -228,24 +230,18 @@ $(document).ready(function() {
                                     <input type="date" name="${campo}" id="${campo}" value="${data[campo]}">
                                 </div>
                             `;
-                        }else if (campo === "tipoCombustible") {
-                            inputHtml = `
-                                <div class="inputBx ${campo}">
-                                    <label for="">${campo.toUpperCase()}</label><br>
-                                    <div class="select">
-                                        <select name="${campo}" id="${campo}">
-                                            <option value="Diesel"  ${data[campo] === 'Diesel' ? 'selected' : ''}>Diesel</option>
-                                            <option value="Regular"  ${data[campo] === 'Regular' ? 'selected' : ''}>regular</option>
-                                            <option value="Super"  ${data[campo] === 'Super' ? 'selected' : ''}>Super</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            `;
-                        }else if (campo === "monto_total" || campo === "galones" || campo === "precio_galon") {
+                        }else if (campo === "noOrden" || campo === "cantidad" || campo === "precioUnitario" || campo === "total") {
                             inputHtml = `
                                 <div class="inputBx ${campo}">
                                     <label for="">${campo.toUpperCase()}</label><br>
                                     <input type="number" name="${campo}" id="${campo}" value="${data[campo]}">
+                                </div>
+                            `;
+                        }else if (campo === "observacion") {
+                            inputHtml = `
+                                <div class="inputBx ${campo}">
+                                    <label for="">${campo.toUpperCase()}</label><br>
+                                    <textarea type="text" name="${campo}" id="${campo}">${data[campo]}</textarea>
                                 </div>
                             `;
                         }else {
@@ -258,16 +254,16 @@ $(document).ready(function() {
                             `;
                         }
 
-                        $('#editarFactura form').append(inputHtml);
+                        $('#editarOrden form').append(inputHtml);
                     });
 
                     $("#" + campos[0]).attr({
                         'type': 'hidden',
                     });
-                    $('#editarFactura').modal();
+                    $('#editarOrden').modal();
 
-                    $('#editarFactura').on($.modal.AFTER_CLOSE, function() {
-                        $('#editarFactura form > div').remove();
+                    $('#editarOrden').on($.modal.AFTER_CLOSE, function() {
+                        $('#editarOrden form > div').remove();
                     });
                 },
                 error: function(a, b, c) {
@@ -281,8 +277,8 @@ $(document).ready(function() {
         $('.update').click(function(e) {
             e.preventDefault();
 
-            let inputs = document.querySelectorAll(".formRegistroFact input");
-            let selects = document.querySelectorAll(".formRegistroFact select");
+            let inputs = document.querySelectorAll(".formRegistroOrdenes input");
+            let textarea = document.querySelector(".formRegistroOrdenes textarea");
 
             let datosForm = {
                 "action": "Update",
@@ -296,15 +292,10 @@ $(document).ready(function() {
                 
             })
 
-            selects.forEach((select) =>{
-                let id = select.id;
-                let valorSelect = select.value;
-
-                datosForm[id] = valorSelect
-            })
+            datosForm[textarea.id] = textarea.value;
 
             $.ajax({
-                url: '../Controller/C_controlFacturasCombu.php',
+                url: '../Controller/C_controlOrdenes.php',
                 type: 'POST',
                 dataType: 'json',
                 data: datosForm,

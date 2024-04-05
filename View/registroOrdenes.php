@@ -90,19 +90,20 @@
                         <button type="button" class="save btnEditar">Guardar</button>
                         <button type="button" class="clean btnEditar">Limpiar</button>
                     </div><br>
-                <table id="facturasTableUer" class="display" style="width: 100%;">
+                <table id="ordenesCompraTable" class="display" style="width: 100%;">
                     <thead>
                         <tr>
-                            <th>id</th>
-                            <th>Placa</th>
-                            <th>Piloto</th>
-                            <th>Ruta</th>
-                            <th>Fecha</th>
-                            <th>Serie</th>
+                            <th>#</th>
+                            <th>No. Orden</th>
                             <th>No. Factura</th>
-                            <th>Monto Total</th>
-                            <th>Galones</th>
-                            <th>Precio X Galón</th>
+                            <th>Fecha</th>
+                            <th>Proveedor</th>
+                            <th>Placa</th>
+                            <th>Cantidad</th>
+                            <th>Descripción</th>
+                            <th>Precio Unitario</th>
+                            <th>Total</th>
+                            <th>Observación</th>
                         </tr>
                     </thead>
                 </table>
