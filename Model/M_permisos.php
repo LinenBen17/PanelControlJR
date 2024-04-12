@@ -24,6 +24,7 @@
 	        "Control Fact" => "controlFacturas.php",
 	        "Registro Ordenes" => "registroOrdenes.php",
 	        "Control Ordenes" => "controlOrdenes.php",
+	        "Ingreso Empleados" => "ingresoEmpleados.php",
 	    );
 
 	    // Definir las asociaciones entre secciones e iconos 
@@ -48,6 +49,7 @@
 	        "Control Fact" => "build-outline",
 	        "Registro Ordenes" => "newspaper-outline",
 	        "Control Ordenes" => "book-outline",
+	        "Ingreso Empleados" => "accessibility-outline",
 	    );
 	    
 	    public function __construct(){

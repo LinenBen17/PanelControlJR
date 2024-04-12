@@ -418,6 +418,31 @@ div.inputBx textarea{
 .formManifiesto form input{
 	width: 100%;
 }
+/*FROM REGISTRO EMPLEADOS*/
+.formIngresoEmpleados form {
+  max-width: 690px;
+  display: grid; 
+  grid-template-columns: 1fr 1fr 1fr 1fr; 
+  grid-template-rows: 1fr 1fr;
+  grid-auto-flow: row;
+  gap: 10px; 
+  grid-template-areas: 
+    "nombresFEmpleados apellidosFEmpleados ctaBancariaFEmpleados fechaIngresoFEmpleados"
+    "agenciaFEmpleados cargoFEmpleados estadoPlanillaFEmpleados observacionesFEmpleados";
+}
+.formIngresoEmpleados .nombres { grid-area: nombresFEmpleados; }
+.formIngresoEmpleados .apellidos { grid-area: apellidosFEmpleados; }
+.formIngresoEmpleados .ctaBancaria { grid-area: ctaBancariaFEmpleados; }
+.formIngresoEmpleados .fechaIngreso { grid-area: fechaIngresoFEmpleados; }
+.formIngresoEmpleados .agencia { grid-area: agenciaFEmpleados; }
+.formIngresoEmpleados .cargo { grid-area: cargoFEmpleados; }
+.formIngresoEmpleados .estadoPlanilla { grid-area: estadoPlanillaFEmpleados; }
+.formIngresoEmpleados .observacion { grid-area: observacionesFEmpleados; }
+
+.formIngresoEmpleados form input,
+.formIngresoEmpleados form .select{
+	width: 100%;
+}
 /*FORM REGISTRO ORDENES*/
 .formRegistroOrdenes form {
   max-width: 690px;
