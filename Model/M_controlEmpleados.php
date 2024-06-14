@@ -27,7 +27,7 @@
 	    	return $sentencia->get_result();
 	    }
 	    public function selectAll(){
-	    	$sql = "SELECT * FROM facturascombustibles";
+	    	$sql = "SELECT * FROM empleados";
 
 	    	$sentencia =  $this->db->prepare($sql);
 	    	$sentencia->execute();

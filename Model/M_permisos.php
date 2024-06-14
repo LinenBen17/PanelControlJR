@@ -25,6 +25,7 @@
 	        "Registro Ordenes" => "registroOrdenes.php",
 	        "Control Ordenes" => "controlOrdenes.php",
 	        "Ingreso Empleados" => "ingresoEmpleados.php",
+	        "Control Empleados" => "controlEmpleados.php",
 	    );
 
 	    // Definir las asociaciones entre secciones e iconos 
@@ -50,6 +51,7 @@
 	        "Registro Ordenes" => "newspaper-outline",
 	        "Control Ordenes" => "book-outline",
 	        "Ingreso Empleados" => "accessibility-outline",
+	        "Control Empleados" => "calendar-outline",
 	    );
 	    
 	    public function __construct(){

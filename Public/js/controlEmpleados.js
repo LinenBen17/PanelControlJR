@@ -32,39 +32,6 @@ var minutes = fechaActual.getMinutes();
 var seconds = fechaActual.getSeconds();
 var nombreReportes;
 
-/////SELECCIONA REGISTROS POR USUARIO/////
-$(document).ready(function() {
-    $('#facturasTableUser').DataTable({
-        ajax: {
-            url: '../Controller/C_controlFacturasCombu.php',
-            type: 'post',
-            data: {"action" : "SelectAllUser"},
-            dataSrc:''
-        },
-        "language": {
-            url: '//cdn.datatables.net/plug-ins/2.0.3/i18n/es-ES.json',
-        },
-        dom: 'Bfrtip',
-        buttons: [
-            'excel'
-        ],
-        columns: [
-            { data: 'id' },
-            { data: 'fecha' },
-            { data: 'fechaVale' },
-            { data: 'placa' },
-            { data: 'piloto' },
-            { data: 'ruta' },
-            { data: 'serie' },
-            { data: 'noFactura' },
-            { data: 'galones' },
-            { data: 'tipoCombustible' },
-            { data: 'precio_galon' },
-            { data: 'monto_total' },
-        ]
-    });
-});
-
 $(".save").click(function(e){
     e.preventDefault();
     let inputs = document.querySelectorAll(".formIngresoEmpleados input");
@@ -130,9 +97,9 @@ $(".clean").click(function(){
 
 /////DATATABLE BOLETAS INGRESADAS GENERAL////
 $(document).ready(function() {
-    $('#facturasTableGeneral').DataTable({
+    $('#empleadosTableGeneral').DataTable({
         ajax: {
-            url: '../Controller/C_controlFacturasCombu.php',
+            url: '../Controller/C_controlEmpleados.php',
             type: 'post',
             dataSrc:''
         },
@@ -151,19 +118,14 @@ $(document).ready(function() {
         ],
         columns: [
             { data: 'id' },
-            { data: 'fecha' },
-            { data: 'fechaVale' },
-            { data: 'placa' },
-            { data: 'piloto' },
-            { data: 'ruta' },
-            { data: 'serie' },
-            { data: 'noFactura' },
-            { data: 'galones' },
-            { data: 'tipoCombustible' },
-            { data: 'precio_galon' },
-            { data: 'monto_total' },
-            { data: 'fecha_creacion' },
-            { data: 'usuario_ingresa' },
+            { data: 'nombres' },
+            { data: 'apellidos' },
+            { data: 'ctaBancaria' },
+            { data: 'fechaIngreso' },
+            { data: 'agencia' },
+            { data: 'cargo' },
+            { data: 'estadoPlanilla' },
+            { data: 'observaciones' },
             { data: 'editar' },
             { data: 'eliminar' },
         ]

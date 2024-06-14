@@ -44,55 +44,28 @@
 
 			echo json_encode($delete);
 			break;
-		case "SelectAllUser":
-			$selectAllByUser = $facturasCombustible->selectAllByUser();
-
-			$datos = [];
-
-			while ($mostrarDatos = $selectAllByUser->fetch_array()) {
-				$datos[]= [
-					"id" => $mostrarDatos['id'],
-					"fecha" => $mostrarDatos['fecha'],
-					"fechaVale" => $mostrarDatos['fechaVale'],
-					"placa" => $mostrarDatos['placa'],
-					"piloto" => $mostrarDatos['piloto'],
-					"ruta" => $mostrarDatos['ruta'],
-					"serie" => $mostrarDatos['serie'],
-					"noFactura" => $mostrarDatos['noFactura'],
-					"galones" => $mostrarDatos['galones'],
-					"tipoCombustible" => $mostrarDatos['tipoCombustible'],
-					"precio_galon" => $mostrarDatos['precio_galon'],
-					"monto_total" => $mostrarDatos['monto_total'],
-				];
-			}
-
-			echo json_encode($datos);
-			break;
 		default:
-			$showAllCE = $facturasCombustible->selectAll();
+			$showAll = $empleados->selectAll();
 
 			$datos = [];
 
-			while ($mostrarDatos = $showAllCE->fetch_array()) {
+			while ($mostrarDatos = $showAll->fetch_array()) {
 				$datos[]= [
 					"id" => $mostrarDatos['id'],
-					"fecha" => $mostrarDatos['fecha'],
-					"fechaVale" => $mostrarDatos['fechaVale'],
-					"placa" => $mostrarDatos['placa'],
-					"piloto" => $mostrarDatos['piloto'],
-					"ruta" => $mostrarDatos['ruta'],
-					"serie" => $mostrarDatos['serie'],
-					"noFactura" => $mostrarDatos['noFactura'],
-					"galones" => $mostrarDatos['galones'],
-					"tipoCombustible" => $mostrarDatos['tipoCombustible'],
-					"precio_galon" => $mostrarDatos['precio_galon'],
-					"monto_total" => $mostrarDatos['monto_total'],
-					"fecha_creacion" => $mostrarDatos['fecha_creacion'],
+					"nombres" => $mostrarDatos['nombres'],
+					"apellidos" => $mostrarDatos['apellidos'],
+					"ctaBancaria" => $mostrarDatos['ctaBancaria'],
+					"fechaIngreso" => $mostrarDatos['fechaIngreso'],
+					"agencia" => $mostrarDatos['agencia'],
+					"cargo" => $mostrarDatos['cargo'],
+					"estadoPlanilla" => $mostrarDatos['estadoPlanilla'],
+					"observaciones" => $mostrarDatos['observaciones'],
+					"fecha_ingreso" => $mostrarDatos['fecha_ingreso'],
+					"fecha_modificacion" => $mostrarDatos['fecha_modificacion'],
 					"usuario_ingresa" => $mostrarDatos['usuario_ingresa'],
-					"editar" => '<a href="#" id="' . $mostrarDatos['id'] . '" class="btnEditar">Editar</a>',
-					"eliminar" => '<a href="#" id="' . $mostrarDatos['id'] . '" class="btnEliminar">Eliminar</a>', 
+					"usuario_modifica" => $mostrarDatos['usuario_modifica'],
 				];
-			}
+			 }
 
 			echo json_encode($datos);
 			break;
