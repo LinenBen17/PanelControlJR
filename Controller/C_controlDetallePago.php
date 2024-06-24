@@ -1,16 +1,32 @@
 <?php
-	require_once '../Model/M_controlEmpleados.php';
+	require_once '../Model/M_controlDetallePago.php';
 
 	$action = isset($_POST['action']) ? $_POST['action'] : '';
 
-	$empleados = new Empleados();
+	$detallePago = new DetallePago();
 
 	switch ($action) {
 		case "Save":
-			$newEmpleado = $empleados->newEmpleado($_POST['nombres'], $_POST['apellidos'], $_POST['ctaBancaria'], $_POST['fecha_ingreso_empleado'], $_POST['agencia'], $_POST['cargo'], $_POST['estado_planilla'], $_POST['observaciones']);
+			$newDetalle = $detallePago->newDetalle($_POST['empleado_id'], $_POST['sueldo_ordinario'], $_POST['bonificacion_ley'], $_POST['bonificacion_incentivo'], $_POST['igss'], $_POST['isr']);
 
-			echo json_encode($newEmpleado);
+			echo json_encode($newDetalle);
 
+			break;
+		case "ShowEmpleados":
+			$selectAllEmpleados = $detallePago->selectAllEmpleados();
+
+			$datos = [];
+
+			while ($mostrarDatos = $selectAllEmpleados->fetch_array()) {
+				$datos[]= [
+					"id" => $mostrarDatos['id'],
+					"nombres" => $mostrarDatos['nombres'],
+					"apellidos" => $mostrarDatos['apellidos'],
+					"cargo" => $mostrarDatos['cargo'],
+					"estado_planilla" => $mostrarDatos['estado_planilla'] == 1 ? "En Planilla" : "Fuera de Planilla",
+				];
+			 }
+			echo json_encode($datos);
 			break;
 		case "ShowRegister":
 			$showRegister = $empleados->showRegister($_POST['id']);

@@ -26,6 +26,8 @@
 	        "Control Ordenes" => "controlOrdenes.php",
 	        "Ingreso Empleados" => "ingresoEmpleados.php",
 	        "Control Empleados" => "controlEmpleados.php",
+	        "Detalle Pago" => "ingresoDetallePago.php",
+	        "Control Detalle Pago" => "controlDetallePago.php",
 	    );
 
 	    // Definir las asociaciones entre secciones e iconos 
@@ -52,6 +54,8 @@
 	        "Control Ordenes" => "book-outline",
 	        "Ingreso Empleados" => "accessibility-outline",
 	        "Control Empleados" => "calendar-outline",
+	        "Detalle Pago" => "cash",
+	        "Control Detalle Pago" => "wallet",
 	    );
 	    
 	    public function __construct(){

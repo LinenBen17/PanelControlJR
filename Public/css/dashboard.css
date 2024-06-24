@@ -148,11 +148,6 @@ input{
 	font-size: 2.5em;
 	cursor: pointer;
 }
-.search{
-	position: relative;
-	width: 400px;
-	margin: 0 10px
-}
 .search label{
 	position: relative;
 	width: 100%;
@@ -418,6 +413,40 @@ div.inputBx textarea{
 .formManifiesto form input{
 	width: 100%;
 }
+/*FROM INGRESO DETALLE PAGO*/
+.formIngresoDetallePago form {
+  max-width: 690px;
+  display: grid; 
+  grid-template-columns: 1fr 1fr 1fr; 
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-auto-flow: row;
+  gap: 10px; 
+  grid-template-areas: 
+    "detallePagoEmpleado . ."
+    "detallePagoSueldo_ordinario detallePagoBonificacion_ley detallePagoBonificacion_incentivo"
+    "detallePagoIgss detallePagoIsr .";
+}
+.formIngresoDetallePago .empleado { grid-area: detallePagoEmpleado; }
+.formIngresoDetallePago .sueldo_ordinario { grid-area: detallePagoSueldo_ordinario; }
+.formIngresoDetallePago .bonificacion_ley { grid-area: detallePagoBonificacion_ley; }
+.formIngresoDetallePago .bonificacion_incentivo { grid-area: detallePagoBonificacion_incentivo; }
+.formIngresoDetallePago .igss { grid-area: detallePagoIgss; }
+.formIngresoDetallePago .isr { grid-area: detallePagoIsr; }
+
+.formIngresoDetallePago form input,
+.formIngresoDetallePago form .select{
+	width: 100%;
+}
+.formIngresoDetallePago .search{
+	display: flex;
+	width: 100%;
+}
+.formIngresoDetallePago .search button{
+	margin-left: 10px;
+}
+#tableSelectEmpleado tbody tr{
+	cursor: pointer;
+}
 /*FROM REGISTRO EMPLEADOS*/
 .formIngresoEmpleados form {
   max-width: 690px;
@@ -433,11 +462,11 @@ div.inputBx textarea{
 .formIngresoEmpleados .nombres { grid-area: nombresFEmpleados; }
 .formIngresoEmpleados .apellidos { grid-area: apellidosFEmpleados; }
 .formIngresoEmpleados .ctaBancaria { grid-area: ctaBancariaFEmpleados; }
-.formIngresoEmpleados .fechaIngreso { grid-area: fechaIngresoFEmpleados; }
+.formIngresoEmpleados .fecha_ingreso_empleado { grid-area: fechaIngresoFEmpleados; }
 .formIngresoEmpleados .agencia { grid-area: agenciaFEmpleados; }
 .formIngresoEmpleados .cargo { grid-area: cargoFEmpleados; }
-.formIngresoEmpleados .estadoPlanilla { grid-area: estadoPlanillaFEmpleados; }
-.formIngresoEmpleados .observacion { grid-area: observacionesFEmpleados; }
+.formIngresoEmpleados .estado_planilla { grid-area: estadoPlanillaFEmpleados; }
+.formIngresoEmpleados .observaciones { grid-area: observacionesFEmpleados; }
 
 .formIngresoEmpleados form input,
 .formIngresoEmpleados form .select{

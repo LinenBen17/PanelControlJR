@@ -1,23 +1,39 @@
 <?php
 
 	session_start();
-	class Empleados{
+	class DetallePago{
 		private $db;
 
 	    public function __construct(){
 	        require_once 'Conexion.php';
 	        $this->db = Conexion::conectar();
 	    }
-	    public function newEmpleado($nombres, $apellidos, $ctaBancaria, $fecha_ingreso_empleado, $agencia, $cargo, $estado_planilla, $observaciones){
-	    	$sqlSave = "INSERT INTO `empleados`(`nombres`, `apellidos`, `ctaBancaria`, `fecha_ingreso_empleado`, `agencia`, `cargo`, `estado_planilla`, `observaciones`, `usuario_ingresa`, `usuario_modifica`) VALUES (?,?,?,?,?,?,?,?,?,?)";
+	    public function newDetalle($empleado_id, $sueldo_ordinario, $bonificacion_ley, $bonificacion_incentivo, $igss, $isr){
+	    	$sqlSave = "INSERT INTO `detalle_pago_empleado`(`empleado_id`, `sueldo_ordinario`, `bonificacion_ley`, `bonificacion_incentivo`, `igss`, `isr`, `usuario_ingresa`, `usuario_modifica`) VALUES (?, ?, ?, ?, ?, ?, ?, ?) ";
 
-			$sentenciaSave = $this->db->prepare($sqlSave);
-			$sentenciaSave->bind_param("ssisssssss", $nombres, $apellidos, $ctaBancaria, $fecha_ingreso_empleado, $agencia, $cargo, $estado_planilla, $observaciones, $_SESSION['usuario'], $_SESSION['usuario']);
-			$sentenciaSave->execute();
+	    	$sqlSelect = "SELECT * FROM detalle_pago_empleado WHERE empleado_id = ?";
 
-			return ["accion" => "Saved"];
+	    	$sentenciaSelect = $this->db->prepare($sqlSelect);
+	    	$sentenciaSelect->bind_param("i", $empleado_id);
+	    	$sentenciaSelect->execute();
+
+	    	$resultado = $sentenciaSelect->get_result();
+
+	    	$mensaje = "";
+	    	
+	    	if ($resultado->num_rows > 0) {
+	    		$mensaje = "Repeated";
+	    	}else{
+				$sentenciaSave = $this->db->prepare($sqlSave);
+				$sentenciaSave->bind_param("idddddss", $empleado_id, $sueldo_ordinario, $bonificacion_ley, $bonificacion_incentivo, $igss, $isr, $_SESSION['usuario'], $_SESSION['usuario']);
+				$sentenciaSave->execute();
+
+				$mensaje = "Saved";
+			}
+
+			return $mensaje;
 	    }
-	    public function selectAll(){
+	    public function selectAllEmpleados(){
 	    	$sql = "SELECT * FROM empleados";
 
 	    	$sentencia =  $this->db->prepare($sql);

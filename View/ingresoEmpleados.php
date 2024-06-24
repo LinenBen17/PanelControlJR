@@ -67,7 +67,7 @@
                             </div>
                             <div class="inputBx fechaIngreso">
                                 <label>Fecha Ingreso</label>
-                                <input type="date" id="fechaIngreso" placeholder="">
+                                <input type="date" id="fecha_ingreso_empleado" placeholder="">
                             </div>
                             <div class="inputBx agencia">
                                 <label>Agencia</label><br>
@@ -92,10 +92,10 @@
                                 <label>Cargo</label>
                                 <input type="text" id="cargo" placeholder="">
                             </div>
-                            <div class="inputBx estadoPlanilla">
+                            <div class="inputBx estado_planilla">
                                 <label>Estado Planilla</label><br>
                                 <div class="select">
-                                    <select name="estadoPlanilla" id="estadoPlanilla">
+                                    <select name="estado_planilla" id="estado_planilla">
                                         <option value="1">En Planilla</option>
                                         <option value="0">Fuera de Planilla</option>
                                     </select>

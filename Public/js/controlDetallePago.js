@@ -32,6 +32,106 @@ var minutes = fechaActual.getMinutes();
 var seconds = fechaActual.getSeconds();
 var nombreReportes;
 
+$(".searchEmpleado").click(function(){
+    $('#seleccionarEmpleado').modal();
+
+    // Destruye el DataTable si ya ha sido inicializado
+    if ($.fn.DataTable.isDataTable('#tableSelectEmpleado')) {
+        $('#tableSelectEmpleado').DataTable().destroy();
+    }
+    
+    $('#tableSelectEmpleado').DataTable({
+        ajax: {
+            url: '../Controller/C_controlDetallePago.php',
+            type: 'post',
+            data: {"action" : "ShowEmpleados"},
+            dataSrc:''
+        },
+        "language": {
+            url: 'https://cdn.datatables.net/plug-ins/2.0.3/i18n/es-ES.json',
+        },
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'excel',
+                text: 'Exportar a Excel'
+            },
+        ],
+        columns: [
+            { data: 'id' },
+            { data: 'nombres' },
+            { data: 'apellidos' },
+            { data: 'cargo' },
+            { data: 'estado_planilla' },
+        ],
+        rowId: function(a) {
+            return a.id;
+        },
+    });
+})
+
+$('#tableSelectEmpleado').on('click', 'tr', function () {
+    //SELECCIONA EL ID EN EL CAMPO EMPLEADO Y CIERRA EL MODAL
+    $("#empleado_id").val(this.id);
+    $.modal.close();
+
+    //ESTABLECE EL FOCO EN EL CAMPO EMPLEADO Y CREA UNA FUNCION AJAX PARA OBTENER LOS DATOS DE ESE EMPLEADO (En caso tuviera datos ya asignados, si no quedará vacío)
+    $("#empleado_id").focus();
+    
+    $(".save").click(function(e){
+        e.preventDefault();
+        let inputs = document.querySelectorAll(".formIngresoDetallePago input");
+
+        let datosForm = {
+            "action": "Save",
+        };
+
+        inputs.forEach((input) =>{
+            let id = input.id;
+            let valorInput = input.value;
+            
+            datosForm[id] = valorInput;
+            
+        })
+
+        let camposLlenos = true; // Suponemos que todos los campos están llenos inicialmente
+
+        inputs.forEach(function(input) {
+            if (input.value == "") {
+                mostrarMensajeError("Todos los campos deben estar llenos.");
+                camposLlenos = false; // Cambiamos la variable a false si encontramos un campo vacío
+            }
+        });
+
+        if (camposLlenos) {
+            $.ajax({
+                url: '../Controller/C_controlDetallePago.php',
+                type: 'POST',
+                dataType: 'json',
+                data: datosForm,
+                success: function(data) {
+                    if (data == "Saved") {
+                        mostrarMensajeSuccess("Registro guardado con éxito.");
+                        setTimeout(function() {
+                            location.reload();
+                        }, 1500);
+                    }else if (data == "Repeated"){
+                        mostrarMensajeError("El registro ya tiene datos.")
+                        $(".clean").click();
+                    }
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    console.log(xhr)
+                    console.log(textStatus)
+                    console.log(errorThrown)
+                }
+            });
+        }
+
+    })
+
+});
+
 $(".save").click(function(e){
     e.preventDefault();
     let inputs = document.querySelectorAll(".formIngresoEmpleados input");
@@ -88,7 +188,7 @@ $(".save").click(function(e){
 
 })
 $(".clean").click(function(){
-    let inputs = document.querySelectorAll(".formRegistroFact input");
+    let inputs = document.querySelectorAll(".formIngresoDetallePago input");
 
     inputs.forEach((input) =>{
         input.value = '';
@@ -106,16 +206,6 @@ $(document).ready(function() {
         "language": {
             url: '//cdn.datatables.net/plug-ins/2.0.3/i18n/es-ES.json',
         },
-        dom: 'Bfrtip',
-        buttons: [
-            {
-                extend: 'excel',
-                text: 'Exportar a Excel',
-                exportOptions: {
-                    columns: ':lt(-2)' // Índices de las columnas que quieres exportar
-                }
-            },
-        ],
         columns: [
             { data: 'id' },
             { data: 'nombres' },
