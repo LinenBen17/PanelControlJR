@@ -197,31 +197,34 @@ $(".clean").click(function(){
 
 /////DATATABLE BOLETAS INGRESADAS GENERAL////
 $(document).ready(function() {
-    $('#empleadosTableGeneral').DataTable({
+    $('#tableDetallePagoGeneral').DataTable({
         ajax: {
-            url: '../Controller/C_controlEmpleados.php',
+            url: '../Controller/C_controlDetallePago.php',
             type: 'post',
             dataSrc:''
         },
         "language": {
-            url: '//cdn.datatables.net/plug-ins/2.0.3/i18n/es-ES.json',
+            url: 'https://cdn.datatables.net/plug-ins/2.0.3/i18n/es-ES.json',
         },
         columns: [
             { data: 'id' },
-            { data: 'nombres' },
-            { data: 'apellidos' },
-            { data: 'ctaBancaria' },
-            { data: 'fecha_ingreso_empleado' },
-            { data: 'agencia' },
-            { data: 'cargo' },
-            { data: 'estado_planilla' },
-            { data: 'observaciones' },
+            { 
+                data: 'empleado',
+                createdCell: function (td, cellData, rowData, row, col) {
+                    $(td).attr('id', rowData.empleado_id); // Asigna el id de la fila a la celda
+                }
+            },
+            { data: 'sueldo_ordinario' },
+            { data: 'bonificacion_ley' },
+            { data: 'bonificacion_incentivo' },
+            { data: 'igss' },
+            { data: 'isr' },
             { data: 'editar' },
             { data: 'eliminar' },
-        ]
+        ],
     });
 
-    $('#empleadosTableGeneral').DataTable().on('draw.dt', function () {
+    $('#tableDetallePagoGeneral').DataTable().on('draw.dt', function () {
     $('.btnEliminar').off('click');
     $('a.btnEditar').off('click');
     $('.update').off('click');
@@ -231,7 +234,7 @@ $(document).ready(function() {
             var id = this.id;
 
             $.ajax({
-                url: '../Controller/C_controlEmpleados.php',
+                url: '../Controller/C_controlDetallePago.php',
                 type: 'POST',
                 dataType: 'json',
                 data: {id: id, action: "Delete"},

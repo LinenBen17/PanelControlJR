@@ -41,6 +41,22 @@
 
 	    	return $sentencia->get_result();
 	    }
+	    public function selectAllDetalle(){
+	    	$sql = "
+	    		SELECT 
+				e.id AS empleadoId,
+				dpe.id AS detalle_pago_empleado_id,
+				e.*, dpe.*
+				FROM empleados AS e
+				INNER JOIN detalle_pago_empleado AS dpe
+				ON e.id = dpe.empleado_id ORDER BY e.id;
+	    	";
+
+	    	$sentencia =  $this->db->prepare($sql);
+	    	$sentencia->execute();
+
+	    	return $sentencia->get_result();
+	    }
 	    public function update($datos){
 			date_default_timezone_set('America/Guatemala');
 		    $fechaActual = date("Y-m-d H:i:s");
@@ -85,7 +101,7 @@
 	    	return $sentencia->get_result();
 	    }
 	    public function deleteRegister($id){
-			$sql = "DELETE FROM empleados WHERE id = ?";
+			$sql = "DELETE FROM detalle_pago_empleado WHERE id = ?";
 
 	    	$sentencia = $this->db->prepare($sql);
 	    	$sentencia->bind_param("i", $id);

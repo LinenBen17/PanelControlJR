@@ -53,28 +53,27 @@
 			echo json_encode($update);
 			break;
 		case "Delete":
-			$delete = $empleados->deleteRegister($_POST['id']);
+			$delete = $detallePago->deleteRegister($_POST['id']);
 
 			echo json_encode($delete);
 			break;
 		default:
-			$showAll = $empleados->selectAll();
+			$selectAllDetalle = $detallePago->selectAllDetalle();
 
 			$datos = [];
 
-			while ($mostrarDatos = $showAll->fetch_array()) {
+			while ($mostrarDatos = $selectAllDetalle->fetch_array()) {
 				$datos[]= [
-					"id" => $mostrarDatos['id'],
-					"nombres" => $mostrarDatos['nombres'],
-					"apellidos" => $mostrarDatos['apellidos'],
-					"ctaBancaria" => $mostrarDatos['ctaBancaria'],
-					"fecha_ingreso_empleado" => $mostrarDatos['fecha_ingreso_empleado'],
-					"agencia" => $mostrarDatos['agencia'],
-					"cargo" => $mostrarDatos['cargo'],
-					"estado_planilla" => $mostrarDatos['estado_planilla'],
-					"observaciones" => $mostrarDatos['observaciones'],
-					"editar" => '<a href="#" id="' . $mostrarDatos['id'] . '" class="btnEditar">Editar</a>',
-					"eliminar" => '<a href="#" id="' . $mostrarDatos['id'] . '" class="btnEliminar">Eliminar</a>', 
+					"id" => $mostrarDatos['detalle_pago_empleado_id'],
+					"empleado_id" => $mostrarDatos['empleadoId'],
+					"empleado" => $mostrarDatos['nombres'] . " " . $mostrarDatos['apellidos'],
+					"sueldo_ordinario" => $mostrarDatos['sueldo_ordinario'],
+					"bonificacion_ley" => $mostrarDatos['bonificacion_ley'],
+					"bonificacion_incentivo" => $mostrarDatos['bonificacion_incentivo'],
+					"igss" => $mostrarDatos['igss'],
+					"isr" => $mostrarDatos['isr'],
+					"editar" => '<a href="#" id="' . $mostrarDatos['detalle_pago_empleado_id'] . '" class="btnEditar">Editar</a>',
+					"eliminar" => '<a href="#" id="' . $mostrarDatos['detalle_pago_empleado_id'] . '" class="btnEliminar">Eliminar</a>', 
 				];
 			 }
 			echo json_encode($datos);

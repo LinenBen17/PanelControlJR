@@ -46,18 +46,16 @@
 			</div>
 			<div class="details">
 				<div class="recentOrders">
-                    <table id="empleadosTableGeneral" class="display" style="width: 100%;">
+                    <table id="tableDetallePagoGeneral" class="display" style="width: 100%;">
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Nombres</th>
-                                <th>Apellidos</th>
-                                <th>Cta. Bancaria</th>
-                                <th>Fecha Ingreso</th>
-                                <th>Agencia</th>
-                                <th>Cargo</th>
-                                <th>Estado</th>
-                                <th>Observaciones</th>
+                                <th>Empleado</th>
+                                <th>Sueldo Ordinario</th>
+                                <th>Bonificación Ley</th>
+                                <th>Bonificación Incentivo</th>
+                                <th>IGSS</th>
+                                <th>ISR</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -83,6 +81,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 
 	<?php require_once 'shared/footer.php';	 ?> 
-	<script src="../Public/js/controlEmpleados.js"></script>
+	<script src="../Public/js/controlDetallePago.js"></script>
 </body>
 </html> 
