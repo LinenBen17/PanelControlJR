@@ -413,6 +413,39 @@ div.inputBx textarea{
 .formManifiesto form input{
 	width: 100%;
 }
+/*FROM REGISTRO DESCUENTOS*/
+.formIngresoDescuentos form {
+  max-width: 690px;
+  display: grid; 
+  grid-template-columns: 1fr 1fr; 
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-auto-flow: row;
+  gap: 10px; 
+  grid-template-areas: 
+    "empleadoDescuentos ."
+    "fechaDescuentos tipoDescuentos"
+    "montoDescuentos observacionesDescuentos";
+}
+.formIngresoDescuentos .empleado { grid-area: empleadoDescuentos; }
+.formIngresoDescuentos .fecha_descuento { grid-area: fechaDescuentos; }
+.formIngresoDescuentos .tipo_descuento { grid-area: tipoDescuentos; }
+.formIngresoDescuentos .monto { grid-area: montoDescuentos; }
+.formIngresoDescuentos .observaciones { grid-area: observacionesDescuentos; }
+
+.formIngresoDescuentos form input,
+.formIngresoDescuentos form .select{
+	width: 100%;
+}
+.formIngresoDescuentos .search{
+	display: flex;
+	width: 100%;
+}
+.formIngresoDescuentos .search button{
+	margin-left: 10px;
+}
+#tableSelectDescuento tbody tr{
+	cursor: pointer;
+}
 /*FROM INGRESO DETALLE PAGO*/
 .formIngresoDetallePago form {
   max-width: 690px;

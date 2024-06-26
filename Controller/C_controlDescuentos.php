@@ -1,15 +1,15 @@
 <?php
-	require_once '../Model/M_controlDetallePago.php';
+	require_once '../Model/M_controlDescuentos.php';
 
 	$action = isset($_POST['action']) ? $_POST['action'] : '';
 
-	$detallePago = new DetallePago();
+	$detallePago = new Descuentos();
 
 	switch ($action) {
 		case "Save":
-			$newDetalle = $detallePago->newDetalle($_POST['empleado_id'], $_POST['sueldo_ordinario'], $_POST['bonificacion_ley'], $_POST['bonificacion_incentivo'], $_POST['igss'], $_POST['isr']);
+			$newDescuento = $detallePago->newDescuento($_POST['empleado_id'], $_POST['fecha_descuento'], $_POST['tipo_descuento'], $_POST['monto'], $_POST['observaciones']);
 
-			echo json_encode($newDetalle);
+			echo json_encode($newDescuento);
 
 			break;
 		case "ShowEmpleados":

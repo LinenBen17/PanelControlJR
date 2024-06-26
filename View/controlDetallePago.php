@@ -61,11 +61,11 @@
                             </tr>
                         </thead>
                     </table>
-                   <div id="editarEmpleado" class="modal form">
+                   <div id="editarDetallePago" class="modal form">
                         <div class="cardHeader">
                             <h2>Editar Registro</h2>
                         </div>
-                        <div class="formIngresoEmpleados">
+                        <div class="formIngresoDetallePago">
                             <form></form>
                         </div>
                         <div class="inputBx">

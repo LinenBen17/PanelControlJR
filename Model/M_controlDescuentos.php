@@ -1,35 +1,23 @@
 <?php
 
 	session_start();
-	class DetallePago{
+	class Descuentos{
 		private $db;
 
 	    public function __construct(){
 	        require_once 'Conexion.php';
 	        $this->db = Conexion::conectar();
 	    }
-	    public function newDetalle($empleado_id, $sueldo_ordinario, $bonificacion_ley, $bonificacion_incentivo, $igss, $isr){
-	    	$sqlSave = "INSERT INTO `detalle_pago_empleado`(`empleado_id`, `sueldo_ordinario`, `bonificacion_ley`, `bonificacion_incentivo`, `igss`, `isr`, `usuario_ingresa`, `usuario_modifica`) VALUES (?, ?, ?, ?, ?, ?, ?, ?) ";
-
-	    	$sqlSelect = "SELECT * FROM detalle_pago_empleado WHERE empleado_id = ?";
-
-	    	$sentenciaSelect = $this->db->prepare($sqlSelect);
-	    	$sentenciaSelect->bind_param("i", $empleado_id);
-	    	$sentenciaSelect->execute();
-
-	    	$resultado = $sentenciaSelect->get_result();
+	    public function newDescuento($empleado_id, $fecha_descuento, $tipo_descuento, $monto, $observaciones){
+	    	$sqlSave = "INSERT INTO `descuentos`(`empleado_id`, `fecha_descuento`, `tipo_descuento`, `monto`, `observaciones`, `usuario_ingresa`, `usuario_modifica`) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
 	    	$mensaje = "";
 	    	
-	    	if ($resultado->num_rows > 0) {
-	    		$mensaje = "Repeated";
-	    	}else{
-				$sentenciaSave = $this->db->prepare($sqlSave);
-				$sentenciaSave->bind_param("idddddss", $empleado_id, $sueldo_ordinario, $bonificacion_ley, $bonificacion_incentivo, $igss, $isr, $_SESSION['usuario'], $_SESSION['usuario']);
-				$sentenciaSave->execute();
+			$sentenciaSave = $this->db->prepare($sqlSave);
+			$sentenciaSave->bind_param("issdsss", $empleado_id, $fecha_descuento, $tipo_descuento, $monto, $observaciones, $_SESSION['usuario'], $_SESSION['usuario']);
+			$sentenciaSave->execute();
 
-				$mensaje = "Saved";
-			}
+			$mensaje = "Saved";
 
 			return $mensaje;
 	    }
