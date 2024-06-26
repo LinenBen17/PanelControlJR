@@ -144,11 +144,25 @@ $(".clean").click(function(){
     })
 })
 
+
+$.ajax({
+    url: '../Controller/C_controlDescuentos.php',
+    type: 'POST',
+    dataType: 'json',
+    success: function(data) {
+        console.log(data)
+    },
+    error: function(xhr, textStatus, errorThrown) {
+        console.log(xhr)
+        console.log(textStatus)
+        console.log(errorThrown)
+    }
+});
 /////DATATABLE BOLETAS INGRESADAS GENERAL////
 $(document).ready(function() {
-    $('#tableDetallePagoGeneral').DataTable({
+    $('#tableDescuentosGeneral').DataTable({
         ajax: {
-            url: '../Controller/C_controlDetallePago.php',
+            url: '../Controller/C_controlDescuentos.php',
             type: 'post',
             dataSrc:''
         },
@@ -163,11 +177,10 @@ $(document).ready(function() {
                     $(td).attr('id', rowData.empleado_id); // Asigna el id de la fila a la celda
                 }
             },
-            { data: 'sueldo_ordinario' },
-            { data: 'bonificacion_ley' },
-            { data: 'bonificacion_incentivo' },
-            { data: 'igss' },
-            { data: 'isr' },
+            { data: 'fecha_descuento' },
+            { data: 'tipo_descuento' },
+            { data: 'monto' },
+            { data: 'observaciones' },
             { data: 'editar' },
             { data: 'eliminar' },
         ],

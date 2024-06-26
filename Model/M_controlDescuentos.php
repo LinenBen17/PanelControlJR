@@ -29,15 +29,15 @@
 
 	    	return $sentencia->get_result();
 	    }
-	    public function selectAllDetalle(){
+	    public function selectAllDescuentos(){
 	    	$sql = "
 	    		SELECT 
 				e.id AS empleadoId,
-				dpe.id AS detalle_pago_empleado_id,
-				e.*, dpe.*
+				d.id AS descuentos_id,
+				e.*, d.*
 				FROM empleados AS e
-				INNER JOIN detalle_pago_empleado AS dpe
-				ON e.id = dpe.empleado_id ORDER BY e.id;
+				INNER JOIN descuentos AS d
+				ON e.id = d.empleado_id ORDER BY e.id;
 	    	";
 
 	    	$sentencia =  $this->db->prepare($sql);
