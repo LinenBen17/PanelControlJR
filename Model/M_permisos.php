@@ -30,6 +30,7 @@
 	        "Control Detalle Pago" => "controlDetallePago.php",
 	        "Ingreso Descuentos" => "ingresoDescuentos.php",
 	        "Control Descuentos" => "controlDescuentos.php",
+	        "Ingreso Bonos" => "ingresoBonos.php",
 	    );
 
 	    // Definir las asociaciones entre secciones e iconos 
@@ -60,6 +61,7 @@
 	        "Control Detalle Pago" => "wallet",
 	        "Ingreso Descuentos" => "wallet",
 	        "Control Descuentos" => "wallet",
+	        "Ingreso Bonos" => "wallet",
 	    );
 	    
 	    public function __construct(){
