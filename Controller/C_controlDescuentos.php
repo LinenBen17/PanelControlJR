@@ -34,13 +34,12 @@
 			$mostrarDatos = $showRegister->fetch_assoc();
  
 			$datos = [
-				"id" => $mostrarDatos['detalle_pago_empleado_id'],
+				"id" => $mostrarDatos['descuentos_id'],
 				"empleado_id" => $mostrarDatos['empleadoId'],
-				"sueldo_ordinario" => $mostrarDatos['sueldo_ordinario'],
-				"bonificacion_ley" => $mostrarDatos['bonificacion_ley'],
-				"bonificacion_incentivo" => $mostrarDatos['bonificacion_incentivo'],
-				"igss" => $mostrarDatos['igss'],
-				"isr" => $mostrarDatos['isr'],
+				"fecha_descuento" => $mostrarDatos['fecha_descuento'],
+				"tipo_descuento" => $mostrarDatos['tipo_descuento'],
+				"monto" => $mostrarDatos['monto'],
+				"observaciones" => $mostrarDatos['observaciones'],
 			];
 
 			echo json_encode($datos);

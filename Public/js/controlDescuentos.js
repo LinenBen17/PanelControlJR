@@ -143,21 +143,6 @@ $(".clean").click(function(){
         input.value = '';
     })
 })
-
-
-$.ajax({
-    url: '../Controller/C_controlDescuentos.php',
-    type: 'POST',
-    dataType: 'json',
-    success: function(data) {
-        console.log(data)
-    },
-    error: function(xhr, textStatus, errorThrown) {
-        console.log(xhr)
-        console.log(textStatus)
-        console.log(errorThrown)
-    }
-});
 /////DATATABLE BOLETAS INGRESADAS GENERAL////
 $(document).ready(function() {
     $('#tableDescuentosGeneral').DataTable({
@@ -186,7 +171,7 @@ $(document).ready(function() {
         ],
     });
 
-    $('#tableDetallePagoGeneral').DataTable().on('draw.dt', function () {
+    $('#tableDescuentosGeneral').DataTable().on('draw.dt', function () {
     $('.btnEliminar').off('click');
     $('a.btnEditar').off('click');
     $('.update').off('click');
@@ -196,7 +181,7 @@ $(document).ready(function() {
             var id = this.id;
 
             $.ajax({
-                url: '../Controller/C_controlDetallePago.php',
+                url: '../Controller/C_controlDescuentos.php',
                 type: 'POST',
                 dataType: 'json',
                 data: {id: id, action: "Delete"},
@@ -227,7 +212,7 @@ $(document).ready(function() {
             console.log(id)
 
             $.ajax({
-                url: '../Controller/C_controlDetallePago.php',
+                url: '../Controller/C_controlDescuentos.php',
                 type: 'POST',
                 dataType: 'json',
                 data: {id: id, action: "ShowRegister"},
@@ -235,13 +220,10 @@ $(document).ready(function() {
                     var campos = Object.keys(data);
 
                     campos.forEach((campo) => {
-                    console.log(data[campo])
-
-
                         console.log(campo)
                         var inputHtml = '';
 
-                        if (campo === "sueldo_ordinario" || campo === "bonificacion_ley" || campo === "bonificacion_incentivo" || campo === "igss" || campo === "isr" ) {
+                        if (campo === "monto") {
                             inputHtml = `
                                 <div class="inputBx ${campo}">
                                     <label for="">${campo.toUpperCase()}</label><br>
@@ -255,6 +237,25 @@ $(document).ready(function() {
                                     <input type="text" name="${campo}" id="${campo}" value="${data[campo]}" readonly>
                                 </div>
                             `;
+                        }else if (campo === "fecha_descuento") {
+                            inputHtml = `
+                                <div class="inputBx ${campo}">
+                                    <label for="">${campo.toUpperCase()}</label><br>
+                                    <input type="date" name="${campo}" id="${campo}" value="${data[campo]}">
+                                </div>
+                            `;
+                        }else if (campo === "tipo_descuento") {
+                            inputHtml = `
+                                <div class="inputBx ${campo}">
+                                    <label>${campo.toUpperCase()}</label><br>
+                                    <div class="select">
+                                        <select name="${campo}" id="${campo}">
+                                            <option value="Ausencia" ${data[campo] === 'Ausencia' ? 'selected' : ''}>Ausencia</option>
+                                            <option value="Otros" ${data[campo] === 'Otros' ? 'selected' : ''}>Otros</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            `;
                         }else{
                             inputHtml = `
                                 <div class="inputBx ${campo}">
@@ -264,16 +265,16 @@ $(document).ready(function() {
                             `;
                         }
 
-                        $('#editarDetallePago form').append(inputHtml);
+                        $('#editarDescuento form').append(inputHtml);
                     });
 
                     $("#" + campos[0]).attr({
                         'type': 'hidden',
                     });
-                    $('#editarDetallePago').modal();
+                    $('#editarDescuento').modal();
 
-                    $('#editarDetallePago').on($.modal.AFTER_CLOSE, function() {
-                        $('#editarDetallePago form > div').remove();
+                    $('#editarDescuento').on($.modal.AFTER_CLOSE, function() {
+                        $('#editarDescuento form > div').remove();
                     });
                 },
                 error: function(a, b, c) {
@@ -287,7 +288,8 @@ $(document).ready(function() {
         $('.update').click(function(e) {
             e.preventDefault();
 
-            let inputs = document.querySelectorAll(".formIngresoDetallePago input");
+            let inputs = document.querySelectorAll(".formIngresoDescuentos input");
+            let selects = document.querySelectorAll(".formIngresoDescuentos select");
 
             let datosForm = {
                 "action": "Update",
@@ -301,13 +303,19 @@ $(document).ready(function() {
                 
             })
 
+            selects.forEach((select) =>{
+                let id = select.id;
+                let valorSelect = select.value;
+
+                datosForm[id] = valorSelect
+            })
+
             $.ajax({
-                url: '../Controller/C_controlDetallePago.php',
+                url: '../Controller/C_controlDescuentos.php',
                 type: 'POST',
                 dataType: 'json',
                 data: datosForm,
                 success:function(data) {
-                    console.log(data)
                     if (data == "registrado") {
                         mostrarMensajeSuccess("Modificación exitosa.");
                         setTimeout(function(){

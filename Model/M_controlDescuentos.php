@@ -1,4 +1,4 @@
-<?php
+	<?php
 
 	session_start();
 	class Descuentos{
@@ -50,7 +50,7 @@
 		    $fechaActual = date("Y-m-d H:i:s");
 
 		    // Preparar la consulta de inserción
-		    $sqlUpdate = "UPDATE `detalle_pago_empleado` SET `sueldo_ordinario`= ?, `bonificacion_incentivo`= ?, `igss`= ?, `isr`= ?, `usuario_modifica`= ?, `fecha_modificacion`= ?  WHERE `id` = ?";
+		    $sqlUpdate = "UPDATE `descuentos` SET `fecha_descuento`= ?, `tipo_descuento`= ?, `monto`= ?, `observaciones`= ?, `fecha_modifica`= ?, `usuario_modifica`= ?  WHERE `id` = ?";
 
 		    $sentenciaUpdate = $this->db->prepare($sqlUpdate);
 
@@ -59,15 +59,13 @@
  
 		    //datos
 			$id = $datos['id'];
-			$empleado_id = $datos['empleado_id'];
-		    $sueldo_ordinario = $datos['sueldo_ordinario'];
-		    $bonificacion_ley = $datos['bonificacion_ley'];
-		    $bonificacion_incentivo = $datos['bonificacion_incentivo'];
-		    $igss = $datos['igss'];
-		    $isr = $datos['isr'];
+		    $fecha_descuento = $datos['fecha_descuento'];
+		    $tipo_descuento = $datos['tipo_descuento'];
+		    $monto = $datos['monto'];
+		    $observaciones = $datos['observaciones'];
 
 			// Edita el registro
-            $sentenciaUpdate->bind_param("ddddssi", $sueldo_ordinario, $bonificacion_incentivo, $igss, $isr, $_SESSION['usuario'], $fechaActual, $id);
+            $sentenciaUpdate->bind_param("ssdsssi", $fecha_descuento, $tipo_descuento, $monto, $observaciones, $fechaActual, $_SESSION['usuario'], $id);
             $sentenciaUpdate->execute();
 
             $resultados[] = "registrado";
@@ -81,12 +79,12 @@
 	    	$sql = "
 	    		SELECT 
 				e.id AS empleadoId,
-				dpe.id AS detalle_pago_empleado_id,
-				e.*, dpe.*
+				d.id AS descuentos_id,
+				e.*, d.*
 				FROM empleados AS e
-				INNER JOIN detalle_pago_empleado AS dpe
-				ON e.id = dpe.empleado_id
-				WHERE dpe.id = ?
+				INNER JOIN descuentos AS d
+				ON e.id = d.empleado_id
+				WHERE d.id = ?
 				ORDER BY e.id;
 	    	";
 
@@ -97,7 +95,7 @@
 	    	return $sentencia->get_result();
 	    }
 	    public function deleteRegister($id){
-			$sql = "DELETE FROM detalle_pago_empleado WHERE id = ?";
+			$sql = "DELETE FROM descuentos WHERE id = ?";
 
 	    	$sentencia = $this->db->prepare($sql);
 	    	$sentencia->bind_param("i", $id);
