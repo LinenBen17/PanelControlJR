@@ -101,6 +101,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 
 	<?php require_once 'shared/footer.php';	 ?>
-    <script src="../Public/js/controlDescuentos.js"></script>
+    <script src="../Public/js/controlBonos.js"></script>
 </body>
 </html> 

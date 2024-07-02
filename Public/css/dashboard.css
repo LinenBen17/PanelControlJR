@@ -414,6 +414,35 @@ div.inputBx textarea{
 	width: 100%;
 }
 /*FROM REGISTRO DESCUENTOS*/
+.formIngresoBonos form {
+  max-width: 690px;
+  display: grid; 
+  grid-template-columns: 1fr 1fr; 
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-auto-flow: row;
+  gap: 10px; 
+  grid-template-areas: 
+    "empleadoBonos ."
+    "fechaBonos montoBonos"
+    "observacionesBonos observacionesBonos";
+}
+.formIngresoBonos .empleado { grid-area: empleadoBonos; }
+.formIngresoBonos .fecha_bono { grid-area: fechaBonos; }
+.formIngresoBonos .monto { grid-area: montoBonos; }
+.formIngresoBonos .observaciones { grid-area: observacionesBonos; }
+
+.formIngresoBonos form input,
+.formIngresoBonos form .select{
+	width: 100%;
+}
+.formIngresoBonos .search{
+	display: flex;
+	width: 100%;
+}
+.formIngresoBonos .search button{
+	margin-left: 10px;
+}
+/*FROM REGISTRO DESCUENTOS*/
 .formIngresoDescuentos form {
   max-width: 690px;
   display: grid; 
@@ -442,9 +471,6 @@ div.inputBx textarea{
 }
 .formIngresoDescuentos .search button{
 	margin-left: 10px;
-}
-#tableSelectDescuento tbody tr{
-	cursor: pointer;
 }
 /*FROM INGRESO DETALLE PAGO*/
 .formIngresoDetallePago form {

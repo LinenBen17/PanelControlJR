@@ -251,6 +251,7 @@ $(document).ready(function() {
                                     <div class="select">
                                         <select name="${campo}" id="${campo}">
                                             <option value="Ausencia" ${data[campo] === 'Ausencia' ? 'selected' : ''}>Ausencia</option>
+                                            <option value="Anticipo" ${data[campo] === 'Anticipo' ? 'selected' : ''}>Anticipo</option>
                                             <option value="Otros" ${data[campo] === 'Otros' ? 'selected' : ''}>Otros</option>
                                         </select>
                                     </div>

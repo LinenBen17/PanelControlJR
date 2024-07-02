@@ -36,8 +36,7 @@
 			$datos = [
 				"id" => $mostrarDatos['bonos_id'],
 				"empleado_id" => $mostrarDatos['empleadoId'],
-				"fecha_descuento" => $mostrarDatos['fecha_descuento'],
-				"tipo_descuento" => $mostrarDatos['tipo_descuento'],
+				"fecha_bono" => $mostrarDatos['fecha_bono'],
 				"monto" => $mostrarDatos['monto'],
 				"observaciones" => $mostrarDatos['observaciones'],
 			];
@@ -55,17 +54,16 @@
 			echo json_encode($delete);
 			break;
 		default:
-			$selectAllDescuentos = $bonos->selectAllDescuentos();
+			$selectAllBonos = $bonos->selectAllBonos();
 
 			$datos = [];
 
-			while ($mostrarDatos = $selectAllDescuentos->fetch_array()) {
+			while ($mostrarDatos = $selectAllBonos->fetch_array()) {
 				$datos[]= [
 					"id" => $mostrarDatos['bonos_id'],
 					"empleado_id" => $mostrarDatos['empleadoId'],
 					"empleado" => $mostrarDatos['nombres'] . " " . $mostrarDatos['apellidos'],
-					"fecha_descuento" => $mostrarDatos['fecha_descuento'],
-					"tipo_descuento" => $mostrarDatos['tipo_descuento'],
+					"fecha_bono" => $mostrarDatos['fecha_bono'],
 					"monto" => $mostrarDatos['monto'],
 					"observaciones" => $mostrarDatos['observaciones'],
 					"editar" => '<a href="#" id="' . $mostrarDatos['bonos_id'] . '" class="btnEditar">Editar</a>',

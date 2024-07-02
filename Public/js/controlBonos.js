@@ -89,15 +89,6 @@ $(".save").click(function(e){
             
         })
 
-        selects.forEach((select) =>{
-            let id = select.id;
-            let valorSelect = select.value;
-
-            datosForm[id] = valorSelect
-        })
-
-        datosForm[selects.id] = selects.value;
-
         let camposLlenos = true; // Suponemos que todos los campos están llenos inicialmente
 
         console.log(datosForm);
@@ -111,7 +102,7 @@ $(".save").click(function(e){
 
         if (camposLlenos) {
             $.ajax({
-                url: '../Controller/C_controlDescuentos.php',
+                url: '../Controller/C_controlBonos.php',
                 type: 'POST',
                 dataType: 'json',
                 data: datosForm,
@@ -136,7 +127,7 @@ $(".save").click(function(e){
 
     })
 $(".clean").click(function(){
-    let inputs = document.querySelectorAll(".formIngresoDetallePago input");
+    let inputs = document.querySelectorAll(".formIngresoBono input");
 
     inputs.forEach((input) =>{
         input.value = '';
@@ -144,9 +135,9 @@ $(".clean").click(function(){
 })
 /////DATATABLE BOLETAS INGRESADAS GENERAL////
 $(document).ready(function() {
-    $('#tableDescuentosGeneral').DataTable({
+    $('#tableBonosGeneral').DataTable({
         ajax: {
-            url: '../Controller/C_controlDescuentos.php',
+            url: '../Controller/C_controlBonos.php',
             type: 'post',
             dataSrc:''
         },
@@ -161,8 +152,7 @@ $(document).ready(function() {
                     $(td).attr('id', rowData.empleado_id); // Asigna el id de la fila a la celda
                 }
             },
-            { data: 'fecha_descuento' },
-            { data: 'tipo_descuento' },
+            { data: 'fecha_bono' },    
             { data: 'monto' },
             { data: 'observaciones' },
             { data: 'editar' },
@@ -170,7 +160,7 @@ $(document).ready(function() {
         ],
     });
 
-    $('#tableDescuentosGeneral').DataTable().on('draw.dt', function () {
+    $('#tableBonosGeneral').DataTable().on('draw.dt', function () {
     $('.btnEliminar').off('click');
     $('a.btnEditar').off('click');
     $('.update').off('click');
@@ -180,7 +170,7 @@ $(document).ready(function() {
             var id = this.id;
 
             $.ajax({
-                url: '../Controller/C_controlDescuentos.php',
+                url: '../Controller/C_controlBonos.php',
                 type: 'POST',
                 dataType: 'json',
                 data: {id: id, action: "Delete"},
@@ -211,7 +201,7 @@ $(document).ready(function() {
             console.log(id)
 
             $.ajax({
-                url: '../Controller/C_controlDescuentos.php',
+                url: '../Controller/C_controlBonos.php',
                 type: 'POST',
                 dataType: 'json',
                 data: {id: id, action: "ShowRegister"},
@@ -236,23 +226,11 @@ $(document).ready(function() {
                                     <input type="text" name="${campo}" id="${campo}" value="${data[campo]}" readonly>
                                 </div>
                             `;
-                        }else if (campo === "fecha_descuento") {
+                        }else if (campo === "fecha_bono") {
                             inputHtml = `
                                 <div class="inputBx ${campo}">
                                     <label for="">${campo.toUpperCase()}</label><br>
                                     <input type="date" name="${campo}" id="${campo}" value="${data[campo]}">
-                                </div>
-                            `;
-                        }else if (campo === "tipo_descuento") {
-                            inputHtml = `
-                                <div class="inputBx ${campo}">
-                                    <label>${campo.toUpperCase()}</label><br>
-                                    <div class="select">
-                                        <select name="${campo}" id="${campo}">
-                                            <option value="Ausencia" ${data[campo] === 'Ausencia' ? 'selected' : ''}>Ausencia</option>
-                                            <option value="Otros" ${data[campo] === 'Otros' ? 'selected' : ''}>Otros</option>
-                                        </select>
-                                    </div>
                                 </div>
                             `;
                         }else{
@@ -264,16 +242,16 @@ $(document).ready(function() {
                             `;
                         }
 
-                        $('#editarDescuento form').append(inputHtml);
+                        $('#editarBono form').append(inputHtml);
                     });
 
                     $("#" + campos[0]).attr({
                         'type': 'hidden',
                     });
-                    $('#editarDescuento').modal();
+                    $('#editarBono').modal();
 
-                    $('#editarDescuento').on($.modal.AFTER_CLOSE, function() {
-                        $('#editarDescuento form > div').remove();
+                    $('#editarBono').on($.modal.AFTER_CLOSE, function() {
+                        $('#editarBono form > div').remove();
                     });
                 },
                 error: function(a, b, c) {
@@ -287,8 +265,7 @@ $(document).ready(function() {
         $('.update').click(function(e) {
             e.preventDefault();
 
-            let inputs = document.querySelectorAll(".formIngresoDescuentos input");
-            let selects = document.querySelectorAll(".formIngresoDescuentos select");
+            let inputs = document.querySelectorAll(".formIngresoBonos input");
 
             let datosForm = {
                 "action": "Update",
@@ -302,15 +279,8 @@ $(document).ready(function() {
                 
             })
 
-            selects.forEach((select) =>{
-                let id = select.id;
-                let valorSelect = select.value;
-
-                datosForm[id] = valorSelect
-            })
-
             $.ajax({
-                url: '../Controller/C_controlDescuentos.php',
+                url: '../Controller/C_controlBonos.php',
                 type: 'POST',
                 dataType: 'json',
                 data: datosForm,

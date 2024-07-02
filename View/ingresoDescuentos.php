@@ -61,6 +61,7 @@
                                 <div class="select">
                                     <select name="tipo_descuento" id="tipo_descuento">
                                         <option value="Ausencia">Ausencia</option>
+                                        <option value="Anticipo">Anticipo</option>
                                         <option value="Otros">Otros</option>
                                     </select>
                                 </div>

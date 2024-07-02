@@ -29,15 +29,15 @@
 
 	    	return $sentencia->get_result();
 	    }
-	    public function selectAllDescuentos(){
+	    public function selectAllBonos(){
 	    	$sql = "
 	    		SELECT 
 				e.id AS empleadoId,
-				d.id AS descuentos_id,
-				e.*, d.*
+				b.id AS bonos_id,
+				e.*, b.*
 				FROM empleados AS e
-				INNER JOIN descuentos AS d
-				ON e.id = d.empleado_id ORDER BY e.id;
+				INNER JOIN bonos AS b
+				ON e.id = b.empleado_id ORDER BY e.id;
 	    	";
 
 	    	$sentencia =  $this->db->prepare($sql);
@@ -50,7 +50,7 @@
 		    $fechaActual = date("Y-m-d H:i:s");
 
 		    // Preparar la consulta de inserción
-		    $sqlUpdate = "UPDATE `descuentos` SET `fecha_descuento`= ?, `tipo_descuento`= ?, `monto`= ?, `observaciones`= ?, `fecha_modifica`= ?, `usuario_modifica`= ?  WHERE `id` = ?";
+		    $sqlUpdate = "UPDATE `bonos` SET `fecha_bono`= ?, `monto`= ?, `observaciones`= ?, `fecha_modificacion`= ?, `usuario_modifica`= ?  WHERE `id` = ?";
 
 		    $sentenciaUpdate = $this->db->prepare($sqlUpdate);
 
@@ -59,13 +59,12 @@
  
 		    //datos
 			$id = $datos['id'];
-		    $fecha_descuento = $datos['fecha_descuento'];
-		    $tipo_descuento = $datos['tipo_descuento'];
+		    $fecha_bono = $datos['fecha_bono'];
 		    $monto = $datos['monto'];
 		    $observaciones = $datos['observaciones'];
 
 			// Edita el registro
-            $sentenciaUpdate->bind_param("ssdsssi", $fecha_descuento, $tipo_descuento, $monto, $observaciones, $fechaActual, $_SESSION['usuario'], $id);
+            $sentenciaUpdate->bind_param("sdsssi", $fecha_bono, $monto, $observaciones, $fechaActual, $_SESSION['usuario'], $id);
             $sentenciaUpdate->execute();
 
             $resultados[] = "registrado";
@@ -79,12 +78,12 @@
 	    	$sql = "
 	    		SELECT 
 				e.id AS empleadoId,
-				d.id AS descuentos_id,
-				e.*, d.*
+				b.id AS bonos_id,
+				e.*, b.*
 				FROM empleados AS e
-				INNER JOIN descuentos AS d
-				ON e.id = d.empleado_id
-				WHERE d.id = ?
+				INNER JOIN bonos AS b
+				ON e.id = b.empleado_id
+				WHERE b.id = ?
 				ORDER BY e.id;
 	    	";
 

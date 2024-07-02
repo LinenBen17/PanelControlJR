@@ -31,6 +31,8 @@
 	        "Ingreso Descuentos" => "ingresoDescuentos.php",
 	        "Control Descuentos" => "controlDescuentos.php",
 	        "Ingreso Bonos" => "ingresoBonos.php",
+	        "Control Bonos" => "controlBonos.php",
+	        "Creacion Reportes" => "creacionReportes.php",
 	    );
 
 	    // Definir las asociaciones entre secciones e iconos 
@@ -62,6 +64,8 @@
 	        "Ingreso Descuentos" => "wallet",
 	        "Control Descuentos" => "wallet",
 	        "Ingreso Bonos" => "wallet",
+	        "Control Bonos" => "wallet",
+	        "Creacion Reportes" => "wallet",
 	    );
 	    
 	    public function __construct(){
