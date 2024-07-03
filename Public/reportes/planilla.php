@@ -1,14 +1,10 @@
 <?php
-// Lo mismo que error_reporting(E_ALL);
-ini_set('error_reporting', E_ALL);
-// Desactivar toda notificación de error
-error_reporting(0);
-	$fechaInicial = $_GET['fechaInicial'];
-	$fechaFinal = $_GET['fechaFinal'];
 
-	$newFechaInicial = date("d/m/Y", strtotime($fechaInicial));
-	$newFechaFinal = date("d/m/Y", strtotime($fechaFinal));
+	$fechaInicial = new DateTime($_GET['fechaInicial']);
+	$fechaFinal = new DateTime($_GET['fechaFinal']);
 
+	$newFechaInicial = $fechaInicial->format("d/m/Y");
+	$newFechaFinal = $fechaInicial->format("d/m/Y");
 
 	class Planilla{
 		private $db;
@@ -66,85 +62,101 @@ error_reporting(0);
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Planilla De Saldos</title>
 	<style>
-		*{
+		* {
 			margin: 0;
 			padding: 0;
 			box-sizing: border-box;
 			font-family: sans-serif;
 			font-size: 9pt;
 		}
-		.header{
+
+		.header {
 			background: none;
-	    border: none;
+			border: none;
 		}
-		.header h2{
+
+		.header h2 {
 			font-size: 12pt;
 			font-style: italic;
 			padding: 20px 0;
 		}
-		.hLeft{
-    	text-align: right; /* Align text to the right */
-    	position: fixed;
-    	left: calc(1180px + 10px);
-    	margin-top: 25px;
+
+		.hLeft {
+			text-align: right; /* Align text to the right */
+			position: fixed;
+			left: calc(1180px + 10px);
+			margin-top: 25px;
 		}
-		.hLeft .page{
+
+		.hLeft .page {
 			font-weight: bold;
 			font-size: 12pt;
 			font-style: italic;
 		}
-		.page:after{
+
+		.page:after {
 			content: counter(page);
 			font-size: 12pt;
 			color: #000;
 		}
-		.title{
+
+		.title {
 			border-bottom: 1px solid #000;
 			position: relative;
 		}
-		.title h1{
+
+		.title h1 {
 			text-align: center;
 			font-size: 18pt;
 			padding: 15px 15px 0px 15px;
 			position: relative;
 			top: 10px;
 		}
-		.title img{
+
+		.title img {
 			width: 200px;
 			margin: -30px 10px 10px 10px;
 		}
-		table, .title, .footer{
+
+		table, .title, .footer {
 			margin-left: 100px;
 			width: 1182px;
 		}
-		table, th, td{
+
+		table, th, td {
 			border: 0px solid black;
 			border-collapse: collapse;
 		}
-		td{
-			padding: 12px;
+
+		th, td {
 			text-align: center;
+			box-sizing: border-box; /* Añadido para incluir el padding en el width */
+		}
+		td{
+			padding: 10px;
 		}
 		th{
-			padding: 5px 10px;
+			padding: 12px 8px;
 		}
-		thead{
+		thead {
 			background: #C0C0C0;
 			border: 1px solid #000;
 			border-radius: 50%;
 		}
-		tbody	tr{
+
+		tbody tr {
 			border-bottom: 1px solid #000;
 		}
+
 		table tr > td:nth-child(n+1):nth-child(-n+5) {
-		  font-size: 8pt;
+			font-size: 8pt;
 		}
 	</style>
 </head>
 <body>
 	<div class="title">
 		<h1>PLANILLA DE SUELDOS</h1>
-		<img src="http://<?php echo $_SERVER['HTTP_HOST'] ?>/crearPDF/D/logo.png" alt="">
+		<img src="https://i.ibb.co/yfBVM6C/Logo-7-7.png" alt="">
 	</div>
 	<div class="hLeft">
 		<span class="page">Página: </span>
@@ -155,8 +167,13 @@ error_reporting(0);
 
 		$datosAgrupados = [];
 
+
 		while ($mostrarDatos = $selectAllPlanilla->fetch_array()) {
 		    $id = $mostrarDatos['empleadoID'];
+
+			$fechaEmpleado = new DateTime($mostrarDatos['empleado_fechaIngreso']);
+			$fechaBono = $mostrarDatos['bono_fecha'];
+			$fechaDescuento = $mostrarDatos['descuento_fecha'];
 
 		    // Inicializar el array si no existe
 		    if (!isset($datosAgrupados[$id])) {
@@ -164,6 +181,7 @@ error_reporting(0);
 		            "id" => $id,
 		            "ctaBancaria" => $mostrarDatos['empleado_ctaBancaria'],
 		            "empleado" => $mostrarDatos['empleado_nombres'] . " " . $mostrarDatos['empleado_apellidos'],
+		            "empleadoFechaIngreso" => $fechaEmpleado,
 		            "cargo" => $mostrarDatos['empleado_cargo'],
 		            "agencia" => $mostrarDatos['empleado_agencia'],
 		            "sueldo" => round($mostrarDatos['detalle_sueldo'] / 2, 2),
@@ -203,10 +221,18 @@ error_reporting(0);
 		        }
 		    }
 		}
-
 		// Convertir los datos agrupados a una lista de arrays, quitando los arrays temporales de bonos y descuentos
 		$datos = [];
 		foreach ($datosAgrupados as $empleado) {
+			var_dump($empleado);
+			echo "<hr>";
+			echo "<pre>";
+
+			if ($fechaAValidar >= $fechaInicio && $fechaAValidar <= $fechaFin) {
+			    echo "La fecha está dentro del rango.";
+			} else {
+			    echo "La fecha está fuera del rango.";
+			}
 		    unset($empleado['bonos']);
 		    unset($empleado['descuentos']);
 		    $datos[] = $empleado;

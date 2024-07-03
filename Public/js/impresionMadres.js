@@ -1,3 +1,29 @@
+//FUNCIONES DE MENSAJES
+function mostrarMensajeError(mensaje) {
+    Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        title: mensaje,
+        background: '#071A2C',
+        color: "#FFF",
+        showConfirmButton: false,
+        timer: 1500
+    });
+}
+
+function mostrarMensajeSuccess(mensaje) {
+    Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: mensaje,
+        background: '#071A2C',
+        color: "#FFF",
+        showConfirmButton: false,
+        timer: 1500
+    }); 
+}
+
+
 $(document).ready(function() {
     $('#des_codigo').focus();    
 });
@@ -5,6 +31,32 @@ $('.clean').click(function(){
     var inputs = document.querySelectorAll('form input');
     inputs.forEach(a => a.value = "");
 });
+
+var munQuiche = [
+        "Canillá",
+        "Chajul",
+        "Chicamán",
+        "Chiché",
+        "Chichicastenango",
+        "Chinique",
+        "Cunén",
+        "Ixcán",
+        "Joyabaj",
+        "Nebaj",
+        "Pachalum",
+        "Patzité",
+        "Sacapulas",
+        "San Andrés Sajcabajá",
+        "San Antonio Ilotenango",
+        "San Bartolomé Jocotenango",
+        "San Juan Cotzal",
+        "San Pedro Jocopilas",
+        "Santa Cruz del Quiché",
+        "Uspantán",
+        "Zacualpa"
+    ]
+
+console.log(munQuiche)
 //OBTENER INFORMACION EN BASE AL CODIGO CON AJAX
 $("#des_codigo").blur(function() {
     var codigo = $('#des_codigo').val();
@@ -93,6 +145,10 @@ $("#des_codigo").blur(function() {
                 $('#des_contacto').val(contacto);
                 $('#des_destino').val(destino);
             }
+
+            if ($('#des_destino').val() == "QCH"){
+                mostrarMensajeError("Área seleccionada sin cobertura.");
+            }
         },
         error: function(xhr, status, error){
             console.log(xhr)
@@ -120,7 +176,12 @@ $(".print").click(function () {
     /*numInicial = parseInt($('#id_numini').val());
     numFinal = parseInt($('#id_numfin').val());*/
 
-    imprSelec('canvas');
+   if ($('#des_destino').val() == "QCH"){
+        mostrarMensajeError("Área seleccionada sin cobertura.");
+   }else{
+        imprSelec('canvas');
+   }
+
 });
 
 function imprSelec(nombre) {
