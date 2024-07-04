@@ -1,10 +1,14 @@
 <?php
+// Lo mismo que error_reporting(E_ALL);
+ini_set('error_reporting', E_ALL);
+// Desactivar toda notificación de error
+error_reporting(0);
+	$fechaInicial = $_GET['fechaInicial'];
+	$fechaFinal = $_GET['fechaFinal'];
 
-	$fechaInicial = new DateTime($_GET['fechaInicial']);
-	$fechaFinal = new DateTime($_GET['fechaFinal']);
+	$newFechaInicial = date("d/m/Y", strtotime($fechaInicial));
+	$newFechaFinal = date("d/m/Y", strtotime($fechaFinal));
 
-	$newFechaInicial = $fechaInicial->format("d/m/Y");
-	$newFechaFinal = $fechaInicial->format("d/m/Y");
 
 	class Planilla{
 		private $db;
@@ -16,40 +20,40 @@
 	    public function selectAllPlanilla(){
 	    	$sql = "
 				SELECT
-				/*EMPLEADOS*/
-				e.id AS empleadoID,
-				e.nombres AS empleado_nombres,
-				e.apellidos AS empleado_apellidos,
-				e.ctaBancaria AS empleado_ctaBancaria,
-				e.fecha_ingreso_empleado AS empleado_fechaIngreso,
-				e.agencia AS empleado_agencia,
-				e.cargo AS empleado_cargo,
-				/*DETALLE PAGO EMPLEADO*/
-				dpe.id AS detalle_id,
-				dpe.sueldo_ordinario AS detalle_sueldo,
-				dpe.bonificacion_ley AS detalle_bonoLey,
-				dpe.bonificacion_incentivo AS detalle_bonoIncentivo,
-				dpe.igss AS detalle_igss,
-				/*BONO*/
-				b.id AS bono_id,
-				b.fecha_bono AS bono_fecha,
-				b.monto AS bono_monto,
-				/*DESCUENTO*/
-				d.id AS descuento_id,
-				d.fecha_descuento AS descuento_fecha,
-				d.tipo_descuento AS descuento_tipo,
-				d.monto AS descuento_monto
-				/*SELECCION*/
-				FROM detalle_pago_empleado AS dpe
-				LEFT JOIN empleados AS e
-				ON dpe.empleado_id = e.id
-				LEFT JOIN bonos AS b
-				ON dpe.empleado_id = b.empleado_id
-				LEFT JOIN descuentos AS d
-				ON dpe.empleado_id = d.empleado_id;
+			    /* EMPLEADOS */
+			    e.id AS empleadoID,
+			    e.nombres AS empleado_nombres,
+			    e.apellidos AS empleado_apellidos,
+			    e.ctaBancaria AS empleado_ctaBancaria,
+			    e.fecha_ingreso_empleado AS empleado_fechaIngreso,
+			    e.agencia AS empleado_agencia,
+			    e.cargo AS empleado_cargo,
+			    /* DETALLE PAGO EMPLEADO */
+			    dpe.id AS detalle_id,
+			    dpe.sueldo_ordinario AS detalle_sueldo,
+			    dpe.bonificacion_ley AS detalle_bonoLey,
+			    dpe.bonificacion_incentivo AS detalle_bonoIncentivo,
+			    dpe.igss AS detalle_igss,
+			    /* BONO */
+			    b.id AS bono_id,
+			    b.fecha_bono AS bono_fecha,
+			    b.monto AS bono_monto,
+			    /* DESCUENTO */
+			    d.id AS descuento_id,
+			    d.fecha_descuento AS descuento_fecha,
+			    d.tipo_descuento AS descuento_tipo,
+			    d.monto AS descuento_monto
+			/* SELECCION */
+			FROM empleados AS e
+			LEFT JOIN detalle_pago_empleado AS dpe ON e.id = dpe.empleado_id
+			LEFT JOIN bonos AS b ON e.id = b.empleado_id AND b.fecha_bono BETWEEN ? AND ?
+			LEFT JOIN descuentos AS d ON e.id = d.empleado_id AND d.fecha_descuento BETWEEN ? AND ?
+			WHERE e.fecha_ingreso_empleado <= ?
+			ORDER BY e.id
 	    	";
 
 	    	$sentencia =  $this->db->prepare($sql);
+	    	$sentencia->bind_param("sssss", $_GET['fechaInicial'], $_GET['fechaFinal'], $_GET['fechaInicial'], $_GET['fechaFinal'], $_GET['fechaFinal']);
 	    	$sentencia->execute();
 
 	    	return $sentencia->get_result();
@@ -166,14 +170,9 @@
 		$selectAllPlanilla = $planilla->selectAllPlanilla();
 
 		$datosAgrupados = [];
-
-
+		
 		while ($mostrarDatos = $selectAllPlanilla->fetch_array()) {
 		    $id = $mostrarDatos['empleadoID'];
-
-			$fechaEmpleado = new DateTime($mostrarDatos['empleado_fechaIngreso']);
-			$fechaBono = $mostrarDatos['bono_fecha'];
-			$fechaDescuento = $mostrarDatos['descuento_fecha'];
 
 		    // Inicializar el array si no existe
 		    if (!isset($datosAgrupados[$id])) {
@@ -181,7 +180,6 @@
 		            "id" => $id,
 		            "ctaBancaria" => $mostrarDatos['empleado_ctaBancaria'],
 		            "empleado" => $mostrarDatos['empleado_nombres'] . " " . $mostrarDatos['empleado_apellidos'],
-		            "empleadoFechaIngreso" => $fechaEmpleado,
 		            "cargo" => $mostrarDatos['empleado_cargo'],
 		            "agencia" => $mostrarDatos['empleado_agencia'],
 		            "sueldo" => round($mostrarDatos['detalle_sueldo'] / 2, 2),
@@ -221,18 +219,10 @@
 		        }
 		    }
 		}
+
 		// Convertir los datos agrupados a una lista de arrays, quitando los arrays temporales de bonos y descuentos
 		$datos = [];
 		foreach ($datosAgrupados as $empleado) {
-			var_dump($empleado);
-			echo "<hr>";
-			echo "<pre>";
-
-			if ($fechaAValidar >= $fechaInicio && $fechaAValidar <= $fechaFin) {
-			    echo "La fecha está dentro del rango.";
-			} else {
-			    echo "La fecha está fuera del rango.";
-			}
 		    unset($empleado['bonos']);
 		    unset($empleado['descuentos']);
 		    $datos[] = $empleado;
@@ -287,7 +277,10 @@
 									 $totalDevengado = $datos[$i]['sueldo'] + $datos[$i]['bonoLey'] + $datos[$i]['bonoIncentivo'] + $datos[$i]['bonoMonto'];
 									 echo number_format($totalDevengado, 2)
 								?></td>
-							<td><?php echo number_format($datos[$i]['igss'] / 100 * $datos[$i]['sueldo'], 2); ?></td>
+							<td><?php
+								$igss = number_format($datos[$i]['igss'] / 100 * $datos[$i]['sueldo'], 2);
+								echo $igss; 
+							?></td>
 							<td><?php echo number_format($datos[$i]['anticipos'], 2); ?></td>
 							<td><?php echo number_format($datos[$i]['ausencias'], 2); ?></td>
 							<td><?php echo number_format($datos[$i]['otros'], 2); ?></td>
@@ -295,7 +288,7 @@
 
 									echo number_format($totalDescuentos,2);
 								?></td>
-							<td><?php echo number_format($totalDevengado - $totalDescuentos, 2); ?></td>
+							<td><?php echo number_format($totalDevengado - $totalDescuentos - $igss, 2); ?></td>
 						</tr>
 				<?php 
 					} 

@@ -8,36 +8,78 @@ $dompdf = new Dompdf();
 $action = isset($_POST['action']) ? $_POST['action'] : '';
 
 switch ($action) {
-	    case "Print":
+		case "Print":
+		    // Realiza la validación
+			function validarFechasQuincenales($fechaInicio, $fechaFin) {
+			    $primerDiaMes = date('Y-m-01', strtotime($fechaInicio)); // Primer día del mes de la fecha inicio
+			    $ultimoDiaMes = date('Y-m-t', strtotime($fechaInicio)); // Último día del mes de la fecha inicio
+			    
+			    // Validar quincena del 1 al 15
+			    $esQuincena1 = ($fechaInicio == $primerDiaMes && $fechaFin == date('Y-m-15', strtotime($fechaInicio)));
+			    
+			    // Validar quincena del 16 al fin de mes
+			    $esQuincena2 = ($fechaInicio == date('Y-m-16', strtotime($fechaInicio)) && $fechaFin == $ultimoDiaMes);
+			    
+			    return $esQuincena1 || $esQuincena2;
+			}
 
-	        // Construir la URL con los parámetros de datosForm
-	        $params = http_build_query($_POST);
-	        $url = "http://localhost/PanelControlJR/Public/reportes/planilla.php?" . $params;
+		    $valid = validarFechasQuincenales($_POST['fechaInicial'], $_POST['fechaFinal']); // Cambia esto a tu lógica de validación
+		    $errorMessage = "La validación falló."; // Mensaje de error personalizado
 
-	        // Cargar el contenido HTML
-	        $html = file_get_contents($url);
+		    if (!$valid) {
+		        // Si la validación falla, envía una respuesta JSON con el error
+		        header('Content-Type: application/json');
+		        echo json_encode([
+		            'success' => false,
+		        ]);
+		        exit;
+		    }
 
-	        // Configurar las opciones de Dompdf
-	        $options = $dompdf->getOptions();
-	        $options->set(array('isRemoteEnabled' => true));
-	        $dompdf->setOptions($options);
+		    if ($_POST['tipo_reporte'] == 'Planilla') {
+		    	// Si la validación pasa, continúa con la generación del PDF
+			    $params = http_build_query($_POST);
+			    $url = "http://localhost/PanelControlJR/Public/reportes/planilla.php?" . $params;
 
-	        // Cargar el HTML en Dompdf
-	        $dompdf->loadHTML($html);
+			    $html = file_get_contents($url);
 
-	        // Configurar el tamaño y la orientación del papel
-	        $dompdf->setPaper('legal', 'landscape');
+			    $options = $dompdf->getOptions();
+			    $options->set(array('isRemoteEnabled' => true));
+			    $dompdf->setOptions($options);
 
-	        // Renderizar el PDF
-	        $dompdf->render();
+			    $dompdf->loadHTML($html);
 
-	        // Enviar los encabezados HTTP adecuados para la respuesta PDF
-	        header('Content-Type: application/pdf');
-	        header('Content-Disposition: inline; filename="a.pdf"');
+			    $dompdf->setPaper('legal', 'landscape');
 
-	        // Enviar el PDF al navegador
-	        echo $dompdf->output();
-	    break;
+			    $dompdf->render();
+
+			    header('Content-Type: application/pdf');
+			    header('Content-Disposition: inline; filename="planilla.pdf"');
+
+			    echo $dompdf->output();
+		    }else if ($_POST['tipo_reporte'] == 'BolPago') {
+		    	// Si la validación pasa, continúa con la generación del PDF
+			    $params = http_build_query($_POST);
+			    $url = "http://localhost/PanelControlJR/Public/reportes/boletaPago.php?" . $params;
+
+			    $html = file_get_contents($url);
+
+			    $options = $dompdf->getOptions();
+			    $options->set(array('isRemoteEnabled' => true));
+			    $dompdf->setOptions($options);
+
+			    $dompdf->loadHTML($html);
+
+			    $dompdf->setPaper('legal', 'landscape');
+
+			    $dompdf->render();
+
+			    header('Content-Type: application/pdf');
+			    header('Content-Disposition: inline; filename="boletaPago.pdf"');
+
+			    echo $dompdf->output();
+		    }
+		break;
+		
 		case "ShowEmpleados":
 			$selectAllEmpleados = $descuentos->selectAllEmpleados();
 

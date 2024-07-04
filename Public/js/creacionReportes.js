@@ -82,21 +82,50 @@ $(".print").click(function(e){
     }
 
     if (camposLlenos) {
-    let form = $('<form>', {
-        action: '../Controller/C_controlReportes.php',
-        method: 'POST',
-        target: '_blank'
-    });
+        //Mostrar la pantalla de carga
+        document.querySelector('.load').style.display = 'block';
 
-    $.each(datosForm, function(key, value) {
-        form.append($('<input>', {
-            type: 'hidden',
-            name: key,
-            value: value
-        }));
-    });
+        // Crear un objeto FormData con los datos del formulario
+        let formData = new FormData();
+        $.each(datosForm, function(key, value) {
+            formData.append(key, value);
+        });
 
-    form.appendTo('body').submit().remove();
-}
+        // Enviar los datos al servidor usando fetch
+        fetch('../Controller/C_controlReportes.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            //Ocultar la pantalla de carga
+            document.querySelector('.load').style.display = 'none';
+
+            if (response.headers.get('Content-Type').includes('application/json')) {
+                return response.json().then(data => {
+                    if (data.success) {
+                        // Si la validación pasa, abrir el PDF en una nueva pestaña
+                        let params = new URLSearchParams(datosForm).toString();
+                        let url = `http://localhost/PanelControlJR/Public/reportes/planilla.php?${params}`;
+                        window.open(url, '_blank');
+                    } else {
+                        // Si la validación falla, mostrar el mensaje en la consola
+                        mostrarMensajeError("El rango de fecha que ingresó no es válido.");
+                    }
+                });
+            } else if (response.headers.get('Content-Type').includes('application/pdf')) {
+                // Si la respuesta es un PDF, abrirlo en una nueva pestaña
+                return response.blob().then(blob => {
+                    let url = URL.createObjectURL(blob);
+                    window.open(url, '_blank');
+                });
+            }
+        })
+        .catch(error => {
+            //Ocultar la pantalla de carga en caso de error
+            document.querySelector('.load').style.display = 'none';
+
+            console.error('Error:', error);
+        });
+    }
 
 })
