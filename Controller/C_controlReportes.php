@@ -69,7 +69,7 @@ switch ($action) {
 
 			    $dompdf->loadHTML($html);
 
-			    $dompdf->setPaper('legal', 'landscape');
+			    $dompdf->setPaper('A4', 'portrait');
 
 			    $dompdf->render();
 
