@@ -155,6 +155,13 @@ error_reporting(0);
 		table tr > td:nth-child(n+1):nth-child(-n+5) {
 			font-size: 8pt;
 		}
+		tr.totales td{
+			font-size: 10pt !important;
+			font-weight: bold;
+		}
+		tr.totales td h1{
+			font-size: 12pt;
+		}
 	</style>
 </head>
 <body>
@@ -170,6 +177,20 @@ error_reporting(0);
 		$selectAllPlanilla = $planilla->selectAllPlanilla();
 
 		$datosAgrupados = [];
+
+		$totales = [
+			"sueldo" => 0,
+			"bonoLey" => 0,
+			"bonoIncentivo" => 0,
+			"otrosIngresos" => 0,
+			"totalDevengado" => 0,
+			"igss" => 0,
+			"anticipo" => 0,
+			"ausencias" => 0,
+			"otrosDescuentos" => 0,
+			"totalDescuento" => 0,
+			"liquido" => 0,
+		];
 		
 		while ($mostrarDatos = $selectAllPlanilla->fetch_array()) {
 		    $id = $mostrarDatos['empleadoID'];
@@ -192,7 +213,6 @@ error_reporting(0);
 		            "otros" => 0,
 		        ];
 		    }
-
 		    // Sumar bonos, excluyendo bonoLey y bonoIncentivo
 		    if (!is_null($mostrarDatos['bono_id'])) {
 		        $bonoId = $mostrarDatos['bono_id'];
@@ -275,7 +295,7 @@ error_reporting(0);
 							<td><?php echo number_format($datos[$i]['bonoMonto'], 2); ?></td>
 							<td><?php
 									 $totalDevengado = $datos[$i]['sueldo'] + $datos[$i]['bonoLey'] + $datos[$i]['bonoIncentivo'] + $datos[$i]['bonoMonto'];
-									 echo number_format($totalDevengado, 2)
+									 echo number_format($totalDevengado, 2);
 								?></td>
 							<td><?php
 								$igss = number_format($datos[$i]['igss'] / 100 * $datos[$i]['sueldo'], 2);
@@ -284,15 +304,45 @@ error_reporting(0);
 							<td><?php echo number_format($datos[$i]['anticipos'], 2); ?></td>
 							<td><?php echo number_format($datos[$i]['ausencias'], 2); ?></td>
 							<td><?php echo number_format($datos[$i]['otros'], 2); ?></td>
-							<td><?php $totalDescuentos = $datos[$i]['anticipos'] + $datos[$i]['ausencias'] + $datos[$i]['otros'];
+							<td><?php
 
+									$totalDescuentos = $datos[$i]['anticipos'] + $datos[$i]['ausencias'] + $datos[$i]['otros'];
 									echo number_format($totalDescuentos,2);
 								?></td>
-							<td><?php echo number_format($totalDevengado - $totalDescuentos - $igss, 2); ?></td>
+							<td><?php
+									$liquido = $totalDevengado - $totalDescuentos - $igss;
+									echo number_format($liquido, 2);
+							?></td>
 						</tr>
-				<?php 
+				<?php
+						$totales["sueldo"] += $datos[$i]['sueldo'];
+						$totales["bonoLey"] += $datos[$i]['bonoLey'];
+						$totales["bonoIncentivo"] += $datos[$i]['bonoIncentivo'];
+						$totales["otrosIngresos"] += $datos[$i]['bonoMonto'];
+						$totales["totalDevengado"] += $totalDevengado;
+						$totales["igss"] += $igss;
+						$totales["anticipo"] += $datos[$i]['anticipos'];
+						$totales["ausencias"] += $datos[$i]['ausencias'];
+						$totales["otrosDescuentos"] += $datos[$i]['otros'];
+						$totales["totalDescuento"] += $totalDescuentos;
+						$totales["liquido"] += $liquido;
 					} 
 				?>
+				<tr class="totales">
+					<td colspan="3"></td>
+					<td colspan="2"><h1>TOTALES</h1></td>
+					<td><<?php echo number_format($totales['sueldo'], 2); ?></td>
+					<td><<?php echo number_format($totales['bonoLey'], 2); ?></td>
+					<td><<?php echo number_format($totales['bonoIncentivo'], 2); ?></td>
+					<td><<?php echo number_format($totales['otrosIngresos'], 2); ?></td>
+					<td><<?php echo number_format($totales['totalDevengado'], 2); ?></td>
+					<td><<?php echo number_format($totales['igss'], 2); ?></td>
+					<td><<?php echo number_format($totales['anticipo'], 2); ?></td>
+					<td><<?php echo number_format($totales['ausencias'], 2); ?></td>
+					<td><<?php echo number_format($totales['otrosDescuentos'], 2); ?></td>
+					<td><<?php echo number_format($totales['totalDescuento'], 2); ?></td>
+					<td><<?php echo number_format($totales['liquido'], 2); ?></td>
+				</tr>
 		</tbody>
 	</table>
 </body>
